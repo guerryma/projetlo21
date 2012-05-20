@@ -7,12 +7,11 @@ class Entier : public Reel
 {
     int _entier;
 
-public:
+private:
     Entier(): Reel(0), _entier(0){}
     Entier(int i): Reel(), _entier(i){} //problème: il faut changer la valeur de la chaine
-    //Entier(Reel& i):Reel(), _entier(int(i.GetReel)) //idem
-    //Entier(Constante& r):
 
+public:
     int GetEntier() const {return _entier;}
 };
 

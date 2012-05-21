@@ -1,18 +1,33 @@
 #ifndef ENTIER_H
 #define ENTIER_H
 
-#include "reel.h"
+#include "rationnel.h"
 
-class Entier : public Reel
+class Entier : public Rationnel
 {
-    int _entier;
-
-private:
-    Entier(): Reel(0), _entier(0){}
-    Entier(int i): Reel(), _entier(i){} //problème: il faut changer la valeur de la chaine
+    /*
+      Un entier est un Rationnel de dénominateur = 1
+      Toutes les opérations applicables à un Rationnel le sont à un entier
+      On a le même problème que pour le rationnel avec num et dénom =>
+      Ne pas faire hériter rationnel de Réel? Après tout il y a  beaucoup de fonctions à redéfinir
+      */
 
 public:
-    int GetEntier() const {return _entier;}
+    Entier(): Rationnel(){}
+    Entier(int i): Rationnel(i,1){}
+    virtual ~Entier();
+
+//Accesseurs:
+    int GetEntier() const {return this->m_numerateur;}
+    void SetEntier(int n){this->SetNumerateur(n);}
+
+ //Fonctions de calcul
+
+    Entier Factorielle();
+    Entier Modulo();
+
+    //type int ou entier? Conversion implicite? Surcharge des opérateurs?
+
 };
 
 #endif // ENTIER_H

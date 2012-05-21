@@ -1,53 +1,50 @@
 #ifndef REEL_H
 #define REEL_H
 
-#include "nombre.h"
-/*
+#include "complexe.h"
+
 #include "constante.h"
 
-
-class Reel : public Constante
+template <typename T>
+class Reel : public Complexe<T>
 {
+    /* Un réel est Un complexe dont la partie imaginaire est nulle.
+      Un réel peut être de type int ou float.
+      */
+
 protected:
-    float m_reel;
-   virtual void conversion(Constante& nombre){/*this->m_reel= nombre.GetConstante().toFloat();}
+   virtual void conversion(Constante& nombre){/*this->m_reel= nombre.GetConstante().toFloat();*/}
+    //a supprimer
 
 public:
-    Reel():Constante(),m_reel(0){}
-    Reel(float r):Constante(QString::number(double(r))), m_reel(r){}
-   /* Reel(Constante& nombre): m_reel(nombre.GetConstante().toFloat()){
-            m_constante=nombre.GetConstante();
+    Reel<T>():Complexe<T>(){}
+    Reel(T r):Complexe<T>(r,0){}
+    virtual ~Reel();
 
-//}
+    //Fonctions de calcul. Il faudra surcharger les opérateurs plutôt que changer le type des fonctions
 
-    float GetReel() const {return m_reel;}
+    //Hésitation: type retour reel<float> ou float?
+
+    float Cos();
+    float Sin();
+    float Tan();
+    float CosH();
+    float SinH();
+    float TanH();
+    float Ln();
+    float Log();
+
+    float Puissance(int n);
+    float Racine();
+    virtual Reel<T> Inverse(); // T car il s'agit d'un rationnel lorsque l'on est en mode rationnel.
+
+
+
+
 
 
 };
-   //*/
-//*
-class Reel : public Nombre
-{
-protected:
-   float m_reel;
-   virtual void conversion(Nombre& nombre){/*this->m_reel= nombre.GetConstante().toFloat();*/}
 
-public: //Il faudra passer les constructeurs en private après avoir fait les fabriques
-    Reel():Nombre(),m_reel(0){}
-    Reel(float r):Nombre(QString::number(double(r))), m_reel(r){}
-   /* Reel(Constante& nombre): m_reel(nombre.GetConstante().toFloat()){
-            m_constante=nombre.GetConstante();
-
-//}
-
-
-//*/
-
-public:
-    float GetReel() const {return m_reel;}
-
-};
-//*/
 
 
 #endif // REEL_H

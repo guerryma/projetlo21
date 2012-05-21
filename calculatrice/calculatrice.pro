@@ -32,7 +32,6 @@ HEADERS  += mainwindow.h \
     fabriquecomplexe.h \
     fabriquerationnel.h \
     rationnel.h \
-    complexe.h \
-    nombre.h
+    complexe.h
 
 FORMS    += mainwindow.ui

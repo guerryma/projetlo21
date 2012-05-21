@@ -1,12 +1,10 @@
 #ifndef COMPLEXE_H
 #define COMPLEXE_H
 
-#include "reel.h"
-#include "entier.h"
-#include"rationnel.h"
+#include "constante.h"
 
 
-
+template <typename T>
 class Complexe : public Constante
 {
     /*
@@ -15,24 +13,39 @@ class Complexe : public Constante
       de même type. Le type est choisi en fonction du mode de la calculette
 
     //  */
-/*protected:
-    Nombre* _reelle;
-    Nombre* _imaginaire;
-    //Peut-on créer une classe dont le type des attributs n'est pas connu à l'avance?
-    //Idee1: 6 attributs privés
-    //Idee2: classe nombre (abstraite ou pas? )Et constructeur nombre privé.
-    //Idee3: utiliser des pointeurs
-
-private:
-    Complexe(): _reelle(0), _imaginaire(0){}
-    Complexe(Nombre* reelle, Nombre* imaginaire): _reelle(reelle),_imaginaire(imaginaire){}
+protected:
+   T m_reelle;
+   T m_imaginaire;
 
 public:
-    Nombre GetPartieReelle() const {return *_reelle;}
-    Nombre GetPartieImaginaire() const {return *_imaginaire;}
+    Complexe(): m_reelle(0), m_imaginaire(0){}
+    Complexe(T reelle, T imaginaire): m_reelle(reelle),m_imaginaire(imaginaire){}
+    virtual ~Complexe();
+
+//Accesseurs
+    T GetPartieReelle() const {return m_reelle;}
+    T GetPartieImaginaire() const {return m_imaginaire;}
+    void SetPartieReelle(T r ){m_reelle=r;}
+    void SetPartieImaginaire(T i){m_imaginaire=i;}
 
 
-//*/
+    // Fonctions de calcul à implémenter dans ce fichier
+
+
+    virtual Complexe<T> Somme(Complexe<T> c);
+    virtual Complexe<T> Oppose(Complexe<T> c);
+    virtual Complexe<T> Produit(Complexe<T> c);
+    virtual Complexe<T> Division(Complexe<T> c);
+    virtual Complexe<T> Soustraction(Complexe<T> c);
+
+    virtual Complexe<T> Carre();
+    virtual Complexe<T> Cube();
+
+
+
+
+
+
 };
 
 

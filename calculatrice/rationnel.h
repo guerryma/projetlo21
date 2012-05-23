@@ -1,7 +1,7 @@
 #ifndef RATIONNEL_H
 #define RATIONNEL_H
 
-#include "reel.h"
+#include<QString>
 #include <iostream>
 
 class RationnelException{
@@ -12,16 +12,10 @@ public:
 };
 
 
-class Rationnel : public Reel<int>
+class Rationnel
 {
     /* Classe Rationnel:
-      Reel qui comporte en plus un dénominateur.
-      Une question se pose: faut-il conserver le résultat de la division en tant que réel dans la
-      partie réelle du rationnel?
-      Sinon il y aura perte d'information (notamment complexe de mauvais type)
-      Il serait peut être plus judicieux de faire dériver Rationnel de complexe sans passer par réel.
-      On aurait quand même le problème pour num/partie réelle
-
+        Un rationnel est composé de 2 entiers.
 
       */
 protected:
@@ -31,12 +25,13 @@ protected:
 
 public:
 
-    Rationnel():Reel<int>(),m_numerateur(0), m_denominateur(1){}// Reel<int> ou float?
-    inline Rationnel(int num, int den): Reel<int>(num), m_numerateur(num), m_denominateur(den? den:1){
+    Rationnel():m_numerateur(0), m_denominateur(1){}// Reel<int> ou float?
+    inline Rationnel(int num, int den=1):  m_numerateur(num), m_denominateur(den? den:1){
         if(!den) throw RationnelException("Erreur, division par zéro\n");
 
     }
-    virtual ~Rationnel();
+    Rationnel(QString s);
+
 
 //Accesseurs
     int GetNumerateur() const {return m_numerateur;}
@@ -47,13 +42,14 @@ public:
         else throw RationnelException("Erreur, division par zéro\n");
     }
 
+
     //Fonctions de calcul
 
     /*
     virtual Rationnel Inverse();
     //*/
 
-    //*
+    /*
     virtual Rationnel Division(Rationnel r);
     virtual Rationnel Produit(Rationnel r);
     virtual Rationnel Somme(Rationnel r);

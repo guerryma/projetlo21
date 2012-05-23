@@ -1,4 +1,14 @@
-A faire: 
-ajouter les destructeurs virtuels 
-exceptions 
+Fonctionnement pile stockage:
+Si la chaine est une expression on empile dans affichage 
+Sinon Lecture de la chaine: 
+	Tant que l'on ne rencontre pas / ou $ et que l'on lit un digit 
+		on stock dans temp , float(temp) p_r = temp 
+		Si on rencontre / alors num=int(temp), temp= suite, den=int(temp)
+		Si on rencontre $ alors float(avant $)=p_r, float(apres $)=p_i; 
+
+Sinon Si la chaine est un operateur on dépile 
+
+Question: si on a 3/4 + 2/5 i on se contente de gérer affichage sous forme rationnelle? Que deviennent les calculs? Ou on donne le résultat comme un réel?
+
+
 

@@ -14,11 +14,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     constante.cpp \
     expression.cpp \
-    reel.cpp \
-    entier.cpp \
-    fabriqueconstante.cpp \
-    fabriquecomplexe.cpp \
-    fabriquerationnel.cpp \
     rationnel.cpp \
     complexe.cpp \
     nombre.cpp
@@ -26,11 +21,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     constante.h \
     expression.h \
-    reel.h \
-    entier.h \
-    fabriqueconstante.h \
-    fabriquecomplexe.h \
-    fabriquerationnel.h \
     rationnel.h \
     complexe.h
 

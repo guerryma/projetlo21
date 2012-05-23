@@ -3,7 +3,7 @@
 #include "constante.h"
 
 QString ExpressionValide(QString expression);//Cette méthode permet de vérifier que l'on entre une expression valide entre côtes
-//avec le bon nombre d'éléments
+//avec le bon nombre d'éléments::
 
 class Expression: public Constante
 {

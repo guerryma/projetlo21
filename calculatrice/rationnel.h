@@ -14,8 +14,9 @@ public:
 
 class Rationnel
 {
-    /* Classe Rationnel:
-        Un rationnel est composé de 2 entiers.
+    /*! Classe Rationnel:
+        Un rationnel est composé de 2 entiers: le numérateur et le dénominateur.
+        Un dénominateur nul lévera une exception
 
       */
 protected:

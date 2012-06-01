@@ -5,33 +5,34 @@
 #include "rationnel.h"
 #include <QString>
 
+#include<iostream>
+
 
 class Complexe
-{
-    /*
-      Les objets complexe sont composés d'une partie réelle et d'une partie imaginaire de type float.
-      Tous les calculs peuvent être réalisés en float.
-      Cependant on pourra autoriser grâce au design pattern factory la fabrication de complexe à partir de
-      Rationnels. (à confirmer)
+        /*!
+          Les objets complexe sont composés d'une partie réelle et d'une partie imaginaire de type float.
+          Tous les calculs peuvent être réalisés en float.
+          Cependant on pourra autoriser grâce au design pattern factory la fabrication de complexe à partir de
+          Rationnels. (à confirmer)
 
-    //  */
+        //  */
+
+{
+
 protected:
-   QString m_complexe;//utile?
-   float m_reelle;
+  // QString m_complexe;//utile?
+   float m_reelle;//! <partie reelle
    float m_imaginaire;
 
    public:
 
-   Complexe():m_complexe(""), m_reelle(0), m_imaginaire(0){}
-
-   inline Complexe(float reelle, float imaginaire=0): m_complexe("$"),
-       m_reelle(reelle),m_imaginaire(imaginaire){} // trouver concaténation QString
-
+   Complexe():/*m_complexe(""),*/ m_reelle(0), m_imaginaire(0){}
    // Complexe(Rationnel r); //Méthode à partir d'un Rationnel
+   Complexe(float r, float i=0): m_reelle(r),m_imaginaire(i){}
 
     Complexe FabricationComplexe(QString s);
 
-    virtual ~Complexe();
+    //~Complexe();
 
 //Accesseurs
    float GetPartieReelle() const {return m_reelle;}
@@ -40,24 +41,23 @@ protected:
     void SetPartieImaginaire(float i){m_imaginaire=i;}
 
 
-    // Fonctions de calcul à implémenter dans ce fichier
-
-/*
-    virtual Complexe<T> Somme(Complexe<T> c);
-    virtual Complexe<T> Oppose(Complexe<T> c);
-    virtual Complexe<T> Produit(Complexe<T> c);
-    virtual Complexe<T> Division(Complexe<T> c);
-    virtual Complexe<T> Soustraction(Complexe<T> c);
-
-    virtual Complexe<T> Carre();
-    virtual Complexe<T> Cube();
-    //*/
-
-// Operateurs
+    //Fonctions de calcul
 
 
+Complexe Produit(Complexe c); //!< Calcule le produit de deux complexes et renvoie un complexe
+Complexe Racine(); //! < Calcule la racine carrée de l'objet. ce nombre peut être négatif
+Complexe Quotient(Complexe c); //!< Calcule le quotient de deux complexes et renvoie un complexe
 
+private:
+Complexe Conjugue(){ return Complexe(m_reelle, -m_imaginaire);}
+         //! < Renvoie le conjugué d'un nombre complexe. Fonction utile pour les racines et les quotients
+Complexe Inverse();
 };
+
+Complexe Somme(Complexe c1, Complexe c2);     //!< Calcule la somme de deux complexes et renvoie un complexe
+
+
+
 
 
 

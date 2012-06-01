@@ -2,16 +2,17 @@
 #define EXPRESSION_H
 #include "constante.h"
 
-QString ExpressionValide(QString expression);//Cette méthode permet de vérifier que l'on entre une expression valide entre côtes
-//avec le bon nombre d'éléments::
 
 class Expression: public Constante
 {
+/*!
+  Une expression est encadrée par des cotes ''
+  Il s'agit d'une expression en polonaise inversée qui pourra être évaluée.
+
+  //*/
 public:
     Expression();
-    Expression(QString expression):Constante(ExpressionValide(expression))
-    {
-    }
+
     QString GetExpression() const {return m_constante;}
 
 //void conversion();

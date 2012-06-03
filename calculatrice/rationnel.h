@@ -26,7 +26,7 @@ protected:
 
 public:
 
-    Rationnel():m_numerateur(0), m_denominateur(1){}// Reel<int> ou float?
+    Rationnel():m_numerateur(0), m_denominateur(1){}
     inline Rationnel(int num, int den=1):  m_numerateur(num), m_denominateur(den? den:1){
         if(!den) throw RationnelException("Erreur, division par zéro\n");
 
@@ -45,21 +45,14 @@ public:
 
 
     //Fonctions de calcul
-
-    /*
-    virtual Rationnel Inverse();
-    //*/
-
-    /*
-    virtual Rationnel Division(Rationnel r);
-    virtual Rationnel Produit(Rationnel r);
-    virtual Rationnel Somme(Rationnel r);
-    //Opposé? SOulève le problème des attributs.
-
-
-      //*/
+    Rationnel Inverse();//! Calcule l'inverse d'une fraction en vérifiant que le numérateur n'est pas nul
 
 };
+Rationnel Somme(Rationnel r1, Rationnel r2);
+Rationnel Division(Rationnel r1, Rationnel r2);
+Rationnel Produit (Rationnel r1, Rationnel r2);
+
+
 
 
 

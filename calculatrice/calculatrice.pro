@@ -16,7 +16,6 @@ SOURCES += main.cpp\
     expression.cpp \
     rationnel.cpp \
     complexe.cpp \
-    nombre.cpp
 
 HEADERS  += mainwindow.h \
     constante.h \

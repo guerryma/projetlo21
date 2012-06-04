@@ -16,11 +16,13 @@ SOURCES += main.cpp\
     expression.cpp \
     rationnel.cpp \
     complexe.cpp \
+    calculatrice.cpp
 
 HEADERS  += mainwindow.h \
     constante.h \
     expression.h \
     rationnel.h \
-    complexe.h
+    complexe.h \
+    calculatrice.h
 
 FORMS    += mainwindow.ui

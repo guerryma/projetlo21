@@ -1,14 +1,10 @@
 #ifndef COMPLEXE_H
 #define COMPLEXE_H
-
 #include "constante.h"
-#include "rationnel.h"
-#include <QString>
-
 #include<iostream>
 
 
-class Complexe
+class Complexe//: public Constante
         /*!
           Les objets complexe sont composés d'une partie réelle et d'une partie imaginaire de type float.
           Tous les calculs peuvent être réalisés en float.
@@ -20,7 +16,6 @@ class Complexe
 {
 
 protected:
-  // QString m_complexe;//utile?
    float m_reelle;//! <partie reelle
    float m_imaginaire;
 
@@ -42,7 +37,6 @@ protected:
 
 
     //Fonctions de calcul
-
 
 Complexe Produit(Complexe c); //!< Calcule le produit de deux complexes et renvoie un complexe
 Complexe Racine(); //! < Calcule la racine carrée de l'objet. ce nombre peut être négatif

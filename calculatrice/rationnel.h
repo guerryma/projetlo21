@@ -3,6 +3,9 @@
 
 #include<QString>
 #include <iostream>
+#include <stdexcept>
+#include<exception>
+#include "constante.h"
 
 class RationnelException{
     std::string info;
@@ -12,7 +15,7 @@ public:
 };
 
 
-class Rationnel
+class Rationnel//: public Constante
 {
     /*! Classe Rationnel:
         Un rationnel est composé de 2 entiers: le numérateur et le dénominateur.
@@ -31,7 +34,8 @@ public:
         if(!den) throw RationnelException("Erreur, division par zéro\n");
 
     }
-    Rationnel(QString s);
+  //virtual ~Rationnel();
+
 
 
 //Accesseurs

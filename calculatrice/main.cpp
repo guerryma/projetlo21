@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Complexe c(1,2);
+    Complexe c(1,0);
     Complexe d(3,5);
 
     Complexe e=Somme(c,d);

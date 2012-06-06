@@ -6,8 +6,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //ClavierNumerique();
-    //ClavierSignes();
+    ClavierNumerique();
+    ClavierSignes();
+    ClavierPile();
+    ClavierOperateurUnaire();
+    ClavierAutresFonctions();
 
     //fenetre
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
@@ -18,7 +21,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/*
+
 void MainWindow::ClavierNumerique(){
     QObject::connect(ui->b0, SIGNAL(clicked()), this, SLOT(Num0Pressed()));
     QObject::connect(ui->b1, SIGNAL(clicked()), this, SLOT(Num1Pressed()));
@@ -67,7 +70,64 @@ void MainWindow::BPlusPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"+ ")
 void MainWindow::BDivisionPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"/ ");}
 void MainWindow::BEvalPressed(){ui->lineEdit->setText("ok");}//EmpilerPileAffichage(ui->lineEdit));}
 void MainWindow::BSpacePressed(){ui->lineEdit->setText(ui->lineEdit->text()+" ");}
-*/
+
+void MainWindow::ClavierPile(){
+    QObject::connect(ui->bSwap, SIGNAL(clicked()), this, SLOT(BSwapPressed()));
+    QObject::connect(ui->bSum, SIGNAL(clicked()), this, SLOT(BSumPressed()));
+    QObject::connect(ui->bMean, SIGNAL(clicked()), this, SLOT(BMeanPressed()));
+    QObject::connect(ui->bClear, SIGNAL(clicked()), this, SLOT(BClearPressed()));
+    QObject::connect(ui->bDup, SIGNAL(clicked()), this, SLOT(BDupPressed()));
+    QObject::connect(ui->bDrop, SIGNAL(clicked()), this, SLOT(BDropPressed()));
+
+}
+
+void MainWindow::BSwapPressed(){ui->lineEdit->setText("bouton Swap");}
+void MainWindow::BSumPressed(){ui->lineEdit->setText("bouton Sum");}
+void MainWindow::BMeanPressed(){ui->lineEdit->setText("bouton Mean");}
+void MainWindow::BClearPressed(){ui->lineEdit->setText("bouton Clear");}
+void MainWindow::BDupPressed(){ui->lineEdit->setText("bouton Dup");}
+void MainWindow::BDropPressed(){ui->lineEdit->setText("bouton Drop");}
+
+
+void MainWindow::ClavierOperateurUnaire(){
+    QObject::connect(ui->bCos, SIGNAL(clicked()), this, SLOT(BCosPressed()));
+    QObject::connect(ui->bCosh, SIGNAL(clicked()), this, SLOT(BCosHPressed()));
+    QObject::connect(ui->bSin, SIGNAL(clicked()), this, SLOT(BSinPressed()));
+    QObject::connect(ui->bSinh, SIGNAL(clicked()), this, SLOT(BSinHPressed()));
+    QObject::connect(ui->bTan, SIGNAL(clicked()), this, SLOT(BTanPressed()));
+    QObject::connect(ui->bTanh, SIGNAL(clicked()), this, SLOT(BTanHPressed()));
+    QObject::connect(ui->bLn, SIGNAL(clicked()), this, SLOT(BLnPressed()));
+    QObject::connect(ui->bLog, SIGNAL(clicked()), this, SLOT(BLogPressed()));
+    QObject::connect(ui->bInv, SIGNAL(clicked()), this, SLOT(BInvPressed()));
+    QObject::connect(ui->bCube, SIGNAL(clicked()), this, SLOT(BCubePressed()));
+    QObject::connect(ui->bSqrt, SIGNAL(clicked()), this, SLOT(BSqrtPressed()));
+    QObject::connect(ui->bSqr, SIGNAL(clicked()), this, SLOT(BSqrPressed()));
+}
+//Boutons Operateurs unaires
+void MainWindow::BCosPressed(){ui->lineEdit->setText("bouton Cos");}
+void MainWindow::BCosHPressed(){ui->lineEdit->setText("bouton CosH");}
+void MainWindow::BSinPressed(){ui->lineEdit->setText("bouton Sin");}
+void MainWindow::BSinHPressed(){ui->lineEdit->setText("bouton SinH");}
+void MainWindow::BTanPressed(){ui->lineEdit->setText("bouton Tan");}
+void MainWindow::BTanHPressed(){ui->lineEdit->setText("bouton TanH");}
+void MainWindow::BLnPressed(){ui->lineEdit->setText("bouton Ln");}
+void MainWindow::BLogPressed(){ui->lineEdit->setText("bouton Log");}
+void MainWindow::BInvPressed(){ui->lineEdit->setText("bouton Inv");}
+void MainWindow::BCubePressed(){ui->lineEdit->setText("bouton Cube");}
+void MainWindow::BSqrtPressed(){ui->lineEdit->setText("bouton Sqrt");}
+void MainWindow::BSqrPressed(){ui->lineEdit->setText("bouton Sqr");}
+
+void MainWindow::ClavierAutresFonctions(){
+    QObject::connect(ui->bMod, SIGNAL(clicked()), this, SLOT(BModPressed()));
+    QObject::connect(ui->bSign, SIGNAL(clicked()), this, SLOT(BSignPressed()));
+    QObject::connect(ui->bPow, SIGNAL(clicked()), this, SLOT(BPowPressed()));
+
+}
+    //Boutons autres fonctions
+void MainWindow::BModPressed(){ui->lineEdit->setText("bouton Mod");}
+void MainWindow::BSignPressed(){ui->lineEdit->setText("bouton Sign");}
+void MainWindow::BPowPressed(){ui->lineEdit->setText("bouton Pow");}
+
 //void MainWindow::EmpilerPileAffichage(QLineEdit line){
 
 

@@ -19,7 +19,7 @@ private:
     Ui::MainWindow *ui;
 
 private slots:
-   /* //Boutons numeriques de 0-9
+   //Boutons numeriques de 0-9
     void Num0Pressed();
     void Num1Pressed();
     void Num2Pressed();
@@ -36,15 +36,17 @@ private slots:
     void BDollarPressed();
     void BFactPressed();
     void BVirgulePressed();
+
+    //Boutons opérations binaires
     void BFoisPressed();
     void BMoinsPressed();
     void BPlusPressed();
     void BDivisionPressed();
+
     void BEvalPressed();
     void BSpacePressed();
 
     //Boutons pile
-
     void BSwapPressed();
     void BSumPressed();
     void BMeanPressed();
@@ -73,7 +75,10 @@ private slots:
 
 public:
     void ClavierNumerique();
-    void ClavierSignes();*/
+    void ClavierSignes();
+    void ClavierPile();
+    void ClavierOperateurUnaire();
+    void ClavierAutresFonctions();
 };
 
 

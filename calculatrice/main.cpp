@@ -8,14 +8,16 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Complexe c(1,0);
-    Complexe d(3,5);
+    Complexe c(5,0);
+    Complexe d(2,-1);
 
     Complexe e=Somme(c,d);
+
     std::cout<<e.GetPartieReelle()<<"+ i "<<e.GetPartieImaginaire()<<"\n";
 
-    e=c.Produit(d);
+    e=c.Quotient(d);
 
     std::cout<<e.GetPartieReelle()<<"+ i "<<e.GetPartieImaginaire();
+    std::cout<<e.Afficher().toStdString();
     return a.exec();
 }

@@ -4,10 +4,12 @@
 
 class Constante
 {
+    QString m_type;
 public:
-    Constante();
-    virtual QString Afficher();
-    //virtual ~Constante();
+    Constante(){}
+    Constante(QString type): m_type(type){}
+    virtual QString Afficher()=0;
+    virtual ~Constante(){};
 };
 
 #endif // CONSTANTE_H

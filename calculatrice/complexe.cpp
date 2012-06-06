@@ -1,17 +1,18 @@
 #include "complexe.h"
 #include <cmath>
 
-Complexe Somme(Complexe c1, Complexe c2){
+Complexe* Complexe:: Somme(Complexe c){
 
    // return Complexe(m_reelle+c.m_reelle, m_reelle+c.m_imaginaire);
-    return Complexe(c1.GetPartieReelle()+c2.GetPartieReelle(), c1.GetPartieImaginaire()+c2.GetPartieImaginaire());
+    return new Complexe(m_reelle+c.GetPartieReelle(), m_imaginaire+c.GetPartieImaginaire());
 }
 
-Complexe Complexe::Produit(Complexe c){
+
+Complexe* Complexe::Produit(Complexe c){
     float r, i;
     r=m_reelle*c.m_reelle - m_imaginaire*c.m_imaginaire;
     i=m_reelle*c.m_imaginaire + m_imaginaire*c.m_reelle;
-    return  Complexe(r,i);
+    return new Complexe(r,i);
 
 }
 
@@ -21,7 +22,7 @@ Complexe Complexe::Inverse(){
     return  Complexe(m_reelle/d, -m_imaginaire/d);
 }
 
-Complexe Complexe::Quotient(Complexe c){
+Complexe* Complexe::Quotient(Complexe c){
 
     Complexe y=c.Inverse();
     return Produit(y) ;

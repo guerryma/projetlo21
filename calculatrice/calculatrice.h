@@ -35,6 +35,9 @@ void SetAngle(Angle a){m_angle=a;}
 void SetType(Type t){m_type=t;}
 void SetModeComplexe(bool b){m_modeComplexe=b;}
 
+//Gestion de la pile (calculs)
+void OperationBinaire(QString Operation);
+
 
 
 

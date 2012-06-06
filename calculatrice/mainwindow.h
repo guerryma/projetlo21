@@ -19,7 +19,7 @@ private:
     Ui::MainWindow *ui;
 
 private slots:
-    //Boutons numeriques de 0-9
+   /* //Boutons numeriques de 0-9
     void Num0Pressed();
     void Num1Pressed();
     void Num2Pressed();
@@ -73,7 +73,7 @@ private slots:
 
 public:
     void ClavierNumerique();
-    void ClavierSignes();
+    void ClavierSignes();*/
 };
 
 

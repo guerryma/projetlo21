@@ -6,8 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ClavierNumerique();
-    ClavierSignes();
+    //ClavierNumerique();
+    //ClavierSignes();
 
     //fenetre
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
@@ -18,7 +18,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
+/*
 void MainWindow::ClavierNumerique(){
     QObject::connect(ui->b0, SIGNAL(clicked()), this, SLOT(Num0Pressed()));
     QObject::connect(ui->b1, SIGNAL(clicked()), this, SLOT(Num1Pressed()));
@@ -67,7 +67,7 @@ void MainWindow::BPlusPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"+ ")
 void MainWindow::BDivisionPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"/ ");}
 void MainWindow::BEvalPressed(){ui->lineEdit->setText("ok");}//EmpilerPileAffichage(ui->lineEdit));}
 void MainWindow::BSpacePressed(){ui->lineEdit->setText(ui->lineEdit->text()+" ");}
-
+*/
 //void MainWindow::EmpilerPileAffichage(QLineEdit line){
 
 

@@ -10,6 +10,10 @@ public:
     Constante(QString type): m_type(type){}
     virtual QString Afficher()=0;
     virtual ~Constante(){};
+
+
+    //Opérations
+
 };
 
 #endif // CONSTANTE_H

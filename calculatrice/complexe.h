@@ -39,18 +39,19 @@ public:
 
 
     //Fonctions de calcul
-
-    Complexe Produit(Complexe c); //!< Calcule le produit de deux complexes et renvoie un complexe
-    Complexe Racine(); //! < Calcule la racine carrée de l'objet. ce nombre peut être négatif
-    Complexe Quotient(Complexe c); //!< Calcule le quotient de deux complexes et renvoie un complexe
+    Complexe* Somme(Complexe c);     //!< Calcule la somme de deux complexes et renvoie un complexe
+    Complexe* Produit(Complexe c); //!< Calcule le produit de deux complexes et renvoie un complexe
+    Complexe* Racine(); //! < Calcule la racine carrée de l'objet. ce nombre peut être négatif
+    Complexe* Quotient(Complexe c); //!< Calcule le quotient de deux complexes et renvoie un complexe
 
 private:
-    Complexe Conjugue(){ return  Complexe(m_reelle, -m_imaginaire);}
+    Complexe* Conjugue(){ return  new Complexe(m_reelle, -m_imaginaire);}
     //! < Renvoie le conjugué d'un nombre complexe. Fonction utile pour les racines et les quotients
     Complexe Inverse();
 };
 
-Complexe Somme(Complexe c1, Complexe c2);     //!< Calcule la somme de deux complexes et renvoie un complexe
+
+//reste à faire: racine
 
 
 

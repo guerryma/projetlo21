@@ -1,10 +1,8 @@
 #include "calculatrice.h"
 
 void Calculatrice::OperationBinaire(QString operation){
-    /*! Traitement d'un opérateur binaire: les opérandes sont dépilées puis l'opération est calculée
-      En fonction du type d'opération envoyé en paramètre.
+    /*! Traitement d'un operateur binaire: les operandes sont depilees puis l'operation est calculee
+      En fonction du type d'operation envoye en parametre.
       */
-
-
-
 }
+

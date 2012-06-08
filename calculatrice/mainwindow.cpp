@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow), m_calc(Calculatrice(5, DEGRE, ENTIER, false))
 {
     ui->setupUi(this);
     ClavierNumerique();
@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->bNon->setChecked(true);
     ui->bDegre->setChecked(true);
     ui->nbOpPile->setText("5");
+    ui->pile->setMaximumBlockCount(6);
 }
 
 MainWindow::~MainWindow()
@@ -358,7 +359,6 @@ void MainWindow::BEvalPressed(){
             }
             ui->lineEdit->setText("ok +");
         }
-        //else ui->lineEdit->setText("ok +");
     }
 
     else if(s.contains("-")){
@@ -427,9 +427,9 @@ void MainWindow::BEvalPressed(){
                 i++;
             }
             Complexe m_c = Complexe(m_pRe.toFloat(), m_pIm.toFloat());
-            m_pStock.push(m_c);
-            m_pAff.push(s);
-            AfficherStack(ui->nbOpPile->text().toInt());
+            m_calc.EmpilerPileS(&m_c);
+            m_calc.EmpilerPileA(s);
+            ui->pile->insertPlainText(s+"\n");
             ui->lineEdit->clear();
         }
     }
@@ -439,9 +439,9 @@ void MainWindow::BEvalPressed(){
            ui->lineEdit->setText("Erreur");
         else{
             Complexe m_c = Complexe(s.toFloat());
-            m_pStock.push(m_c);
-            m_pAff.push(s);
-            AfficherStack(ui->nbOpPile->text().toInt());
+            m_calc.EmpilerPileS(&m_c);
+            m_calc.EmpilerPileA(s);
+            ui->pile->insertPlainText(s+"\n");
             ui->lineEdit->clear();
         }
     }
@@ -456,41 +456,29 @@ void MainWindow::BEvalPressed(){
             }
         }
         Complexe m_c = Complexe(s.toInt());
-        m_pStock.push(m_c);
-        m_pAff.push(s);
-        AfficherStack(ui->nbOpPile->text().toInt());
-
+        m_calc.EmpilerPileS(&m_c);
+        m_calc.EmpilerPileA(s);
+        ui->pile->insertPlainText(s+"\n");
         ui->lineEdit->clear();
-
-
-        //ui->lineEdit->setText("entier");
     }
 
 }
-void MainWindow::AfficherStack(int m_param){
+/*
+void MainWindow::AfficherStack(){
     QStack<QString> m_stack2;
-    QString m_c;
+    QString m_s;
     int i = 0;
 
-    ui->pile->clear();
-
-    while(i < m_param && !m_pAff.isEmpty()){
-        m_c = m_pAff.pop();
-        m_stack2.push(m_c);
+    while(i < m_calc.GetTaille() && !m_calc.EstVidePileA()){
+        m_s = m_calc.DepilerPileA();
+        m_stack2.push(m_s);
     }
 
     while(!m_stack2.isEmpty()){
-        m_c = m_stack2.pop();
-        ui->pile->insertPlainText(m_c+"\n");
-        m_pAff.push(m_c);
+        m_s = m_stack2.pop();
+        ui->pile->insertPlainText(m_s+"\n");
+        m_calc.EmpilerPileA(m_s);
     }
 
 
-}
-
-//->setText("ok");}//EmpilerPileAffichage(ui->lineEdit));}
-
-//void MainWindow::EmpilerPileAffichage(QLineEdit line){
-
-
-//}
+}*/

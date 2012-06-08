@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "calculatrice.h"
 
 namespace Ui {
     class MainWindow;
@@ -17,6 +18,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    //Calculatrice m_calc;
+    //QStack <Complexe> m_pStock; //! pile de stockage de la calculatrice
+    //QStack <QString> m_pAff; //! pile d'affichage de la calculatrice
 
 private slots:
    //Boutons numeriques de 0-9

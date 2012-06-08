@@ -14,6 +14,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //fenetre
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
+
+    //paramètres par défaut
+    ui->bEntier->setChecked(true);
+    ui->bNon->setChecked(true);
+    ui->bDegre->setChecked(true);
 }
 
 MainWindow::~MainWindow()
@@ -68,7 +73,6 @@ void MainWindow::BFoisPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"* ")
 void MainWindow::BMoinsPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"- ");}
 void MainWindow::BPlusPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"+ ");}
 void MainWindow::BDivisionPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"/ ");}
-void MainWindow::BEvalPressed(){ui->lineEdit->setText("ok");}//EmpilerPileAffichage(ui->lineEdit));}
 void MainWindow::BSpacePressed(){ui->lineEdit->setText(ui->lineEdit->text()+" ");}
 
 void MainWindow::ClavierPile(){
@@ -127,6 +131,112 @@ void MainWindow::ClavierAutresFonctions(){
 void MainWindow::BModPressed(){ui->lineEdit->setText("bouton Mod");}
 void MainWindow::BSignPressed(){ui->lineEdit->setText("bouton Sign");}
 void MainWindow::BPowPressed(){ui->lineEdit->setText("bouton Pow");}
+
+
+void MainWindow::BEvalPressed(){
+    QString s = ui->lineEdit->text();
+    int i = 0;
+    if(s.contains("'")){
+        if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
+            ui->lineEdit->setText("expression");
+        }
+        else ui->lineEdit->setText("Erreur");
+    }
+
+    else if(s.contains("+")){
+        if(s.count("+") > 1)
+           ui->lineEdit->setText("Erreur");
+        else{
+            while(i < s.size()){
+                if(QString(s[i]).contains(" ") || QString(s[i]).contains("+"))
+                    i++;
+                else{
+                    ui->lineEdit->setText("Erreur");
+                    return;
+                }
+
+            }
+            ui->lineEdit->setText("ok +");
+        }
+        //else ui->lineEdit->setText("ok +");
+    }
+
+    else if(s.contains("-")){
+        if(s.count("-") > 1)
+           ui->lineEdit->setText("Erreur");
+        else{
+            while(i < s.size()){
+                if(QString(s[i]).contains(" ") || QString(s[i]).contains("-"))
+                    i++;
+                else{
+                    ui->lineEdit->setText("Erreur");
+                    return;
+                }
+
+            }
+            ui->lineEdit->setText("ok -");
+        }
+    }
+
+    else if(s.contains("*")){
+        if(s.count("*") > 1)
+           ui->lineEdit->setText("Erreur");
+        else{
+            while(i < s.size()){
+                if(QString(s[i]).contains(" ") || QString(s[i]).contains("*"))
+                    i++;
+                else{
+                    ui->lineEdit->setText("Erreur");
+                    return;
+                }
+
+            }
+            ui->lineEdit->setText("ok *");
+        }
+    }
+
+    else if(s.contains("/")){
+        if(s.count("/") > 1)
+           ui->lineEdit->setText("Erreur");
+        else{
+            while(i < s.size()){
+                if(QString(s[i]).contains(" ") || QString(s[i]).contains("/"))
+                    i++;
+                else{
+                    ui->lineEdit->setText("Erreur");
+                    return;
+                }
+
+            }
+            ui->lineEdit->setText("ok /");
+        }
+    }
+
+    else if(s.contains("$")){
+        if(s.count("$") > 1)
+           ui->lineEdit->setText("Erreur");
+        else ui->lineEdit->setText("complexe");
+    }
+
+    else if(s.contains(",")){
+        if(s.count(",") > 1)
+           ui->lineEdit->setText("Erreur");
+        else ui->lineEdit->setText("réel");
+    }
+
+    else{
+        while(i < s.size()){
+            if(s[i] >= '0' && s[i] <= '9')
+                i++;
+            else{
+                ui->lineEdit->setText("Erreur");
+                return;
+            }
+        }
+        ui->lineEdit->setText("entier");
+    }
+
+}//->setText("ok");}//EmpilerPileAffichage(ui->lineEdit));}
 
 //void MainWindow::EmpilerPileAffichage(QLineEdit line){
 

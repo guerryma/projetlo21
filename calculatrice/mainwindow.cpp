@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->bEntier->setChecked(true);
     ui->bNon->setChecked(true);
     ui->bDegre->setChecked(true);
+    ui->nbOpPile->setText("5");
 }
 
 MainWindow::~MainWindow()
@@ -40,16 +41,64 @@ void MainWindow::ClavierNumerique(){
     QObject::connect(ui->b9, SIGNAL(clicked()), this, SLOT(Num9Pressed()));
 }
 
-void MainWindow::Num0Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"0");}
-void MainWindow::Num1Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"1");}
-void MainWindow::Num2Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"2");}
-void MainWindow::Num3Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"3");}
-void MainWindow::Num4Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"4");}
-void MainWindow::Num5Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"5");}
-void MainWindow::Num6Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"6");}
-void MainWindow::Num7Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"7");}
-void MainWindow::Num8Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"8");}
-void MainWindow::Num9Pressed(){ui->lineEdit->setText(ui->lineEdit->text()+"9");}
+void MainWindow::Num0Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"0");
+}
+
+void MainWindow::Num1Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"1");
+}
+
+void MainWindow::Num2Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"2");
+}
+
+void MainWindow::Num3Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"3");
+}
+
+void MainWindow::Num4Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"4");
+}
+
+void MainWindow::Num5Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"5");
+}
+
+void MainWindow::Num6Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"6");
+}
+
+void MainWindow::Num7Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"7");
+}
+void MainWindow::Num8Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"8");
+}
+
+void MainWindow::Num9Pressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"9");
+}
 
 void MainWindow::ClavierSignes(){
     QObject::connect(ui->bCote, SIGNAL(clicked()), this, SLOT(BCotePressed()));
@@ -65,15 +114,59 @@ void MainWindow::ClavierSignes(){
     QObject::connect(ui->bSup, SIGNAL(clicked()), this->ui->lineEdit, SLOT(clear()));
 }
 
-void MainWindow::BCotePressed(){ui->lineEdit->setText(ui->lineEdit->text()+"'");}/// pas de shortcut!!!
-void MainWindow::BDollarPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"$");}
-void MainWindow::BFactPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"!");}
-void MainWindow::BVirgulePressed(){ui->lineEdit->setText(ui->lineEdit->text()+",");}
-void MainWindow::BFoisPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"* ");}
-void MainWindow::BMoinsPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"- ");}
-void MainWindow::BPlusPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"+ ");}
-void MainWindow::BDivisionPressed(){ui->lineEdit->setText(ui->lineEdit->text()+"/ ");}
-void MainWindow::BSpacePressed(){ui->lineEdit->setText(ui->lineEdit->text()+" ");}
+void MainWindow::BCotePressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"'");
+}/// pas de shortcut!!!
+
+void MainWindow::BDollarPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"$");
+}
+
+void MainWindow::BFactPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"!");
+}
+
+void MainWindow::BVirgulePressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+",");
+}
+
+void MainWindow::BFoisPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"* ");
+}
+
+void MainWindow::BMoinsPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"- ");
+}
+
+void MainWindow::BPlusPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"+ ");
+}
+
+void MainWindow::BDivisionPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"/ ");
+}
+
+void MainWindow::BSpacePressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+" ");
+}
 
 void MainWindow::ClavierPile(){
     QObject::connect(ui->bSwap, SIGNAL(clicked()), this, SLOT(BSwapPressed()));
@@ -85,12 +178,41 @@ void MainWindow::ClavierPile(){
 
 }
 
-void MainWindow::BSwapPressed(){ui->lineEdit->setText("bouton Swap");}
-void MainWindow::BSumPressed(){ui->lineEdit->setText("bouton Sum");}
-void MainWindow::BMeanPressed(){ui->lineEdit->setText("bouton Mean");}
-void MainWindow::BClearPressed(){ui->lineEdit->setText("bouton Clear");}
-void MainWindow::BDupPressed(){ui->lineEdit->setText("bouton Dup");}
-void MainWindow::BDropPressed(){ui->lineEdit->setText("bouton Drop");}
+void MainWindow::BSwapPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Swap");
+}
+
+void MainWindow::BSumPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Sum");
+}
+
+void MainWindow::BMeanPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Mean");
+}
+
+void MainWindow::BClearPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Clear");
+}
+
+void MainWindow::BDupPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Dup");
+}
+
+void MainWindow::BDropPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Drop");
+}
 
 
 void MainWindow::ClavierOperateurUnaire(){
@@ -108,18 +230,78 @@ void MainWindow::ClavierOperateurUnaire(){
     QObject::connect(ui->bSqr, SIGNAL(clicked()), this, SLOT(BSqrPressed()));
 }
 //Boutons Operateurs unaires
-void MainWindow::BCosPressed(){ui->lineEdit->setText("bouton Cos");}
-void MainWindow::BCosHPressed(){ui->lineEdit->setText("bouton CosH");}
-void MainWindow::BSinPressed(){ui->lineEdit->setText("bouton Sin");}
-void MainWindow::BSinHPressed(){ui->lineEdit->setText("bouton SinH");}
-void MainWindow::BTanPressed(){ui->lineEdit->setText("bouton Tan");}
-void MainWindow::BTanHPressed(){ui->lineEdit->setText("bouton TanH");}
-void MainWindow::BLnPressed(){ui->lineEdit->setText("bouton Ln");}
-void MainWindow::BLogPressed(){ui->lineEdit->setText("bouton Log");}
-void MainWindow::BInvPressed(){ui->lineEdit->setText("bouton Inv");}
-void MainWindow::BCubePressed(){ui->lineEdit->setText("bouton Cube");}
-void MainWindow::BSqrtPressed(){ui->lineEdit->setText("bouton Sqrt");}
-void MainWindow::BSqrPressed(){ui->lineEdit->setText("bouton Sqr");}
+void MainWindow::BCosPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Cos");
+}
+
+void MainWindow::BCosHPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton CosH");
+}
+
+void MainWindow::BSinPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Sin");
+}
+
+void MainWindow::BSinHPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton SinH");
+}
+
+void MainWindow::BTanPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Tan");
+}
+
+void MainWindow::BTanHPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton TanH");
+}
+
+void MainWindow::BLnPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Ln");
+}
+
+void MainWindow::BLogPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Log");
+}
+
+void MainWindow::BInvPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Inv");
+}
+
+void MainWindow::BCubePressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Cube");
+}
+
+void MainWindow::BSqrtPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Sqrt");
+}
+
+void MainWindow::BSqrPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Sqr");
+}
+
 
 void MainWindow::ClavierAutresFonctions(){
     QObject::connect(ui->bMod, SIGNAL(clicked()), this, SLOT(BModPressed()));
@@ -128,14 +310,32 @@ void MainWindow::ClavierAutresFonctions(){
 
 }
     //Boutons autres fonctions
-void MainWindow::BModPressed(){ui->lineEdit->setText("bouton Mod");}
-void MainWindow::BSignPressed(){ui->lineEdit->setText("bouton Sign");}
-void MainWindow::BPowPressed(){ui->lineEdit->setText("bouton Pow");}
+void MainWindow::BModPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Mod");
+}
+
+void MainWindow::BSignPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Sign");
+}
+
+void MainWindow::BPowPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText("bouton Pow");
+}
+
 
 
 void MainWindow::BEvalPressed(){
     QString s = ui->lineEdit->text();
     int i = 0;
+    QString m_pRe;
+    QString m_pIm;
+
     if(s.contains("'")){
         if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
             ui->lineEdit->setText("expression");
@@ -215,13 +415,35 @@ void MainWindow::BEvalPressed(){
     else if(s.contains("$")){
         if(s.count("$") > 1)
            ui->lineEdit->setText("Erreur");
-        else ui->lineEdit->setText("complexe");
+        else{
+            i = 0;
+            while(i < s.size() && s[i] != '$'){
+                m_pRe.append(s[i]);
+                i++;
+            }
+            i++;
+            while(i < s.size()){
+                m_pIm.append(s[i]);
+                i++;
+            }
+            Complexe m_c = Complexe(m_pRe.toFloat(), m_pIm.toFloat());
+            m_pStock.push(m_c);
+            m_pAff.push(s);
+            AfficherStack(ui->nbOpPile->text().toInt());
+            ui->lineEdit->clear();
+        }
     }
 
     else if(s.contains(",")){
         if(s.count(",") > 1)
            ui->lineEdit->setText("Erreur");
-        else ui->lineEdit->setText("réel");
+        else{
+            Complexe m_c = Complexe(s.toFloat());
+            m_pStock.push(m_c);
+            m_pAff.push(s);
+            AfficherStack(ui->nbOpPile->text().toInt());
+            ui->lineEdit->clear();
+        }
     }
 
     else{
@@ -233,10 +455,40 @@ void MainWindow::BEvalPressed(){
                 return;
             }
         }
-        ui->lineEdit->setText("entier");
+        Complexe m_c = Complexe(s.toInt());
+        m_pStock.push(m_c);
+        m_pAff.push(s);
+        AfficherStack(ui->nbOpPile->text().toInt());
+
+        ui->lineEdit->clear();
+
+
+        //ui->lineEdit->setText("entier");
     }
 
-}//->setText("ok");}//EmpilerPileAffichage(ui->lineEdit));}
+}
+void MainWindow::AfficherStack(int m_param){
+    QStack<QString> m_stack2;
+    QString m_c;
+    int i = 0;
+
+    ui->pile->clear();
+
+    while(i < m_param && !m_pAff.isEmpty()){
+        m_c = m_pAff.pop();
+        m_stack2.push(m_c);
+    }
+
+    while(!m_stack2.isEmpty()){
+        m_c = m_stack2.pop();
+        ui->pile->insertPlainText(m_c+"\n");
+        m_pAff.push(m_c);
+    }
+
+
+}
+
+//->setText("ok");}//EmpilerPileAffichage(ui->lineEdit));}
 
 //void MainWindow::EmpilerPileAffichage(QLineEdit line){
 

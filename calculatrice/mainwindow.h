@@ -5,6 +5,7 @@
 #include <QStack>
 #include "complexe.h"
 #include "calculatrice.h"
+#include "expression.h"
 
 namespace Ui {
     class MainWindow;
@@ -62,6 +63,7 @@ private slots:
     void BClearPressed();
     void BDupPressed();
     void BDropPressed();
+    void ReglerParamX();
 
     //Boutons Operateurs unaires
     void BCosPressed();

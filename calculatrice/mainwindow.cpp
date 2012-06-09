@@ -130,7 +130,7 @@ void MainWindow::BDollarPressed(){
 void MainWindow::BFactPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"!");
+    ui->lineEdit->setText(ui->lineEdit->text()+"! ");
 }
 
 void MainWindow::BVirgulePressed(){
@@ -176,43 +176,51 @@ void MainWindow::ClavierPile(){
     QObject::connect(ui->bClear, SIGNAL(clicked()), this, SLOT(BClearPressed()));
     QObject::connect(ui->bDup, SIGNAL(clicked()), this, SLOT(BDupPressed()));
     QObject::connect(ui->bDrop, SIGNAL(clicked()), this, SLOT(BDropPressed()));
+    QObject::connect(ui->nbOpPile, SIGNAL(editingFinished()), this, SLOT(ReglerParamX()));
 
 }
 
 void MainWindow::BSwapPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Swap");
+    ui->lineEdit->setText("SWAP");
 }
 
 void MainWindow::BSumPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Sum");
+    ui->lineEdit->setText("SUM");
 }
 
 void MainWindow::BMeanPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Mean");
+    ui->lineEdit->setText("MEAN");
 }
 
 void MainWindow::BClearPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Clear");
+    ui->lineEdit->setText("CLEAR");
 }
 
 void MainWindow::BDupPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Dup");
+    ui->lineEdit->setText("DUP");
 }
 
 void MainWindow::BDropPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Drop");
+    ui->lineEdit->setText("DROP");
+}
+
+void MainWindow::ReglerParamX(){
+    if(ui->nbOpPile->text() == ""){
+        ui->nbOpPile->setText("5");
+    }
+    ui->pile->setMaximumBlockCount(ui->nbOpPile->text().toInt()+ 1);
 }
 
 
@@ -234,73 +242,73 @@ void MainWindow::ClavierOperateurUnaire(){
 void MainWindow::BCosPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Cos");
+    ui->lineEdit->setText(ui->lineEdit->text()+"COS ");
 }
 
 void MainWindow::BCosHPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton CosH");
+    ui->lineEdit->setText(ui->lineEdit->text()+"COSH ");
 }
 
 void MainWindow::BSinPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Sin");
+    ui->lineEdit->setText(ui->lineEdit->text()+"SIN ");
 }
 
 void MainWindow::BSinHPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton SinH");
+    ui->lineEdit->setText(ui->lineEdit->text()+"SINH ");
 }
 
 void MainWindow::BTanPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Tan");
+    ui->lineEdit->setText(ui->lineEdit->text()+"TAN ");
 }
 
 void MainWindow::BTanHPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton TanH");
+    ui->lineEdit->setText(ui->lineEdit->text()+"TANH ");
 }
 
 void MainWindow::BLnPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Ln");
+    ui->lineEdit->setText(ui->lineEdit->text()+"LN ");
 }
 
 void MainWindow::BLogPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Log");
+    ui->lineEdit->setText(ui->lineEdit->text()+"LOG");
 }
 
 void MainWindow::BInvPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Inv");
+    ui->lineEdit->setText(ui->lineEdit->text()+"INV ");
 }
 
 void MainWindow::BCubePressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Cube");
+    ui->lineEdit->setText(ui->lineEdit->text()+"CUBE ");
 }
 
 void MainWindow::BSqrtPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Sqrt");
+    ui->lineEdit->setText(ui->lineEdit->text()+"SQRT ");
 }
 
 void MainWindow::BSqrPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Sqr");
+    ui->lineEdit->setText(ui->lineEdit->text()+"SQR ");
 }
 
 
@@ -314,32 +322,63 @@ void MainWindow::ClavierAutresFonctions(){
 void MainWindow::BModPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Mod");
+    ui->lineEdit->setText(ui->lineEdit->text()+"MOD ");
 }
 
 void MainWindow::BSignPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Sign");
+    ui->lineEdit->setText(ui->lineEdit->text()+"SIGN ");
 }
 
 void MainWindow::BPowPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
-    ui->lineEdit->setText("bouton Pow");
+    ui->lineEdit->setText(ui->lineEdit->text()+"POW ");
 }
 
 
 
 void MainWindow::BEvalPressed(){
+    QStack <QString> stack;
     QString s = ui->lineEdit->text();
+    QString s2;
     int i = 0;
     QString m_pRe;
     QString m_pIm;
 
+    if(QString(s[i]).contains(" ")){
+        s2 = s;
+        s = "";
+        while(QString(s2[i]).contains(" ")){
+            i++;
+        }
+        while(s2[i] != '\0'){
+            s.append(s2[i]);
+            i++;
+        }
+        s.append('\0');
+        s2 = "";
+    }
+
+
+
+
     if(s.contains("'")){
         if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
-            ui->lineEdit->setText("expression");
+            Expression e(s);
+            stack = e.TransformerExpression();
+            if(!stack.isEmpty()){
+            s2 = stack.first();
+
+            if(QString::compare(s2, "Erreur", Qt::CaseInsensitive) == 0)
+                ui->lineEdit->setText("Erreur");
+            else
+                ui->lineEdit->setText("OK");
+            }
+
+            else
+                ui->lineEdit->setText("Erreur");
         }
         else ui->lineEdit->setText("Erreur");
     }

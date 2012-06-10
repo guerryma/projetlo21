@@ -3,6 +3,9 @@
 #include "complexe.h"
 #include <typeinfo>
 
+#include "expression.h"
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -12,7 +15,11 @@ int main(int argc, char *argv[])
    Complexe *c=new Complexe(5,0);
    Complexe* d=new Complexe(2,-1);
 
+
     Complexe* e=c->Somme(d);
+
+    //Expression e2("'1 1 +'");
+
 
     //std::cout<<e.GetPartieReelle()<<"+ i "<<e.GetPartieImaginaire()<<"\n";
 
@@ -21,5 +28,8 @@ int main(int argc, char *argv[])
     //std::cout<<e.GetPartieReelle()<<"+ i "<<e.GetPartieImaginaire();
     std::cout<<e->Afficher().toStdString()<<"\n";
     std::cout<<typeid(e).name();
+    //std::cout<<e->Afficher().toStdString();
+
+
     return a.exec();
 }

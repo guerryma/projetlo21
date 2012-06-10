@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStack>
+#include "complexe.h"
+#include "calculatrice.h"
+#include "expression.h"
 
 namespace Ui {
     class MainWindow;
@@ -11,15 +15,21 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+private:
+    Ui::MainWindow *ui;
+    Calculatrice m_calc;
+    //QStack <Complexe> m_pStock; //! pile de stockage de la calculatrice
+    //QStack <QString> m_pAff; //! pile d'affichage de la calculatrice
+
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
-    Ui::MainWindow *ui;
+
 
 private slots:
-   /* //Boutons numeriques de 0-9
+   //Boutons numeriques de 0-9
     void Num0Pressed();
     void Num1Pressed();
     void Num2Pressed();
@@ -36,21 +46,24 @@ private slots:
     void BDollarPressed();
     void BFactPressed();
     void BVirgulePressed();
+
+    //Boutons opérations binaires
     void BFoisPressed();
     void BMoinsPressed();
     void BPlusPressed();
     void BDivisionPressed();
+
     void BEvalPressed();
     void BSpacePressed();
 
     //Boutons pile
-
     void BSwapPressed();
     void BSumPressed();
     void BMeanPressed();
     void BClearPressed();
     void BDupPressed();
     void BDropPressed();
+    void ReglerParamX();
 
     //Boutons Operateurs unaires
     void BCosPressed();
@@ -73,7 +86,11 @@ private slots:
 
 public:
     void ClavierNumerique();
-    void ClavierSignes();*/
+    void ClavierSignes();
+    void ClavierPile();
+    void ClavierOperateurUnaire();
+    void ClavierAutresFonctions();
+    //void AfficherStack();
 };
 
 

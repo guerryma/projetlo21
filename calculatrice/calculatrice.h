@@ -1,9 +1,10 @@
 #ifndef CALCULATRICE_H
 #define CALCULATRICE_H
 
-#include <stack>
+
 #include "complexe.h"
 #include "rationnel.h"
+#include <QStack>
 
 enum Angle {RADIAN, DEGRE};
 enum Type{RATIONNEL, REEL, ENTIER};
@@ -12,7 +13,11 @@ class Calculatrice
         /*!
                   */
 {
-    std::stack<Constante*> m_pile;
+
+
+
+    QStack<Constante*> m_pStock;
+    QStack<QString> m_pAff;
     int m_taille; //! taille de la pile d'affichage
     Angle m_angle;
     Type m_type;
@@ -35,10 +40,23 @@ void SetAngle(Angle a){m_angle=a;}
 void SetType(Type t){m_type=t;}
 void SetModeComplexe(bool b){m_modeComplexe=b;}
 
+//Operations sur les piles
+void EmpilerPileA(QString m_s){m_pAff.push(m_s);}
+QString DepilerPileA(){return m_pAff.pop();}
+bool EstVidePileA(){return m_pAff.isEmpty();}
+
+void EmpilerPileS(Constante* m_c){m_pStock.push(m_c);}
+Constante* DepilerPileS(){return m_pStock.pop();}
+bool EstVidePileS(){return m_pStock.isEmpty();}
+
 //Gestion de la pile (calculs)
+
 Constante* OperationBinaire(char operation);
 
 //Opérations sur la pile
+
+
+void AfficherStack(int m_param);
 
 
 

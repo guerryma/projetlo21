@@ -1,15 +1,16 @@
 #include "calculatrice.h"
 
+
 Constante* Calculatrice::OperationBinaire(char operation){
     /*! Traitement d'un opérateur binaire: les opérandes sont dépilées puis l'opération est calculée
       En fonction du type d'opération envoyé en paramètre.
       */
-    if(!m_pile.empty()){
-        Constante* op1 = m_pile.top();
-        m_pile.pop();
-        if (!m_pile.empty()){
-            Constante* op2 =m_pile.top();
-            m_pile.pop();
+    if(!m_pStock.empty()){
+        Constante* op1 = m_pStock.top();
+        m_pStock.pop();
+        if (!m_pStock.empty()){
+            Constante* op2 =m_pStock.top();
+            m_pStock.pop();
 
             /*switch(operation){
             case 's':
@@ -41,3 +42,5 @@ Si complexe vérifier mode complexe On.
   Sinon choisir traitement.
 
   */
+
+

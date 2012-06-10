@@ -459,9 +459,6 @@
         <property name="text">
          <string>'</string>
         </property>
-        <property name="shortcut">
-         <string>'</string>
-        </property>
        </widget>
       </item>
       <item row="3" column="0" colspan="2">
@@ -473,7 +470,7 @@
          <string>,</string>
         </property>
         <property name="shortcut">
-         <string>,, .</string>
+         <string>.</string>
         </property>
        </widget>
       </item>
@@ -654,7 +651,27 @@
          <string>EVAL</string>
         </property>
         <property name="shortcut">
-         <string>Return, Enter</string>
+         <string>Enter</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="2">
+       <widget class="QPushButton" name="bSpace">
+        <property name="text">
+         <string>SPACE</string>
+        </property>
+        <property name="shortcut">
+         <string>Space</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QPushButton" name="bSup">
+        <property name="text">
+         <string>&lt;--</string>
+        </property>
+        <property name="shortcut">
+         <string>Backspace</string>
         </property>
        </widget>
       </item>

@@ -12,7 +12,7 @@ class Calculatrice
         /*!
                   */
 {
-    std::stack<Constante*> m_pileStockage;
+    std::stack<Constante*> m_pile;
     int m_taille; //! taille de la pile d'affichage
     Angle m_angle;
     Type m_type;
@@ -21,7 +21,7 @@ class Calculatrice
 
 public:
     Calculatrice(){}
-   inline Calculatrice(int taille, Angle angle, Type type, bool complexe):
+   inline Calculatrice(int taille=10, Angle angle=DEGRE, Type type=REEL, bool complexe=true):
         m_taille(taille), m_angle(angle), m_type(type), m_modeComplexe(complexe){}
 
    //Accesseurs
@@ -36,7 +36,10 @@ void SetType(Type t){m_type=t;}
 void SetModeComplexe(bool b){m_modeComplexe=b;}
 
 //Gestion de la pile (calculs)
-void OperationBinaire(QString Operation);
+Constante* OperationBinaire(char operation);
+
+//Opérations sur la pile
+
 
 
 

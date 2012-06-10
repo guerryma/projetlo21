@@ -14,6 +14,10 @@ public:
 
     //Opérations
 
+    //virtual Constante* Somme(const Constante* c)const;
+
 };
 
 #endif // CONSTANTE_H
+
+

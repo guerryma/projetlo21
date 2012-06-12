@@ -41,11 +41,11 @@ void SetType(Type t){m_type=t;}
 void SetModeComplexe(bool b){m_modeComplexe=b;}
 
 //Operations sur les piles
-void EmpilerPileA(QString m_s){m_pAff.push(m_s);}
+void EmpilerPileA(QString s){m_pAff.push(s);}
 QString DepilerPileA(){return m_pAff.pop();}
 bool EstVidePileA(){return m_pAff.isEmpty();}
 
-void EmpilerPileS(Constante* m_c){m_pStock.push(m_c);}
+void EmpilerPileS(Constante* c){m_pStock.push(c);}
 Constante* DepilerPileS(){return m_pStock.pop();}
 bool EstVidePileS(){return m_pStock.isEmpty();}
 

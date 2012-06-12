@@ -35,7 +35,7 @@ Si ce sont des nb alors on peut faire l'opération.
 Si c'est une expression alors il faut la concaténer.
 Si complexe vérifier mode complexe On.
 
-  3. Appeler la méthode correspondante (grâce à la surcharge des opérateurs.
+  3. Appeler la méthode correspondante (grâce �  la surcharge des opérateurs.
   Il faudra donc gérer les op de style Complexe/Rationnel
   Division: vérifier le mode pour voir l'opération effectuée
   Mode Complexe On/Of: checker avant l'affichage du résultat si on est en mode On.

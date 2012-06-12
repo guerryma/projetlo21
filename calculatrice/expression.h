@@ -5,7 +5,7 @@
 #include <QString>
 
 
-class Expression//: public Constante
+class Expression : public Constante
 {
 /*!
   Une expression est encadrée par des cotes ''
@@ -13,8 +13,10 @@ class Expression//: public Constante
 
   //*/
     QString m_expression;
+
 public:
-    Expression(QString m_exp): m_expression(m_exp){}
+    Expression(QString expr): /*Constante("Expr"),*/ m_expression(expr){}
+
 
     QString GetExpression() const {return m_expression;}
 

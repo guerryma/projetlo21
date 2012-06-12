@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "complexe.h"
 #include <typeinfo>
+#include <calculatrice.h>
 
 #include "expression.h"
 
@@ -18,7 +19,7 @@ int main(int argc, char *argv[])
 
     Complexe* e=c->Somme(d);
 
-    //Expression e2("'1 1 +'");
+    Expression e2("'1 1 +'");
 
 
     //std::cout<<e.GetPartieReelle()<<"+ i "<<e.GetPartieImaginaire()<<"\n";

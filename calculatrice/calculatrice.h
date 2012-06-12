@@ -51,7 +51,7 @@ bool EstVidePileS(){return m_pStock.isEmpty();}
 
 //Gestion de la pile (calculs)
 
-Constante* OperationBinaire(char operation);
+void OperationBinaire(char operation);
 
 //Opérations sur la pile
 

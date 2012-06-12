@@ -21,7 +21,7 @@ protected:
 
 public:
 
-    Complexe():/*m_complexe(""),*/Constante("Complexe"), m_reelle(0), m_imaginaire(0){}
+    Complexe():Constante("Complexe"), m_reelle(0), m_imaginaire(0){}
     // Complexe(Rationnel r); //Méthode à partir d'un Rationnel
     Complexe(float r, float i=0): Constante("Complexe"), m_reelle(r),m_imaginaire(i){}
 
@@ -43,6 +43,9 @@ public:
     Complexe* Produit(const Complexe* c) const; //!< Calcule le produit de deux complexes et renvoie un complexe
     Complexe* Racine(); //! < Calcule la racine carrée de l'objet. ce nombre peut être négatif
     Complexe* Quotient(const Complexe* c) const; //!< Calcule le quotient de deux complexes et renvoie un complexe
+
+    //Surcharge des opérateurs
+   // Complexe* operator +(const Complexe* c) const{return this->Somme(c);}
 
 private:
     Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);}

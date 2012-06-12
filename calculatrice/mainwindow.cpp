@@ -340,6 +340,12 @@ void MainWindow::BPowPressed(){
 
 
 void MainWindow::BEvalPressed(){
+
+    /*! Fonction à déplacer ds calculatrice si temps
+      Eventuellement remplacer erreur par l'expression fausse qui doit etre modifiée,
+      et envoyer un QMessageBox erreur dans l'expression
+*/
+
     QStack <QString> stack;
     QString s = ui->lineEdit->text();
     QString s2;

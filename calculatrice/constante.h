@@ -11,10 +11,13 @@ public:
     virtual QString Afficher()=0;
     virtual ~Constante(){};
 
+    QString GetType() const {return m_type;}
+
 
     //Opérations
 
-    //virtual Constante* Somme(const Constante* c)const;
+    //virtual Constante* Somme(const Constante* c)const {return new Constante();}
+    //virtual Constante* operator +(Constante * c)const;
 
 };
 

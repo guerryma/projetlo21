@@ -111,6 +111,7 @@ void MainWindow::ClavierSignes(){
     QObject::connect(ui->bPlus, SIGNAL(clicked()), this, SLOT(BPlusPressed()));
     QObject::connect(ui->bDivision, SIGNAL(clicked()), this, SLOT(BDivisionPressed()));
     QObject::connect(ui->bEval, SIGNAL(clicked()), this, SLOT(BEvalPressed()));
+    QObject::connect(ui->bEnter, SIGNAL(clicked()), this, SLOT(BEnterPressed()));
     QObject::connect(ui->bSpace, SIGNAL(clicked()), this, SLOT(BSpacePressed()));
     QObject::connect(ui->bSup, SIGNAL(clicked()), this->ui->lineEdit, SLOT(clear()));
 }
@@ -337,16 +338,22 @@ void MainWindow::BPowPressed(){
     ui->lineEdit->setText(ui->lineEdit->text()+"POW ");
 }
 
-
-
 void MainWindow::BEvalPressed(){
-    QStack <QString> stack;
+
+
+
+
+}
+
+void MainWindow::BEnterPressed(){
+   // QStack <QString> stack;
     QString s = ui->lineEdit->text();
     QString s2;
     int i = 0;
-    QString m_pRe;
-    QString m_pIm;
+    QString pRe;
+    QString pIm;
 
+    //si il y a des espaces avant il faut les supprimer
     if(QString(s[i]).contains(" ")){
         s2 = s;
         s = "";
@@ -361,12 +368,15 @@ void MainWindow::BEvalPressed(){
         s2 = "";
     }
 
-
-
-
+    //si il y a des cotes on empile une expression (la vérif se fait par éval)
     if(s.contains("'")){
         if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
-            Expression e(s);
+           // Expression e = Expression(s); Ce qui ne marche pas!
+           // m_calc.EmpilerPileS(&e);
+            //m_calc.EmpilerPileA(s);
+            //ui->pile->insertPlainText(s+"\n");
+            ui->lineEdit->clear();
+            /*
             stack = e.TransformerExpression();
             if(!stack.isEmpty()){
             s2 = stack.first();
@@ -379,8 +389,11 @@ void MainWindow::BEvalPressed(){
 
             else
                 ui->lineEdit->setText("Erreur");
+            */
         }
-        else ui->lineEdit->setText("Erreur");
+
+        else ui->lineEdit->setText("Erreur"); // expliquer qu'il manque une cote
+                            //laisser l'utilisateur corriger
     }
 
     else if(s.contains("+")){
@@ -396,7 +409,7 @@ void MainWindow::BEvalPressed(){
                 }
 
             }
-            ui->lineEdit->setText("ok +");
+            ui->lineEdit->setText("ok +"); //appel a la fonction + de la calculatrice
         }
     }
 
@@ -413,7 +426,7 @@ void MainWindow::BEvalPressed(){
                 }
 
             }
-            ui->lineEdit->setText("ok -");
+            ui->lineEdit->setText("ok -"); //appel a la fonction - de la calculatrice
         }
     }
 
@@ -430,7 +443,7 @@ void MainWindow::BEvalPressed(){
                 }
 
             }
-            ui->lineEdit->setText("ok *");
+            ui->lineEdit->setText("ok *"); //appel a la fonction * de la calculatrice
         }
     }
 
@@ -447,45 +460,45 @@ void MainWindow::BEvalPressed(){
                 }
 
             }
-            ui->lineEdit->setText("ok /");
+            ui->lineEdit->setText("ok /");//appel a la fonction / de la calculatrice(attention voir les modes)
         }
     }
 
-    else if(s.contains("$")){
-        if(s.count("$") > 1)
+    else if(s.contains("$")){//sinon si ça continet un $
+        if(s.count("$") > 1)//s'il n' en a qu'un seul
            ui->lineEdit->setText("Erreur");
-        else{
+        else{//c'est que c'est un complexe
             i = 0;
-            while(i < s.size() && s[i] != '$'){
-                m_pRe.append(s[i]);
+            while(i < s.size() && s[i] != '$'){//on recupere la partie reelle
+                pRe.append(s[i]);
                 i++;
             }
-            i++;
-            while(i < s.size()){
-                m_pIm.append(s[i]);
+            i++;//on saute le $
+            while(i < s.size()){//on recupere la partie imaginaire
+                pIm.append(s[i]);
                 i++;
             }
-            Complexe m_c = Complexe(m_pRe.toFloat(), m_pIm.toFloat());
-            m_calc.EmpilerPileS(&m_c);
+            Complexe c = Complexe(pRe.toFloat(), pIm.toFloat());
+            m_calc.EmpilerPileS(&c);
             m_calc.EmpilerPileA(s);
             ui->pile->insertPlainText(s+"\n");
             ui->lineEdit->clear();
         }
     }
 
-    else if(s.contains(",")){
-        if(s.count(",") > 1)
+    else if(s.contains(",")){//sinon si ça contient une virgule
+        if(s.count(",") > 1) //s'il n'y en a qu'une seule
            ui->lineEdit->setText("Erreur");
-        else{
-            Complexe m_c = Complexe(s.toFloat());
-            m_calc.EmpilerPileS(&m_c);
+        else{//c'est que c'est un reel
+            Complexe c = Complexe(s.toFloat());
+            m_calc.EmpilerPileS(&c);
             m_calc.EmpilerPileA(s);
             ui->pile->insertPlainText(s+"\n");
             ui->lineEdit->clear();
         }
     }
 
-    else{
+    else{//sinon c'est que c'est un entier
         while(i < s.size()){
             if(s[i] >= '0' && s[i] <= '9')
                 i++;
@@ -494,8 +507,8 @@ void MainWindow::BEvalPressed(){
                 return;
             }
         }
-        Complexe m_c = Complexe(s.toInt());
-        m_calc.EmpilerPileS(&m_c);
+        Complexe c = Complexe(s.toInt());
+        m_calc.EmpilerPileS(&c);
         m_calc.EmpilerPileA(s);
         ui->pile->insertPlainText(s+"\n");
         ui->lineEdit->clear();

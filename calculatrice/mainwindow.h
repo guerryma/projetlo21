@@ -53,8 +53,10 @@ private slots:
     void BPlusPressed();
     void BDivisionPressed();
 
-    void BEvalPressed();
     void BSpacePressed();
+    void BEvalPressed();
+    void BEnterPressed();
+
 
     //Boutons pile
     void BSwapPressed();

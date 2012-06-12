@@ -5,11 +5,8 @@
 #include <QString>
 
 
-<<<<<<< HEAD
 
-=======
 class Expression: public Constante
->>>>>>> a8533b4760f228fdbe6474b40a904f2fa0f6dc27
 {
 /*!
   Une expression est encadrée par des cotes ''

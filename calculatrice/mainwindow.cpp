@@ -340,13 +340,8 @@ void MainWindow::BPowPressed(){
 
 void MainWindow::BEvalPressed(){
 
-
-<<<<<<< HEAD
-
-
 }
 
-=======
 void MainWindow::BEnterPressed(){
 
     /*! Fonction à déplacer ds calculatrice si temps
@@ -355,7 +350,6 @@ void MainWindow::BEnterPressed(){
 */
 
     QStack <QString> stack;
->>>>>>> a8533b4760f228fdbe6474b40a904f2fa0f6dc27
     QString s = ui->lineEdit->text();
     QString s2;
     int i = 0;

@@ -5,7 +5,7 @@
 #include <QString>
 
 
-class Expression//: public Constante
+class Expression: public Constante
 {
 /*!
   Une expression est encadrée par des cotes ''
@@ -26,7 +26,7 @@ public:
       pile ne contenant que "Erreur".
       */
 
-QString Afficher();
+QString Afficher() const {return m_expression;}
 };
 
 

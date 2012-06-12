@@ -7,6 +7,13 @@ Complexe* Complexe:: Somme(const Complexe* c)const{
     return new Complexe(m_reelle+c->GetPartieReelle(), m_imaginaire+c->GetPartieImaginaire());
 }
 
+Complexe* Complexe::Oppose()const{
+    return new Complexe(-m_reelle, -m_imaginaire);
+}
+
+Complexe* Complexe::Difference(const Complexe *c) const{
+    return Somme(c->Oppose());
+}
 
 Complexe* Complexe::Produit(const Complexe* c) const{
     float r, i;
@@ -28,6 +35,6 @@ Complexe* Complexe::Quotient(const Complexe* c) const{
     return Produit(y) ;
 }
 
-QString Complexe::Afficher(){
+QString Complexe::Afficher()const{
     return QString(QString::number(m_reelle)+" +i "+QString::number(m_imaginaire));
 }

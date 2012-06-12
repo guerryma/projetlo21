@@ -1,25 +1,36 @@
 #include "rationnel.h"
 
 
-Rationnel Rationnel::Inverse(){
+Rationnel* Rationnel::Inverse() const{
     if (m_numerateur==0) throw RationnelException("Erreur Inverse d'un nombre nul");
 
-    else return Rationnel(m_denominateur, m_numerateur);
+    else return new Rationnel(m_denominateur, m_numerateur);
 }
 
-Rationnel Somme(Rationnel r1, Rationnel r2){
+Rationnel* Rationnel::Somme(const Rationnel* r2) const{
    int d, n;
-   d=r1.GetDenominateur()*r2.GetDenominateur();
-   n=r1.GetNumerateur()*r2.GetDenominateur()+r2.GetNumerateur()*r1.GetDenominateur();
+   d=m_denominateur*r2->GetDenominateur();
+   n=m_numerateur*r2->GetDenominateur()+r2->GetNumerateur()*m_denominateur;
 
-   return Rationnel(n,d);
+   return new Rationnel(n,d);
 }
 
-Rationnel Produit(Rationnel r1, Rationnel r2){
-   return Rationnel(r1.GetNumerateur()*r2.GetNumerateur(), r1.GetDenominateur()*r2.GetDenominateur());
+Rationnel* Rationnel::Oppose() const{
+    return new Rationnel(-m_numerateur, m_denominateur);
 }
 
-Rationnel Division(Rationnel r1, Rationnel r2){
-    return Produit(r1, r2.Inverse());
+Rationnel* Rationnel::Difference(const Rationnel *r2) const{
+    return Somme(r2->Oppose());
 }
 
+Rationnel* Rationnel::Produit(const Rationnel* r2)const{
+   return new Rationnel(m_numerateur*r2->GetNumerateur(), m_denominateur*r2->GetDenominateur());
+}
+
+Rationnel* Rationnel::Quotient(const Rationnel* r2)const{
+    return Produit(r2->Inverse());
+}
+
+QString Rationnel::Afficher() const{
+    return QString(QString::number(m_numerateur)+" / "+QString::number(m_denominateur));
+}

@@ -8,7 +8,7 @@ class Constante
 public:
     Constante(){}
     Constante(QString type): m_type(type){}
-    virtual QString Afficher()=0;
+    virtual QString Afficher() const=0;
     virtual ~Constante(){};
 
     QString GetType() const {return m_type;}

@@ -35,17 +35,17 @@ public:
     void SetPartieImaginaire(float i){m_imaginaire=i;}
 
     //Autres méthodes
-    QString Afficher();
+    QString Afficher() const;
 
 
     //Fonctions de calcul
     Complexe* Somme(const Complexe* c) const;     //!< Calcule la somme de deux complexes et renvoie un complexe
+    Complexe* Difference(const Complexe* c) const;     //!< Calcule la somme de deux complexes et renvoie un complexe
     Complexe* Produit(const Complexe* c) const; //!< Calcule le produit de deux complexes et renvoie un complexe
     Complexe* Racine(); //! < Calcule la racine carrée de l'objet. ce nombre peut être négatif
     Complexe* Quotient(const Complexe* c) const; //!< Calcule le quotient de deux complexes et renvoie un complexe
 
-    //Surcharge des opérateurs
-   // Complexe* operator +(const Complexe* c) const{return this->Somme(c);}
+    Complexe* Oppose() const;
 
 private:
     Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);}

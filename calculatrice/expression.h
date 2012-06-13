@@ -3,6 +3,8 @@
 #include "constante.h"
 #include <QStack>
 #include <QString>
+#include <QChar>
+#include <QRegExp>
 
 
 
@@ -30,7 +32,10 @@ public:
       */
 
 QString Afficher() const {return m_expression;}
+
+
 };
+bool EstUnNombre(QString s);
 
 
 

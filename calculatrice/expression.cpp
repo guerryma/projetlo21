@@ -41,9 +41,9 @@ QStack<QString> Expression::TransformerExpression(){
 
             if(m_fct != ""){
                 if(m_fct == "SIN"|| m_fct == "COS" || m_fct == "TAN" || m_fct == "COSH"
-                   || m_fct == "LN" || m_fct == "LOG" || m_fct == "INV"|| m_fct == "SQRT"
-                   || m_fct == "SQR" || m_fct == "CUBE"|| m_fct == "!" || m_fct == "POW"
-                   || m_fct == "MOD"|| m_fct == "SIGN"){
+                        || m_fct == "LN" || m_fct == "LOG" || m_fct == "INV"|| m_fct == "SQRT"
+                        || m_fct == "SQR" || m_fct == "CUBE"|| m_fct == "!" || m_fct == "POW"
+                        || m_fct == "MOD"|| m_fct == "SIGN"){
 
                     if(m_stack.isEmpty()){
                         m_ResStack.push(m_err);
@@ -70,7 +70,7 @@ QStack<QString> Expression::TransformerExpression(){
         }
 
         else if(QString(m_expression[i]).contains("+") || QString(m_expression[i]).contains("-")
-            || QString(m_expression[i]).contains("*") || QString(m_expression[i]).contains("/")){
+                || QString(m_expression[i]).contains("*") || QString(m_expression[i]).contains("/")){
             if(m_stack.size() >= 2){
                 m_a = m_stack.pop();
                 m_b = m_stack.pop();
@@ -107,6 +107,16 @@ QStack<QString> Expression::TransformerExpression(){
 }
 
 
+bool EstUnNombre(QString s){
+    /*! Cette fonction vérifie que chaque caractère d'une chaîne est un nombre ou une virgule
+Elle retourne Faux si le carcatère n'est ni un chiffre, ni une 1ère virgule, ni un moins en début de chaine*/
+
+
+    QRegExp nombre("^[\-]{0,1}[0-9]{1,}(([\.\,]{0,1}[0-9]{1,})|([0-9]{0,}))$");
+    if (s.contains(nombre)) return true;
+    return false;
+
+}
 
 
 

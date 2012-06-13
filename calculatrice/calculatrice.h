@@ -40,11 +40,12 @@ void SetAngle(Angle a){m_angle=a;}
 void SetType(Type t){m_type=t;}
 void SetModeComplexe(bool b){m_modeComplexe=b;}
 
-//Operations sur les piles
+//Operations sur les piles (accesseurs de pile)
 void EmpilerPileA(QString s){m_pAff.push(s);}
 QString DepilerPileA(){return m_pAff.pop();}
 bool EstVidePileA(){return m_pAff.isEmpty();}
 
+QStack<Constante*> GetPileS()const {return m_pStock;}
 void EmpilerPileS(Constante* c){m_pStock.push(c);}
 Constante* DepilerPileS(){return m_pStock.pop();}
 bool EstVidePileS(){return m_pStock.isEmpty();}
@@ -52,6 +53,8 @@ bool EstVidePileS(){return m_pStock.isEmpty();}
 //Gestion de la pile (calculs)
 
 void OperationBinaire(char operation);
+//void OperationBinaire2(char operation);
+
 
 //Opérations sur la pile
 

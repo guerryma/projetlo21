@@ -5,7 +5,7 @@
 #include <calculatrice.h>
 
 #include "expression.h"
-
+using namespace std;
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +20,11 @@ int main(int argc, char *argv[])
     Complexe* e=c->Somme(d);
 
     Expression e2("'1 1 +'");
+        if(EstUnNombre("46")) cout<<"46 est un nombre\n";
+
+        if(EstUnNombre("-46")) cout<<"-46 est un nombre\n";
+        if(EstUnNombre("0,46")) cout<<"0.46 est un nombre\n";
+
 
 
     //std::cout<<e.GetPartieReelle()<<"+ i "<<e.GetPartieImaginaire()<<"\n";

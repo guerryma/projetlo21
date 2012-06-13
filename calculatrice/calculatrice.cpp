@@ -17,7 +17,9 @@ void Calculatrice::OperationBinaire(char operation){
         Complexe* c2;
         Rationnel* r1;
         Rationnel* r2;
-        /*! Permettra de stocker le type de constante:
+
+
+        /*! type Permettra de stocker le type de constante:
           cc pour 2 complexes
           rr pour 2 rationnels
           rc ou cr pour cpx et rationnel
@@ -25,6 +27,7 @@ void Calculatrice::OperationBinaire(char operation){
           */
 
         //! Détermination du type de constante
+
         if (op1->GetType()=="complexe" && op2->GetType()=="complexe")
         {
             c1=dynamic_cast<Complexe*>(op1);
@@ -84,7 +87,7 @@ void Calculatrice::OperationBinaire(char operation){
             }
 
             if(type=="rr"){ //! produit rat rat
-                Rationnel* res=r1->Produit(r2);
+                Rationnel* res=r1->Produit(r2);/* Complexe**/
                 m_pStock.push(res);
             }
 
@@ -96,7 +99,7 @@ void Calculatrice::OperationBinaire(char operation){
                 if (type=="cc") //! Division cpx cpx
                 {
 
-                    Complexe* res=c1->Quotient(c2);
+                   Complexe* res=c1->Quotient(c2);
                     m_pStock.push(res);
                 }
             }
@@ -113,11 +116,15 @@ void Calculatrice::OperationBinaire(char operation){
 
         default:
             break;
-
         }
     }else std::cout<<"La pile ne contient pas assez d'éléments"; //envoyer une exception
 
+
 }
+
+//void Calculatrice::OperationBinaire2(char operation){
+//    std::cout<<"coucou";
+//}
 
 /* Algorithme opération binaire
   1. Récupérer les 2 opérandes. DOnc checker qu'il y en a au moins 2. Sinon envoyer erreur

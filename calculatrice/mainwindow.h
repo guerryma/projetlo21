@@ -56,6 +56,7 @@ private slots:
     void BSpacePressed();
     void BEvalPressed();
     void BEnterPressed();
+    void BEnterPressed2();
 
 
     //Boutons pile
@@ -92,6 +93,7 @@ public:
     void ClavierPile();
     void ClavierOperateurUnaire();
     void ClavierAutresFonctions();
+    void Erreur(QString raison);
     //void AfficherStack();
 };
 

@@ -3,7 +3,7 @@
 
 Complexe* Complexe:: Somme(const Complexe* c)const{
 
-   // return Complexe(m_reelle+c.m_reelle, m_reelle+c.m_imaginaire);
+    // return Complexe(m_reelle+c.m_reelle, m_reelle+c.m_imaginaire);
     return new Complexe(m_reelle+c->GetPartieReelle(), m_imaginaire+c->GetPartieImaginaire());
 }
 
@@ -36,5 +36,14 @@ Complexe* Complexe::Quotient(const Complexe* c) const{
 }
 
 QString Complexe::Afficher()const{
+
+
+    if(!m_imaginaire)
+        return QString(QString::number(m_reelle));
+
+    if(!m_reelle)
+        return QString("i "+QString::number(m_imaginaire));
+
     return QString(QString::number(m_reelle)+" +i "+QString::number(m_imaginaire));
+
 }

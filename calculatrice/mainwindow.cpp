@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //fenetre
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
 
+
+
     //paramètres par défaut
     ui->bEntier->setChecked(true);
     ui->bNon->setChecked(true);
@@ -23,11 +25,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pile->setMaximumBlockCount(6);
 }
 
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+//Gestion des erreurs
+void MainWindow::Erreur(QString raison){
+    ui->lineEdit->setText(raison);
+}
 
 void MainWindow::ClavierNumerique(){
     QObject::connect(ui->b0, SIGNAL(clicked()), this, SLOT(Num0Pressed()));
@@ -111,7 +118,7 @@ void MainWindow::ClavierSignes(){
     QObject::connect(ui->bPlus, SIGNAL(clicked()), this, SLOT(BPlusPressed()));
     QObject::connect(ui->bDivision, SIGNAL(clicked()), this, SLOT(BDivisionPressed()));
     QObject::connect(ui->bEval, SIGNAL(clicked()), this, SLOT(BEvalPressed()));
-    QObject::connect(ui->bEnter, SIGNAL(clicked()), this, SLOT(BEnterPressed()));
+    QObject::connect(ui->bEnter, SIGNAL(clicked()), this, SLOT(BEnterPressed2()));
     QObject::connect(ui->bSpace, SIGNAL(clicked()), this, SLOT(BSpacePressed()));
     QObject::connect(ui->bSup, SIGNAL(clicked()), this->ui->lineEdit, SLOT(clear()));
 }
@@ -153,9 +160,18 @@ void MainWindow::BMoinsPressed(){
 }
 
 void MainWindow::BPlusPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"+ ");
+    //    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+    //        ui->lineEdit->clear();
+    //    ui->lineEdit->setText(ui->lineEdit->text()+"+ ");
+    if (ui->lineEdit->text().isEmpty()){
+        m_calc.OperationBinaire('+');
+        ui->pile->appendPlainText(m_calc.GetPileS().top()->Afficher()+"\n");
+
+    }
+    else ui->lineEdit->text().append('+');
+
+
+
 }
 
 void MainWindow::BDivisionPressed(){
@@ -319,7 +335,7 @@ void MainWindow::ClavierAutresFonctions(){
     QObject::connect(ui->bPow, SIGNAL(clicked()), this, SLOT(BPowPressed()));
 
 }
-    //Boutons autres fonctions
+//Boutons autres fonctions
 void MainWindow::BModPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
@@ -355,6 +371,9 @@ void MainWindow::BEnterPressed(){
     int i = 0;
     QString pRe;
     QString pIm;
+    Constante* c;
+
+
 
     //si il y a des espaces avant il faut les supprimer
     if(QString(s[i]).contains(" ")){
@@ -374,8 +393,8 @@ void MainWindow::BEnterPressed(){
     //si il y a des cotes on empile une expression (la vérif se fait par éval)
     if(s.contains("'")){
         if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
-           // Expression e = Expression(s); Ce qui ne marche pas!
-           // m_calc.EmpilerPileS(&e);
+            // Expression e = Expression(s); Ce qui ne marche pas!
+            // m_calc.EmpilerPileS(&e);
             //m_calc.EmpilerPileA(s);
             //ui->pile->insertPlainText(s+"\n");
             ui->lineEdit->clear();
@@ -396,12 +415,12 @@ void MainWindow::BEnterPressed(){
         }
 
         else ui->lineEdit->setText("Erreur"); // expliquer qu'il manque une cote
-                            //laisser l'utilisateur corriger
+        //laisser l'utilisateur corriger
     }
 
-    else if(s.contains("+")){
+    /*else if(s.contains("+")){
         if(s.count("+") > 1)
-           ui->lineEdit->setText("Erreur");
+            ui->lineEdit->setText("Erreur");
         else{
             while(i < s.size()){
                 if(QString(s[i]).contains(" ") || QString(s[i]).contains("+"))
@@ -415,10 +434,14 @@ void MainWindow::BEnterPressed(){
             ui->lineEdit->setText("ok +"); //appel a la fonction + de la calculatrice
         }
     }
-
+*/
+    else if(s=="+"){
+        m_calc.OperationBinaire('+');
+        ui->lineEdit->clear();
+    }
     else if(s.contains("-")){
         if(s.count("-") > 1)
-           ui->lineEdit->setText("Erreur");
+            ui->lineEdit->setText("Erreur");
         else{
             while(i < s.size()){
                 if(QString(s[i]).contains(" ") || QString(s[i]).contains("-"))
@@ -435,7 +458,7 @@ void MainWindow::BEnterPressed(){
 
     else if(s.contains("*")){
         if(s.count("*") > 1)
-           ui->lineEdit->setText("Erreur");
+            ui->lineEdit->setText("Erreur");
         else{
             while(i < s.size()){
                 if(QString(s[i]).contains(" ") || QString(s[i]).contains("*"))
@@ -452,7 +475,7 @@ void MainWindow::BEnterPressed(){
 
     else if(s.contains("/")){
         if(s.count("/") > 1)
-           ui->lineEdit->setText("Erreur");
+            ui->lineEdit->setText("Erreur");
         else{
             while(i < s.size()){
                 if(QString(s[i]).contains(" ") || QString(s[i]).contains("/"))
@@ -466,10 +489,11 @@ void MainWindow::BEnterPressed(){
             ui->lineEdit->setText("ok /");//appel a la fonction / de la calculatrice(attention voir les modes)
         }
     }
+    //! Si on a un complexe
 
     else if(s.contains("$")){//sinon si ça continet un $
         if(s.count("$") > 1)//s'il n' en a qu'un seul
-           ui->lineEdit->setText("Erreur");
+            ui->lineEdit->setText("Erreur");
         else{//c'est que c'est un complexe
             i = 0;
             while(i < s.size() && s[i] != '$'){//on recupere la partie reelle
@@ -481,23 +505,17 @@ void MainWindow::BEnterPressed(){
                 pIm.append(s[i]);
                 i++;
             }
-            Complexe c = Complexe(pRe.toFloat(), pIm.toFloat());
-            m_calc.EmpilerPileS(&c);
-            m_calc.EmpilerPileA(s);
-            ui->pile->insertPlainText(s+"\n");
-            ui->lineEdit->clear();
+            c= new Complexe(pRe.toFloat(), pIm.toFloat());
+
         }
     }
 
     else if(s.contains(",")){//sinon si ça contient une virgule
         if(s.count(",") > 1) //s'il n'y en a qu'une seule
-           ui->lineEdit->setText("Erreur");
+            ui->lineEdit->setText("Erreur");
         else{//c'est que c'est un reel
-            Complexe c = Complexe(s.toFloat());
-            m_calc.EmpilerPileS(&c);
-            m_calc.EmpilerPileA(s);
-            ui->pile->insertPlainText(s+"\n");
-            ui->lineEdit->clear();
+            c= new Complexe(s.toFloat());
+
         }
     }
 
@@ -510,14 +528,63 @@ void MainWindow::BEnterPressed(){
                 return;
             }
         }
-        Complexe c = Complexe(s.toInt());
-        m_calc.EmpilerPileS(&c);
-        m_calc.EmpilerPileA(s);
-        ui->pile->insertPlainText(s+"\n");
-        ui->lineEdit->clear();
+        c= new Complexe(s.toInt());
+
     }
+    m_calc.EmpilerPileS(c);
+    m_calc.EmpilerPileA(s);
+    ui->pile->insertPlainText(c->Afficher()+"\n");
+    ui->lineEdit->clear();
+
 
 }
+
+void MainWindow::BEnterPressed2(){
+    QString s=ui->lineEdit->text();
+    Constante* c;
+
+
+
+    /*! Cas 1: On a entré une expression: elle est construite
+      La vérification se fera seulement si on appelle EVAL */
+    if(s.startsWith("'")){
+        if(s.endsWith("'")) c= new Expression(s);
+
+        else  Erreur("Il manque une cote");
+
+    }
+    /*! Cas2: On entre un opérateur. Dans ce cas il appelle la méthode appropriée*/
+    //else if(s=="+") m_calc.OperationBinaire('+');
+    else if(s=="-") m_calc.OperationBinaire('-');
+    else if(s=="*") m_calc.OperationBinaire('*');
+    else if(s=="/") m_calc.OperationBinaire('/');
+
+    /*! Cas 3: on entre une constante complexe.
+      Rappel: On ne peut pas rentrer un rationnel directement. Un rationnel est construit slmt si on dépile
+      2 opérandes et que l'on est en mode rationnel
+      */
+
+    //! Complexe "classique
+    else if(s.contains("$")){
+        int n=s.indexOf('$');
+        QStringRef re=s.leftRef(n);
+        QStringRef im=s.rightRef(n);
+        if(EstUnNombre(QString(re.toString()))&& EstUnNombre(QString(im.toString())))
+            c= new Complexe(re.toString().toFloat(), im.toString().toFloat());
+        else Erreur("Ce n'est pas un nombre");
+    }
+    else {
+        if(EstUnNombre(s)) c= new Complexe(s.toFloat());
+        else Erreur("Ce n'est pas un nombre");
+    }
+    m_calc.EmpilerPileS(c);
+    m_calc.EmpilerPileA(s);
+    ui->pile->insertPlainText(c->Afficher()+"\n");
+    ui->lineEdit->clear();
+
+
+}
+
 /*
 void MainWindow::AfficherStack(){
     QStack<QString> m_stack2;

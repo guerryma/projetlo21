@@ -8,7 +8,7 @@
 #include "expression.h"
 
 namespace Ui {
-    class MainWindow;
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -29,7 +29,7 @@ public:
 
 
 private slots:
-   //Boutons numeriques de 0-9
+    //Boutons numeriques de 0-9
     void Num0Pressed();
     void Num1Pressed();
     void Num2Pressed();
@@ -89,7 +89,7 @@ private slots:
 
     //Parametrage
     void ReglerParamX();
-   // void on_Complexe_toogled();
+    void on_Complexe_checked();
 
 public:
     void ClavierNumerique();

@@ -564,22 +564,6 @@ void MainWindow::MajVuePile(){
     }
 }
 
-/*
-void MainWindow::AfficherStack(){
-    QStack<QString> m_stack2;
-    QString m_s;
-    int i = 0;
-
-    while(i < m_calc.GetTaille() && !m_calc.EstVidePileA()){
-        m_s = m_calc.DepilerPileA();
-        m_stack2.push(m_s);
-    }
-
-    while(!m_stack2.isEmpty()){
-        m_s = m_stack2.pop();
-        ui->pile->insertPlainText(m_s+"\n");
-        m_calc.EmpilerPileA(m_s);
-    }
-
-
-}*/
+void  MainWindow::on_Complexe_checked(){
+    m_calc.SetModeComplexe(true);
+}

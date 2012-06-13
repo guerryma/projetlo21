@@ -443,7 +443,7 @@
          <string>,</string>
         </property>
         <property name="shortcut">
-         <string>.</string>
+         <string>,</string>
         </property>
        </widget>
       </item>

@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), m_calc(Calculatrice(5, DEGRE, ENTIER, false))
+    ui(new Ui::MainWindow), m_calc(Calculatrice(10, DEGRE, ENTIER))
 {
     ui->setupUi(this);
     ClavierNumerique();
@@ -17,11 +17,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    //paramètres par défaut
+    //paramètrage
     ui->bEntier->setChecked(true);
     ui->bDegre->setChecked(true);
-    ui->nbOpPile->setText("5");
+    ui->nbOpPile->setText("10");
     ui->pile->setMaximumBlockCount(6);
+    QObject::connect(ui->Complexe, SIGNAL(toggled(bool)),this,SLOT(BComplexeChecked(bool)));
+
 }
 
 
@@ -564,6 +566,6 @@ void MainWindow::MajVuePile(){
     }
 }
 
-void  MainWindow::on_Complexe_checked(){
-    m_calc.SetModeComplexe(true);
+void  MainWindow::BComplexeChecked(bool b){
+    m_calc.SetModeComplexe(b);
 }

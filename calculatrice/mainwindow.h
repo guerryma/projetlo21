@@ -89,7 +89,7 @@ private slots:
 
     //Parametrage
     void ReglerParamX();
-    void on_Complexe_checked();
+    void BComplexeChecked(bool b);
 
 public:
     void ClavierNumerique();

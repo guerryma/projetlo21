@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), m_calc(Calculatrice(10, DEGRE, ENTIER))
+    ui(new Ui::MainWindow), m_calc(new Calculatrice(10, DEGRE, ENTIER))
 {
     ui->setupUi(this);
     ClavierNumerique();
@@ -20,8 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //paramètrage
     ui->bEntier->setChecked(true);
     ui->bDegre->setChecked(true);
-    ui->nbOpPile->setText("10");
-    ui->pile->setMaximumBlockCount(6);
+    ui->nbOpPile->setText(QString::number(m_calc->GetTaille()));
+    ui->pile->setMaximumBlockCount(m_calc->GetTaille());
     QObject::connect(ui->Complexe, SIGNAL(toggled(bool)),this,SLOT(BComplexeChecked(bool)));
 
 }
@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete m_calc;
 }
 
 //Gestion des erreurs
@@ -151,7 +152,7 @@ void MainWindow::BVirgulePressed(){
 void MainWindow::BFoisPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-        if(m_calc.OperationBinaire('*'))
+        if(m_calc->OperationBinaire('*'))
             MajVuePile();
 
 
@@ -166,7 +167,7 @@ void MainWindow::BMoinsPressed(){
          ui->lineEdit->setText("-");
     }
          else if(ui->lineEdit->text()=="-"){
-         if(m_calc.OperationBinaire('-'))
+         if(m_calc->OperationBinaire('-'))
              MajVuePile();
 
     }
@@ -177,7 +178,7 @@ void MainWindow::BMoinsPressed(){
 void MainWindow::BPlusPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-        if(m_calc.OperationBinaire('+'))
+        if(m_calc->OperationBinaire('+'))
             MajVuePile();
 
 
@@ -408,8 +409,8 @@ void MainWindow::BEnterPressed(){
     if(s.contains("'")){
         if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
             // Expression e = Expression(s); Ce qui ne marche pas!
-            // m_calc.EmpilerPileS(&e);
-            //m_calc.EmpilerPileA(s);
+            // m_calc->EmpilerPileS(&e);
+            //m_calc->EmpilerPileA(s);
             //ui->pile->insertPlainText(s+"\n");
             ui->lineEdit->clear();
             /*
@@ -450,7 +451,7 @@ void MainWindow::BEnterPressed(){
     }
 */
     else if(s=="+"){
-        m_calc.OperationBinaire('+');
+        m_calc->OperationBinaire('+');
         ui->lineEdit->clear();
     }
     else if(s.contains("-")){
@@ -545,8 +546,8 @@ void MainWindow::BEnterPressed(){
         c= new Complexe(s.toInt());
 
     }
-    m_calc.EmpilerPileS(c);
-    m_calc.EmpilerPileA(s);
+    m_calc->EmpilerPileS(c);
+    m_calc->EmpilerPileA(s);
     ui->pile->insertPlainText(c->Afficher()+"\n");
     ui->lineEdit->clear();
 
@@ -554,7 +555,7 @@ void MainWindow::BEnterPressed(){
 }
 
 void MainWindow::BEnterPressed2(){
-    if(m_calc.MajPileS(ui->lineEdit->text()))
+    if(m_calc->MajPileS(ui->lineEdit->text()))
      MajVuePile();
     ui->lineEdit->clear();
 
@@ -563,11 +564,11 @@ void MainWindow::BEnterPressed2(){
 
 void MainWindow::MajVuePile(){
     ui->pile->clear();
-    for(QStack<Constante*>::iterator it=m_calc.GetPileS().begin(); it!=m_calc.GetPileS().end(); it++){
+    for(QStack<Constante*>::iterator it=m_calc->GetPileS().begin(); it!=m_calc->GetPileS().end(); it++){
         ui->pile->insertPlainText((*it)->Afficher()+"\n");
     }
 }
 
 void  MainWindow::BComplexeChecked(bool b){
-    m_calc.SetModeComplexe(b);
+    m_calc->SetModeComplexe(b);
 }

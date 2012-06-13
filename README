@@ -2,4 +2,5 @@ A faire:
 changer interface
 Pointeur de calculatrice au lieu de objet => attention destructeur
 gestion construction rationnel et différente division
+slot paramètre x avec paramètres
 

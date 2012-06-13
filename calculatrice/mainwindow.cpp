@@ -147,15 +147,27 @@ void MainWindow::BVirgulePressed(){
 }
 
 void MainWindow::BFoisPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"* ");
+    if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc.OperationBinaire('*'))
+            MajVuePile();
+
+
+    }
+    else ui->lineEdit->text().append('*');
+
 }
 
 void MainWindow::BMoinsPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"- ");
+    if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc.OperationBinaire('-'))
+            MajVuePile();
+
+
+    }
+    else ui->lineEdit->text().append('-');
+
 }
 
 void MainWindow::BPlusPressed(){

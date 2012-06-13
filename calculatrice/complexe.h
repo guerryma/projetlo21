@@ -21,9 +21,9 @@ protected:
 
 public:
 
-    Complexe():Constante("Complexe"), m_reelle(0), m_imaginaire(0){}
+    Complexe():Constante("complexe"), m_reelle(0), m_imaginaire(0){}
     // Complexe(Rationnel r); //Méthode à partir d'un Rationnel
-    Complexe(float r, float i=0): Constante("Complexe"), m_reelle(r),m_imaginaire(i){}
+    Complexe(float r, float i=0): Constante("complexe"), m_reelle(r),m_imaginaire(i){}
 
 
     //Complexe FabricationComplexe(QString s);

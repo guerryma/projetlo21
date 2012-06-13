@@ -19,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //paramètres par défaut
     ui->bEntier->setChecked(true);
-    ui->bNon->setChecked(true);
     ui->bDegre->setChecked(true);
     ui->nbOpPile->setText("5");
     ui->pile->setMaximumBlockCount(6);
@@ -160,12 +159,11 @@ void MainWindow::BMoinsPressed(){
 }
 
 void MainWindow::BPlusPressed(){
-    //    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-    //        ui->lineEdit->clear();
-    //    ui->lineEdit->setText(ui->lineEdit->text()+"+ ");
     if (ui->lineEdit->text().isEmpty()){
-        m_calc.OperationBinaire('+');
-        ui->pile->appendPlainText(m_calc.GetPileS().top()->Afficher()+"\n");
+
+        if(m_calc.OperationBinaire('+'))
+            MajVuePile();
+
 
     }
     else ui->lineEdit->text().append('+');
@@ -540,49 +538,18 @@ void MainWindow::BEnterPressed(){
 }
 
 void MainWindow::BEnterPressed2(){
-    QString s=ui->lineEdit->text();
-    Constante* c;
-
-
-
-    /*! Cas 1: On a entré une expression: elle est construite
-      La vérification se fera seulement si on appelle EVAL */
-    if(s.startsWith("'")){
-        if(s.endsWith("'")) c= new Expression(s);
-
-        else  Erreur("Il manque une cote");
-
-    }
-    /*! Cas2: On entre un opérateur. Dans ce cas il appelle la méthode appropriée*/
-    //else if(s=="+") m_calc.OperationBinaire('+');
-    else if(s=="-") m_calc.OperationBinaire('-');
-    else if(s=="*") m_calc.OperationBinaire('*');
-    else if(s=="/") m_calc.OperationBinaire('/');
-
-    /*! Cas 3: on entre une constante complexe.
-      Rappel: On ne peut pas rentrer un rationnel directement. Un rationnel est construit slmt si on dépile
-      2 opérandes et que l'on est en mode rationnel
-      */
-
-    //! Complexe "classique
-    else if(s.contains("$")){
-        int n=s.indexOf('$');
-        QStringRef re=s.leftRef(n);
-        QStringRef im=s.rightRef(n);
-        if(EstUnNombre(QString(re.toString()))&& EstUnNombre(QString(im.toString())))
-            c= new Complexe(re.toString().toFloat(), im.toString().toFloat());
-        else Erreur("Ce n'est pas un nombre");
-    }
-    else {
-        if(EstUnNombre(s)) c= new Complexe(s.toFloat());
-        else Erreur("Ce n'est pas un nombre");
-    }
-    m_calc.EmpilerPileS(c);
-    m_calc.EmpilerPileA(s);
-    ui->pile->insertPlainText(c->Afficher()+"\n");
+    if(m_calc.MajPileS(ui->lineEdit->text()))
+     MajVuePile();
     ui->lineEdit->clear();
 
 
+}
+
+void MainWindow::MajVuePile(){
+    ui->pile->clear();
+    for(QStack<Constante*>::iterator it=m_calc.GetPileS().begin(); it!=m_calc.GetPileS().end(); it++){
+        ui->pile->insertPlainText((*it)->Afficher()+"\n");
+    }
 }
 
 /*

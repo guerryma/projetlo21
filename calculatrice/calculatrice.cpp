@@ -1,16 +1,15 @@
 #include "calculatrice.h"
+#include"expression.h"
 
 
-void Calculatrice::OperationBinaire(char operation){
+bool Calculatrice::OperationBinaire(char operation){
     /*! Traitement d'un opérateur binaire: les opérandes sont dépilées puis l'opération est calculée
       En fonction du type d'opération envoyé en paramètre.
       */
     if(m_pStock.size()>1){
-        Constante* op1 = m_pStock.top();
-        m_pStock.pop();
+        Constante* op1 = m_pStock.pop();
+        Constante* op2 =m_pStock.pop();
 
-        Constante* op2 =m_pStock.top();
-        m_pStock.pop();
 
         QString type;
         Complexe* c1;
@@ -50,13 +49,15 @@ void Calculatrice::OperationBinaire(char operation){
             if (type=="cc") //! somme cpx cpx
             {
 
-                Complexe* res=c1->Somme(c2);
-                m_pStock.push(res);
+                //Complexe* res=c1->Somme(c2);
+                m_pStock.push(c1->Somme(c2));
+                return true;
             }
 
             if(type=="rr"){ //! somme rat rat
                 Rationnel* res=r1->Somme(r2);
                 m_pStock.push(res);
+                return true;
             }
             // Traiter les cas où rationnel + complexe.
             break;
@@ -68,11 +69,13 @@ void Calculatrice::OperationBinaire(char operation){
 
                 Complexe* res=c1->Difference(c2);
                 m_pStock.push(res);
+                return true;
             }
 
             if(type=="rr"){ //! <soustraction rat rat
                 Rationnel* res=r1->Difference(r2);
                 m_pStock.push(res);
+                return true;
             }
 
             break;
@@ -84,11 +87,13 @@ void Calculatrice::OperationBinaire(char operation){
 
                 Complexe* res=c1->Produit(c2);
                 m_pStock.push(res);
+                return true;
             }
 
             if(type=="rr"){ //! produit rat rat
                 Rationnel* res=r1->Produit(r2);/* Complexe**/
                 m_pStock.push(res);
+                return true;
             }
 
             break;
@@ -101,6 +106,7 @@ void Calculatrice::OperationBinaire(char operation){
 
                    Complexe* res=c1->Quotient(c2);
                     m_pStock.push(res);
+                    return true;
                 }
             }
 
@@ -109,6 +115,7 @@ void Calculatrice::OperationBinaire(char operation){
             if(type=="rr"){ //! Division rat rat
                 Rationnel* res=r1->Quotient(r2);
                 m_pStock.push(res);
+                return true;
             }
 
             break;
@@ -117,10 +124,13 @@ void Calculatrice::OperationBinaire(char operation){
         default:
             break;
         }
-    }else std::cout<<"La pile ne contient pas assez d'éléments"; //envoyer une exception
+    }
+    else std::cout<<"La pile ne contient pas assez d'éléments";
+    return false;//envoyer une exception
 
 
 }
+
 
 //void Calculatrice::OperationBinaire2(char operation){
 //    std::cout<<"coucou";
@@ -140,5 +150,38 @@ Si c'est une expression alors il faut la concaténer.
   Sinon choisir traitement.
 
   */
+bool Calculatrice::MajPileS(QString s){
+    Constante* c;
 
+    /*! Cas 1: On a entr� une expression: elle est construite
+      La v�rification se fera seulement si on appelle EVAL */
+    if(s.startsWith("'")){
+        if(s.endsWith("'")) c= new Expression(s);
+
+        else  return false;
+
+    }
+
+    /*! Cas 2: on entre une constante complexe.
+      Rappel: On ne peut pas rentrer un rationnel directement. Un rationnel est construit slmt si on d�pile
+      2 op�randes et que l'on est en mode rationnel
+      */
+
+    //! Complexe "classique" seulement si le mode complexe est activ�. sinon renvoyer une erreur.
+    else if(s.contains("$")&& m_modeComplexe ){
+        int n=s.indexOf('$');
+        QStringRef re=s.leftRef(n);
+        QStringRef im=s.rightRef(n);
+        if(EstUnNombre(QString(re.toString()))&& EstUnNombre(QString(im.toString())))
+            c= new Complexe(re.toString().toFloat(), im.toString().toFloat());
+        else return false;
+    }
+    else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
+        else return false;
+
+     m_pStock.push(c);
+    //m_calc.EmpilerPileA(s); Gestion  historique
+    return true;
+
+}
 

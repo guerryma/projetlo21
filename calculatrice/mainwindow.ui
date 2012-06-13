@@ -6,33 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>874</width>
-    <height>396</height>
+    <width>888</width>
+    <height>404</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGroupBox" name="groupBox_5">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>80</y>
-      <width>371</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string/>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="groupBox_6">
     <property name="geometry">
      <rect>
       <x>120</x>
       <y>120</y>
-      <width>181</width>
+      <width>201</width>
       <height>221</height>
      </rect>
     </property>
@@ -44,8 +31,8 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>161</width>
-       <height>201</height>
+       <width>178</width>
+       <height>211</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
@@ -225,35 +212,28 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>30</y>
+      <y>40</y>
       <width>371</width>
       <height>41</height>
      </rect>
     </property>
     <property name="title">
-     <string>Complexe</string>
+     <string/>
     </property>
     <widget class="QWidget" name="gridLayoutWidget_2">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
+       <y>16</y>
        <width>291</width>
        <height>31</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QRadioButton" name="bOui">
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="Complexe">
         <property name="text">
-         <string>Oui</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QRadioButton" name="bNon">
-        <property name="text">
-         <string>Non</string>
+         <string>Complexe</string>
         </property>
        </widget>
       </item>
@@ -263,8 +243,8 @@
    <widget class="QPlainTextEdit" name="pile">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>10</y>
+      <x>710</x>
+      <y>20</y>
       <width>171</width>
       <height>311</height>
      </rect>
@@ -312,7 +292,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>83</width>
+       <width>91</width>
        <height>211</height>
       </rect>
      </property>
@@ -320,55 +300,45 @@
       <property name="fieldGrowthPolicy">
        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
       </property>
-      <item row="2" column="1">
+      <item row="1" column="1">
        <widget class="QPushButton" name="bSwap">
         <property name="text">
          <string>SWAP</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="2" column="1">
        <widget class="QPushButton" name="bSum">
         <property name="text">
          <string>SUM</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="3" column="1">
        <widget class="QPushButton" name="bMean">
         <property name="text">
          <string>MEAN</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="4" column="1">
        <widget class="QPushButton" name="bClear">
         <property name="text">
          <string>CLEAR</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="5" column="1">
        <widget class="QPushButton" name="bDup">
         <property name="text">
          <string>DUP</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="6" column="1">
        <widget class="QPushButton" name="bDrop">
         <property name="text">
          <string>DROP</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="bInvalide">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string/>
         </property>
        </widget>
       </item>
@@ -405,8 +375,8 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>83</width>
-       <height>205</height>
+       <width>87</width>
+       <height>211</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayout_2">
@@ -470,7 +440,7 @@
          <string>,</string>
         </property>
         <property name="shortcut">
-         <string>.</string>
+         <string>'</string>
         </property>
        </widget>
       </item>
@@ -482,7 +452,7 @@
      <rect>
       <x>420</x>
       <y>120</y>
-      <width>261</width>
+      <width>281</width>
       <height>221</height>
      </rect>
     </property>
@@ -494,7 +464,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>239</width>
+       <width>269</width>
        <height>199</height>
       </rect>
      </property>
@@ -661,7 +631,7 @@
          <string>ENTER</string>
         </property>
         <property name="shortcut">
-         <string>Enter</string>
+         <string>Enter, Return</string>
         </property>
        </widget>
       </item>
@@ -707,8 +677,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>874</width>
-     <height>22</height>
+     <width>888</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">

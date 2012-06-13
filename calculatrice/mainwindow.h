@@ -66,7 +66,7 @@ private slots:
     void BClearPressed();
     void BDupPressed();
     void BDropPressed();
-    void ReglerParamX();
+
 
     //Boutons Operateurs unaires
     void BCosPressed();
@@ -87,6 +87,10 @@ private slots:
     void BSignPressed();
     void BPowPressed();
 
+    //Parametrage
+    void ReglerParamX();
+   // void on_Complexe_toogled();
+
 public:
     void ClavierNumerique();
     void ClavierSignes();
@@ -94,6 +98,7 @@ public:
     void ClavierOperateurUnaire();
     void ClavierAutresFonctions();
     void Erreur(QString raison);
+    void MajVuePile();
     //void AfficherStack();
 };
 

@@ -52,14 +52,12 @@ bool EstVidePileS(){return m_pStock.isEmpty();}
 
 //Gestion de la pile (calculs)
 
-void OperationBinaire(char operation);
+bool OperationBinaire(char operation);
 //void OperationBinaire2(char operation);
 
 
 //Opérations sur la pile
-
-
-void AfficherStack(int m_param);
+bool MajPileS(QString s);
 
 
 

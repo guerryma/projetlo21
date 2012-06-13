@@ -163,9 +163,11 @@ void MainWindow::BFoisPressed(){
 void MainWindow::BMoinsPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-        if(m_calc.OperationBinaire('-'))
-            MajVuePile();
-
+         ui->lineEdit->setText("-");
+    }
+         else if(ui->lineEdit->text()=="-"){
+         if(m_calc.OperationBinaire('-'))
+             MajVuePile();
 
     }
     else ui->lineEdit->text().append('-');

@@ -26,11 +26,12 @@ protected:
 
     int m_numerateur;
     int m_denominateur;
+    float m_float;
 
 public:
 
-    Rationnel():Constante("rationnel"),m_numerateur(0), m_denominateur(1){}
-    inline Rationnel(int num, int den=1): Constante("rationnel"),m_numerateur(num), m_denominateur(den? den:1){
+    Rationnel():Constante("rationnel"),m_numerateur(0), m_denominateur(1), m_float(0){}
+    inline Rationnel(int num, int den=1): Constante("rationnel"),m_numerateur(num), m_denominateur(den? den:1), m_float(m_numerateur/m_denominateur){
         if(!den) throw RationnelException("Erreur, division par zéro\n");
 
     }
@@ -41,9 +42,14 @@ public:
     //Accesseurs
     int GetNumerateur() const {return m_numerateur;}
     int GetDenominateur() const {return m_denominateur;}
-    void SetNumerateur(int num) {m_numerateur=num;}
+    int GetFloat() const {return m_float;}
+    void SetFloat(){m_float=m_numerateur/m_denominateur;}
+    void SetNumerateur(int num) {m_numerateur=num; SetFloat();}
     inline void SetDenominateur(int den){
-        if(den) m_denominateur=den;
+        if(den) {
+            m_denominateur=den;
+            SetFloat();
+        }
         else throw RationnelException("Erreur, division par zéro\n");
     }
 

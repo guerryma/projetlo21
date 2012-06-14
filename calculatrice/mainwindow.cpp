@@ -191,9 +191,14 @@ void MainWindow::BPlusPressed(){
 }
 
 void MainWindow::BDivisionPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"/ ");
+    if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc->OperationBinaire('/'))
+            MajVuePile();
+
+
+    }
+    else ui->lineEdit->text().append('/');
 }
 
 void MainWindow::BSpacePressed(){
@@ -565,9 +570,8 @@ void MainWindow::BEnterPressed2(){
 
 void MainWindow::MajVuePile(){
     ui->pile->clear();
-    /*for(QStack<Constante*>::iterator it=m_calc->GetPileS().begin(); it!=m_calc->GetPileS().end(); it++)*/
     for(int i=0;i<m_calc->GetPileS().size();i++){
-        ui->pile->insertPlainText(/*(*it)*/m_calc->GetPileS()[i]->Afficher()+"\n");
+        ui->pile->insertPlainText(m_calc->GetPileS()[i]->Afficher()+"\n");
     }
 }
 

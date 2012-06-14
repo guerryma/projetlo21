@@ -108,6 +108,7 @@ bool Calculatrice::OperationBinaire(char operation){
                     m_pStock.push(res);
                     return true;
                 }
+
             }
 
 

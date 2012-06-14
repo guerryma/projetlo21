@@ -143,8 +143,7 @@ bool Calculatrice::OperationBinaire(char operation){
 Si ce sont des nb alors on peut faire l'opération.
 Si c'est une expression alors il faut la concaténer.
 
-  3. Appeler la méthode correspondante (grâce �  la surcharge des opérateurs.
-  Il faudra donc gérer les op de style Complexe/Rationnel
+  3. Appeler la méthode correspondante
   Division: vérifier le mode pour voir l'opération effectuée
   Mode Complexe On/Of: checker avant l'affichage du résultat si on est en mode On.
   Sinon choisir traitement.

@@ -169,6 +169,7 @@ void MainWindow::BMoinsPressed(){
          else if(ui->lineEdit->text()=="-"){
          if(m_calc->OperationBinaire('-'))
              MajVuePile();
+         ui->lineEdit->clear();
 
     }
     else ui->lineEdit->text().append('-');
@@ -250,7 +251,7 @@ void MainWindow::BDropPressed(){
 
 void MainWindow::ReglerParamX(){
     if(ui->nbOpPile->text() == ""){
-        ui->nbOpPile->setText("5");
+        ui->nbOpPile->setText(QString::number(m_calc->GetTaille()));
     }
     ui->pile->setMaximumBlockCount(ui->nbOpPile->text().toInt()+ 1);
 }
@@ -564,8 +565,9 @@ void MainWindow::BEnterPressed2(){
 
 void MainWindow::MajVuePile(){
     ui->pile->clear();
-    for(QStack<Constante*>::iterator it=m_calc->GetPileS().begin(); it!=m_calc->GetPileS().end(); it++){
-        ui->pile->insertPlainText((*it)->Afficher()+"\n");
+    /*for(QStack<Constante*>::iterator it=m_calc->GetPileS().begin(); it!=m_calc->GetPileS().end(); it++)*/
+    for(int i=0;i<m_calc->GetPileS().size();i++){
+        ui->pile->insertPlainText(/*(*it)*/m_calc->GetPileS()[i]->Afficher()+"\n");
     }
 }
 

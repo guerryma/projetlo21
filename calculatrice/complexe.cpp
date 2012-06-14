@@ -42,8 +42,8 @@ QString Complexe::Afficher()const{
         return QString(QString::number(m_reelle));
 
     if(!m_reelle)
-        return QString("i "+QString::number(m_imaginaire));
+        return QString(QString::number(m_imaginaire)+"i");
 
-    return QString(QString::number(m_reelle)+" +i "+QString::number(m_imaginaire));
+    return QString(QString::number(m_reelle)+" $ "+QString::number(m_imaginaire));
 
 }

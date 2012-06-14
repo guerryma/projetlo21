@@ -1,5 +1,5 @@
 #include "calculatrice.h"
-#include"expression.h"
+
 
 
 bool Calculatrice::OperationBinaire(char operation){
@@ -104,7 +104,12 @@ bool Calculatrice::OperationBinaire(char operation){
                 if (type=="cc") //! Division cpx cpx
                 {
 
-                   Complexe* res=c1->Quotient(c2);
+                    Complexe* res=c1->Quotient(c2);
+                    m_pStock.push(res);
+                    return true;
+                }
+                if(type=="rr"){
+                    Complexe *res= r1->to_complexe()->Quotient(r2->to_complexe());
                     m_pStock.push(res);
                     return true;
                 }
@@ -112,11 +117,12 @@ bool Calculatrice::OperationBinaire(char operation){
             }
 
 
-
-            if(type=="rr"){ //! Division rat rat
-                Rationnel* res=r1->Quotient(r2);
-                m_pStock.push(res);
-                return true;
+            else if(m_type==RATIONNEL){
+                if(type=="rr"){ //! Division rat rat
+                    Rationnel* res=r1->Quotient(r2);
+                    m_pStock.push(res);
+                    return true;
+                }
             }
 
             break;
@@ -170,16 +176,28 @@ bool Calculatrice::MajPileS(QString s){
     //! Complexe "classique" seulement si le mode complexe est activé. sinon renvoyer une erreur.
     else if(s.contains("$")&& m_modeComplexe ){
         int n=s.indexOf('$');
-        QStringRef re=s.leftRef(n);
-        QStringRef im=s.rightRef(n);
-        if(EstUnNombre(QString(re.toString()))&& EstUnNombre(QString(im.toString())))
-            c= new Complexe(re.toString().toFloat(), im.toString().toFloat());
+        QString re=s.left(n);
+        QString im=s.right(s.size()-n-1);
+        if(EstUnNombre(re)&& EstUnNombre(im))
+            c= new Complexe(re.toFloat(), im.toFloat());
         else return false;
     }
-    else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
+    //! Rationnel
+    else if(s.contains("/")){
+        int n=s.indexOf('/');
+        QString num=s.left(n);
+        QString den=s.right(s.size()-n-1);
+        if(EstUnEntier(num)&& EstUnEntier(den)){
+            //try{
+            c= new Rationnel(num.toInt(), den.toInt());
+            }
         else return false;
+    }
 
-     m_pStock.push(c);
+    else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
+    else return false;
+
+    m_pStock.push(c);
     //m_calc.EmpilerPileA(s); Gestion  historique
     return true;
 

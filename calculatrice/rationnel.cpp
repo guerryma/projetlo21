@@ -32,5 +32,13 @@ Rationnel* Rationnel::Quotient(const Rationnel* r2)const{
 }
 
 QString Rationnel::Afficher() const{
-    return QString(QString::number(m_numerateur)+" / "+QString::number(m_denominateur));
+    return QString(QString::number(m_numerateur)+"/"+QString::number(m_denominateur));
+}
+
+void Rationnel::VerifSigne(){
+    if(m_denominateur<0){
+
+            m_denominateur=-m_denominateur;
+            m_numerateur=-m_numerateur;
+        }
 }

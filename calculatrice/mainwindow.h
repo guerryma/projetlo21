@@ -3,9 +3,7 @@
 
 #include <QMainWindow>
 #include <QStack>
-#include "complexe.h"
 #include "calculatrice.h"
-#include "expression.h"
 
 namespace Ui {
 class MainWindow;

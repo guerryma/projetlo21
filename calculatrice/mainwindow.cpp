@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), m_calc(new Calculatrice(10, DEGRE, ENTIER))
+    ui(new Ui::MainWindow), m_calc(new Calculatrice(10, DEGRE, REEL))
 {
     ui->setupUi(this);
     ClavierNumerique();
@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //paramètrage
-    ui->bEntier->setChecked(true);
+    ui->bReel->setChecked(true);
     ui->bDegre->setChecked(true);
     ui->nbOpPile->setText(QString::number(m_calc->GetTaille()));
     ui->pile->setMaximumBlockCount(m_calc->GetTaille());
@@ -154,10 +154,11 @@ void MainWindow::BFoisPressed(){
 
         if(m_calc->OperationBinaire('*'))
             MajVuePile();
+        ui->lineEdit->setText(ui->lineEdit->text()+"*");
 
 
     }
-    else ui->lineEdit->text().append('*');
+    else ui->lineEdit->setText(ui->lineEdit->text()+"*");
 
 }
 
@@ -172,7 +173,7 @@ void MainWindow::BMoinsPressed(){
          ui->lineEdit->clear();
 
     }
-    else ui->lineEdit->text().append('-');
+    else ui->lineEdit->setText(ui->lineEdit->text()+"-");
 
 }
 
@@ -184,7 +185,7 @@ void MainWindow::BPlusPressed(){
 
 
     }
-    else ui->lineEdit->text().append('+');
+    else ui->lineEdit->setText(ui->lineEdit->text()+"+");
 
 
 
@@ -195,10 +196,11 @@ void MainWindow::BDivisionPressed(){
 
         if(m_calc->OperationBinaire('/'))
             MajVuePile();
+        else ui->lineEdit->setText(ui->lineEdit->text()+"/");
 
 
     }
-    else ui->lineEdit->text().append('/');
+    else ui->lineEdit->setText(ui->lineEdit->text()+"/");
 }
 
 void MainWindow::BSpacePressed(){
@@ -561,9 +563,10 @@ void MainWindow::BEnterPressed(){
 }
 
 void MainWindow::BEnterPressed2(){
-    if(m_calc->MajPileS(ui->lineEdit->text()))
+    if(m_calc->MajPileS(ui->lineEdit->text())){
      MajVuePile();
     ui->lineEdit->clear();
+    }
 
 
 }

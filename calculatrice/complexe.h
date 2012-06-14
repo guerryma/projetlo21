@@ -2,6 +2,7 @@
 #define COMPLEXE_H
 #include "constante.h"
 #include<iostream>
+#include <cmath>
 
 
 class Complexe: public Constante

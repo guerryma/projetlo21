@@ -118,5 +118,11 @@ Elle retourne Faux si le carcatère n'est ni un chiffre, ni une 1ère virgule, n
 
 }
 
+bool EstUnEntier(QString s){
+    QRegExp entier("^[+-]?[0-9]+$");
+    if(s.contains(entier)) return true;
+    return false;
+
+}
 
 

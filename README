@@ -1,6 +1,6 @@
 A faire: 
-changer interface
-Pointeur de calculatrice au lieu de objet => attention destructeur
-gestion construction rationnel et différente division
+
+gestion construction rationnel et différentes divisions
+Changement: on peut construire un rationnel à partir d'un 
 
 

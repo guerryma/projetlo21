@@ -36,6 +36,7 @@ QString Afficher() const {return m_expression;}
 
 };
 bool EstUnNombre(QString s);
+bool EstUnEntier(QString s);
 
 
 

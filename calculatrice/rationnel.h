@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include<exception>
 #include "constante.h"
+#include "complexe.h"
 
 class RationnelException{
     std::string info;
@@ -28,11 +29,16 @@ protected:
     int m_denominateur;
     float m_float;
 
+private:
+    void VerifSigne();//! <Met à jour le signe du rationnel dans le numérateur
+    void SetFloat(){m_float=m_numerateur/m_denominateur;}//! calcule le réel correspondant
+
 public:
 
     Rationnel():Constante("rationnel"),m_numerateur(0), m_denominateur(1), m_float(0){}
     inline Rationnel(int num, int den=1): Constante("rationnel"),m_numerateur(num), m_denominateur(den? den:1), m_float(m_numerateur/m_denominateur){
         if(!den) throw RationnelException("Erreur, division par zéro\n");
+        VerifSigne();
 
     }
     //virtual ~Rationnel();
@@ -43,11 +49,12 @@ public:
     int GetNumerateur() const {return m_numerateur;}
     int GetDenominateur() const {return m_denominateur;}
     int GetFloat() const {return m_float;}
-    void SetFloat(){m_float=m_numerateur/m_denominateur;}
-    void SetNumerateur(int num) {m_numerateur=num; SetFloat();}
+
+    void SetNumerateur(int num) {m_numerateur=num; VerifSigne(); SetFloat();}
     inline void SetDenominateur(int den){
         if(den) {
             m_denominateur=den;
+            VerifSigne();
             SetFloat();
         }
         else throw RationnelException("Erreur, division par zéro\n");
@@ -63,6 +70,10 @@ public:
     Rationnel* Quotient(const Rationnel* r2) const;
     //Autres fonctions
     QString Afficher() const;
+
+    //Conversion
+    Complexe* to_complexe(){return new Complexe(m_float);}
+   // Rationnel* to_rationnel(Complexe* c);
 };
 
 

@@ -1,11 +1,9 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#include "complexe.h"
 #include <typeinfo>
-#include <calculatrice.h>
-
 #include "expression.h"
-using namespace std;
+
+
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +21,9 @@ int main(int argc, char *argv[])
 
 
 //    std::cout<<e->Afficher().toStdString()<<"\n";
+
+
+
 
 
     return a.exec();

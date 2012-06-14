@@ -1,5 +1,5 @@
 #include "complexe.h"
-#include <cmath>
+
 
 Complexe* Complexe:: Somme(const Complexe* c)const{
 
@@ -41,9 +41,6 @@ QString Complexe::Afficher()const{
     if(!m_imaginaire)
         return QString(QString::number(m_reelle));
 
-    if(!m_reelle)
-        return QString(QString::number(m_imaginaire)+"i");
-
-    return QString(QString::number(m_reelle)+" $ "+QString::number(m_imaginaire));
+    return QString(QString::number(m_reelle)+"$"+QString::number(m_imaginaire));
 
 }

@@ -1,12 +1,12 @@
 #ifndef CALCULATRICE_H
 #define CALCULATRICE_H
 
-
 #include "complexe.h"
+#include"expression.h"
 #include "rationnel.h"
 #include <QStack>
 
-enum Angle {RADIAN, DEGRE};
+enum Angle{RADIAN, DEGRE};
 enum Type{RATIONNEL, REEL, ENTIER};
 
 class Calculatrice
@@ -58,9 +58,6 @@ bool OperationBinaire(char operation);
 
 //Opérations sur la pile
 bool MajPileS(QString s);
-
-
-
 
 
 

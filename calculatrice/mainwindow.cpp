@@ -7,10 +7,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ClavierNumerique();
-    ClavierSignes();
+    ClavierVueExecution();
     ClavierPile();
     ClavierOperateurUnaire();
-    ClavierAutresFonctions();
+    ClavierOperateurBinaire();
+    Parametres();
+
 
     //fenetre
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
@@ -49,6 +51,10 @@ void MainWindow::ClavierNumerique(){
     QObject::connect(ui->b7, SIGNAL(clicked()), this, SLOT(Num7Pressed()));
     QObject::connect(ui->b8, SIGNAL(clicked()), this, SLOT(Num8Pressed()));
     QObject::connect(ui->b9, SIGNAL(clicked()), this, SLOT(Num9Pressed()));
+
+    QObject::connect(ui->bCote, SIGNAL(clicked()), this, SLOT(BCotePressed()));
+    QObject::connect(ui->bDollar, SIGNAL(clicked()), this, SLOT(BDollarPressed()));
+    QObject::connect(ui->bVirgule, SIGNAL(clicked()), this, SLOT(BVirgulePressed()));
 }
 
 void MainWindow::Num0Pressed(){
@@ -110,21 +116,6 @@ void MainWindow::Num9Pressed(){
     ui->lineEdit->setText(ui->lineEdit->text()+"9");
 }
 
-void MainWindow::ClavierSignes(){
-    QObject::connect(ui->bCote, SIGNAL(clicked()), this, SLOT(BCotePressed()));
-    QObject::connect(ui->bDollar, SIGNAL(clicked()), this, SLOT(BDollarPressed()));
-    QObject::connect(ui->bFact, SIGNAL(clicked()), this, SLOT(BFactPressed()));
-    QObject::connect(ui->bVirgule, SIGNAL(clicked()), this, SLOT(BVirgulePressed()));
-    QObject::connect(ui->bFois, SIGNAL(clicked()), this, SLOT(BFoisPressed()));
-    QObject::connect(ui->bMoins, SIGNAL(clicked()), this, SLOT(BMoinsPressed()));
-    QObject::connect(ui->bPlus, SIGNAL(clicked()), this, SLOT(BPlusPressed()));
-    QObject::connect(ui->bDivision, SIGNAL(clicked()), this, SLOT(BDivisionPressed()));
-    QObject::connect(ui->bEval, SIGNAL(clicked()), this, SLOT(BEvalPressed()));
-    QObject::connect(ui->bEnter, SIGNAL(clicked()), this, SLOT(BEnterPressed2()));
-    QObject::connect(ui->bSpace, SIGNAL(clicked()), this, SLOT(BSpacePressed()));
-    QObject::connect(ui->bSup, SIGNAL(clicked()), this->ui->lineEdit, SLOT(clear()));
-}
-
 void MainWindow::BCotePressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
@@ -136,78 +127,53 @@ void MainWindow::BDollarPressed(){
         ui->lineEdit->clear();
     ui->lineEdit->setText(ui->lineEdit->text()+"$");
 }
-
-void MainWindow::BFactPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"! ");
-}
-
 void MainWindow::BVirgulePressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
     ui->lineEdit->setText(ui->lineEdit->text()+",");
 }
 
-void MainWindow::BFoisPressed(){
-    if (ui->lineEdit->text().isEmpty()){
-
-        if(m_calc->OperationBinaire('*'))
-            MajVuePile();
-        ui->lineEdit->setText(ui->lineEdit->text()+"*");
-
-
-    }
-    else ui->lineEdit->setText(ui->lineEdit->text()+"*");
+//Parametres
+void MainWindow::Parametres(){
+    QObject::connect(ui->bRationnel, SIGNAL(toggled(bool)), this, SLOT(BRationnelChecked(bool)));
+    QObject::connect(ui->bReel, SIGNAL(toggled(bool)), this, SLOT(BReelChecked(bool)));
+    QObject::connect(ui->bEntier, SIGNAL(toggled(bool)), this, SLOT(BEntierChecked(bool)));
+    QObject::connect(ui->bDegre, SIGNAL(toggled(bool)), this, SLOT(BDegreChecked(bool)));
+    QObject::connect(ui->bRadiant, SIGNAL(toggled(bool)), this, SLOT(BRadianChecked(bool)));
+    QObject::connect(ui->nbOpPile, SIGNAL(editingFinished()), this, SLOT(ReglerParamX()));
 
 }
 
-void MainWindow::BMoinsPressed(){
-    if (ui->lineEdit->text().isEmpty()){
-
-         ui->lineEdit->setText("-");
+void  MainWindow::BComplexeChecked(bool b){
+    m_calc->SetModeComplexe(b);
+}
+void MainWindow::BRationnelChecked(bool b){
+    if(b)
+        m_calc->SetType(RATIONNEL);
+}
+void MainWindow::BReelChecked(bool b){
+    if(b)
+        m_calc->SetType(REEL);
+}
+void MainWindow::BEntierChecked(bool b){
+    if(b)
+        m_calc->SetType(ENTIER);
+}
+void MainWindow::BDegreChecked(bool b){
+    if(b)
+        m_calc->SetAngle(DEGRE);
+}
+void MainWindow::BRadianChecked(bool b){
+    if(b)
+        m_calc->SetAngle(RADIAN);
+}
+void MainWindow::ReglerParamX(){
+    if(ui->nbOpPile->text() == ""){
+        ui->nbOpPile->setText(QString::number(m_calc->GetTaille()));
     }
-         else if(ui->lineEdit->text()=="-"){
-         if(m_calc->OperationBinaire('-'))
-             MajVuePile();
-         ui->lineEdit->clear();
-
-    }
-    else ui->lineEdit->setText(ui->lineEdit->text()+"-");
-
+    ui->pile->setMaximumBlockCount(ui->nbOpPile->text().toInt()+ 1);
 }
 
-void MainWindow::BPlusPressed(){
-    if (ui->lineEdit->text().isEmpty()){
-
-        if(m_calc->OperationBinaire('+'))
-            MajVuePile();
-
-
-    }
-    else ui->lineEdit->setText(ui->lineEdit->text()+"+");
-
-
-
-}
-
-void MainWindow::BDivisionPressed(){
-    if (ui->lineEdit->text().isEmpty()){
-
-        if(m_calc->OperationBinaire('/'))
-            MajVuePile();
-        else ui->lineEdit->setText(ui->lineEdit->text()+"/");
-
-
-    }
-    else ui->lineEdit->setText(ui->lineEdit->text()+"/");
-}
-
-void MainWindow::BSpacePressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+" ");
-}
 
 void MainWindow::ClavierPile(){
     QObject::connect(ui->bSwap, SIGNAL(clicked()), this, SLOT(BSwapPressed()));
@@ -216,7 +182,6 @@ void MainWindow::ClavierPile(){
     QObject::connect(ui->bClear, SIGNAL(clicked()), this, SLOT(BClearPressed()));
     QObject::connect(ui->bDup, SIGNAL(clicked()), this, SLOT(BDupPressed()));
     QObject::connect(ui->bDrop, SIGNAL(clicked()), this, SLOT(BDropPressed()));
-    QObject::connect(ui->nbOpPile, SIGNAL(editingFinished()), this, SLOT(ReglerParamX()));
 
 }
 
@@ -256,12 +221,6 @@ void MainWindow::BDropPressed(){
     ui->lineEdit->setText("DROP");
 }
 
-void MainWindow::ReglerParamX(){
-    if(ui->nbOpPile->text() == ""){
-        ui->nbOpPile->setText(QString::number(m_calc->GetTaille()));
-    }
-    ui->pile->setMaximumBlockCount(ui->nbOpPile->text().toInt()+ 1);
-}
 
 
 void MainWindow::ClavierOperateurUnaire(){
@@ -277,6 +236,8 @@ void MainWindow::ClavierOperateurUnaire(){
     QObject::connect(ui->bCube, SIGNAL(clicked()), this, SLOT(BCubePressed()));
     QObject::connect(ui->bSqrt, SIGNAL(clicked()), this, SLOT(BSqrtPressed()));
     QObject::connect(ui->bSqr, SIGNAL(clicked()), this, SLOT(BSqrPressed()));
+    QObject::connect(ui->bSign, SIGNAL(clicked()), this, SLOT(BSignPressed()));
+    QObject::connect(ui->bFact, SIGNAL(clicked()), this, SLOT(BFactPressed()));
 }
 //Boutons Operateurs unaires
 void MainWindow::BCosPressed(){
@@ -351,30 +312,110 @@ void MainWindow::BSqrPressed(){
     ui->lineEdit->setText(ui->lineEdit->text()+"SQR ");
 }
 
-
-void MainWindow::ClavierAutresFonctions(){
-    QObject::connect(ui->bMod, SIGNAL(clicked()), this, SLOT(BModPressed()));
-    QObject::connect(ui->bSign, SIGNAL(clicked()), this, SLOT(BSignPressed()));
-    QObject::connect(ui->bPow, SIGNAL(clicked()), this, SLOT(BPowPressed()));
-
-}
-//Boutons autres fonctions
-void MainWindow::BModPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"MOD ");
-}
-
 void MainWindow::BSignPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
     ui->lineEdit->setText(ui->lineEdit->text()+"SIGN ");
 }
 
+void MainWindow::BFactPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"! ");
+}
+
+void MainWindow::ClavierOperateurBinaire(){
+    QObject::connect(ui->bMod, SIGNAL(clicked()), this, SLOT(BModPressed()));
+    QObject::connect(ui->bPow, SIGNAL(clicked()), this, SLOT(BPowPressed()));
+    QObject::connect(ui->bFois, SIGNAL(clicked()), this, SLOT(BFoisPressed()));
+    QObject::connect(ui->bMoins, SIGNAL(clicked()), this, SLOT(BMoinsPressed()));
+    QObject::connect(ui->bPlus, SIGNAL(clicked()), this, SLOT(BPlusPressed()));
+    QObject::connect(ui->bDivision, SIGNAL(clicked()), this, SLOT(BDivisionPressed()));
+
+}
+//Boutons Opérateurs Binaire
+void MainWindow::BModPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    ui->lineEdit->setText(ui->lineEdit->text()+"MOD ");
+}
+
+void MainWindow::BFoisPressed(){
+    if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc->OperationBinaire('*'))
+            MajVuePile();
+        ui->lineEdit->setText(ui->lineEdit->text()+"*");
+
+
+    }
+    else ui->lineEdit->setText(ui->lineEdit->text()+"*");
+
+}
+
+void MainWindow::BMoinsPressed(){
+    if (ui->lineEdit->text().isEmpty()){
+
+        ui->lineEdit->setText("-");
+    }
+    else if(ui->lineEdit->text()=="-"){
+        if(m_calc->OperationBinaire('-'))
+            MajVuePile();
+        ui->lineEdit->clear();
+
+    }
+    else ui->lineEdit->setText(ui->lineEdit->text()+"-");
+
+}
+
+void MainWindow::BPlusPressed(){
+    if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc->OperationBinaire('+'))
+            MajVuePile();
+
+
+    }
+    else ui->lineEdit->setText(ui->lineEdit->text()+"+");
+
+
+
+}
+
+void MainWindow::BDivisionPressed(){
+    if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc->OperationBinaire('/'))
+            MajVuePile();
+        else ui->lineEdit->setText(ui->lineEdit->text()+"/");
+
+
+    }
+    else ui->lineEdit->setText(ui->lineEdit->text()+"/");
+}
 void MainWindow::BPowPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
     ui->lineEdit->setText(ui->lineEdit->text()+"POW ");
+}
+
+
+
+
+
+//Fonctions d'exécution et vue
+
+void MainWindow::ClavierVueExecution(){
+
+    QObject::connect(ui->bEval, SIGNAL(clicked()), this, SLOT(BEvalPressed()));
+    QObject::connect(ui->bEnter, SIGNAL(clicked()), this, SLOT(BEnterPressed2()));
+    QObject::connect(ui->bSpace, SIGNAL(clicked()), this, SLOT(BSpacePressed()));
+    QObject::connect(ui->bSup, SIGNAL(clicked()), this->ui->lineEdit, SLOT(clear()));
+}
+
+void MainWindow::BSpacePressed(){
+    if(!ui->lineEdit->text().isEmpty())
+        ui->lineEdit->setText(ui->lineEdit->text()+" ");
 }
 
 void MainWindow::BEvalPressed(){
@@ -564,8 +605,8 @@ void MainWindow::BEnterPressed(){
 
 void MainWindow::BEnterPressed2(){
     if(m_calc->MajPileS(ui->lineEdit->text())){
-     MajVuePile();
-    ui->lineEdit->clear();
+        MajVuePile();
+        ui->lineEdit->clear();
     }
 
 
@@ -578,6 +619,3 @@ void MainWindow::MajVuePile(){
     }
 }
 
-void  MainWindow::BComplexeChecked(bool b){
-    m_calc->SetModeComplexe(b);
-}

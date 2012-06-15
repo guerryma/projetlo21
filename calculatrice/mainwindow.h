@@ -88,13 +88,19 @@ private slots:
     //Parametrage
     void ReglerParamX();
     void BComplexeChecked(bool b);
+    void BDegreChecked(bool b);
+    void BRadianChecked(bool b);
+    void BReelChecked(bool b);
+    void BRationnelChecked(bool b);
+    void BEntierChecked(bool b);
 
 public:
     void ClavierNumerique();
-    void ClavierSignes();
+    void ClavierVueExecution();
     void ClavierPile();
     void ClavierOperateurUnaire();
-    void ClavierAutresFonctions();
+    void ClavierOperateurBinaire();
+    void Parametres();
     void Erreur(QString raison);
     void MajVuePile();
     //void AfficherStack();

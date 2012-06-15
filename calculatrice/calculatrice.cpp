@@ -42,7 +42,18 @@ bool Calculatrice::OperationBinaire(char operation){
             type="rr";
         }
 
+        else if(op1->GetType()=="rationnel"&& op2->GetType()=="complexe"){
+            r1=dynamic_cast<Rationnel*>(op1);
+            c2=dynamic_cast<Complexe*>(op2);
 
+            type="rc";
+        }
+        else if(op1->GetType()=="complexe"&& op2->GetType()=="rationnel"){
+            c1=dynamic_cast<Complexe*>(op1);
+            r2=dynamic_cast<Rationnel*>(op2);
+
+            type="cr";
+        }
 
         switch(operation){
         case '+':
@@ -123,6 +134,15 @@ bool Calculatrice::OperationBinaire(char operation){
                     m_pStock.push(res);
                     return true;
                 }
+                else{
+                    std::cout<<"Une des opérandes n'est pas un rationnel\n";//remplacer par une erreur
+//                    m_pStock.push(c2);
+//                    m_pStock.push(c1);
+                }
+            }
+
+            else if(m_type==ENTIER){
+
             }
 
             break;
@@ -193,7 +213,7 @@ bool Calculatrice::MajPileS(QString s){
             }
         else return false;
     }
-
+    else if(EstUnEntier(s)) c= new Rationnel(s.toInt());
     else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
     else return false;
 

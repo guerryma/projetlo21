@@ -1,6 +1,15 @@
 A faire: 
 
-gestion construction rationnel et différentes divisions
-Changement: on peut construire un rationnel à partir d'un 
+gestion construction rationnel et différentes divisions: ok 
+Changement: on peut construire un rationnel à partir de la ligne de commande ok 
+
+
+
+Résolution du problème d'opérandes de types différents pour les opérateurs binaires: 
+On transforme le rationnel en complexe sauf dans le cas où il faut traiter la division rationnelle.
+
+A faire également: Undo et Redo, Sauvegarde du contexte
+
+En cours: opérations sur les constantes
 
 

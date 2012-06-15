@@ -7,6 +7,7 @@
 #include<exception>
 #include "constante.h"
 #include "complexe.h"
+#include "expression.h"
 
 class RationnelException{
     std::string info;
@@ -31,13 +32,14 @@ protected:
 
 private:
     void VerifSigne();//! <Met à jour le signe du rationnel dans le numérateur
-    void SetFloat(){m_float=m_numerateur/m_denominateur;}//! calcule le réel correspondant
+    void SetFloat(){m_float=(float)m_numerateur/(float)m_denominateur;}//! calcule le réel correspondant
 
 public:
 
     Rationnel():Constante("rationnel"),m_numerateur(0), m_denominateur(1), m_float(0){}
-    inline Rationnel(int num, int den=1): Constante("rationnel"),m_numerateur(num), m_denominateur(den? den:1), m_float(m_numerateur/m_denominateur){
+    inline Rationnel(int num, int den=1): Constante("rationnel"),m_numerateur(num), m_denominateur(den? den:1){
         if(!den) throw RationnelException("Erreur, division par zéro\n");
+        SetFloat();
         VerifSigne();
 
     }
@@ -73,7 +75,8 @@ public:
 
     //Conversion
     Complexe* to_complexe(){return new Complexe(m_float);}
-   // Rationnel* to_rationnel(Complexe* c);
+   static Rationnel* to_rationnel(Complexe* c);
+
 };
 
 

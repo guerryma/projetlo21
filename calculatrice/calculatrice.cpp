@@ -43,34 +43,43 @@ bool Calculatrice::OperationBinaire(char operation){
         }
 
         else if(op1->GetType()=="rationnel"&& op2->GetType()=="complexe"){
-            r1=dynamic_cast<Rationnel*>(op1);
             c2=dynamic_cast<Complexe*>(op2);
+            r2=Rationnel::to_rationnel(c2);
 
-            type="rc";
+            r1=dynamic_cast<Rationnel*>(op1);
+
+            if(r2) type="rr";
+            else{
+                c1=r1->to_complexe();
+
+                type="cc";}
         }
         else if(op1->GetType()=="complexe"&& op2->GetType()=="rationnel"){
             c1=dynamic_cast<Complexe*>(op1);
+            r1=Rationnel::to_rationnel(c1);
             r2=dynamic_cast<Rationnel*>(op2);
 
-            type="cr";
+            if(r1) type="rr";
+            else{
+                c2=r2->to_complexe();
+
+                type="cc";
+            }
         }
 
         switch(operation){
         case '+':
             if (type=="cc") //! somme cpx cpx
             {
-
-                //Complexe* res=c1->Somme(c2);
                 m_pStock.push(c1->Somme(c2));
                 return true;
             }
 
             if(type=="rr"){ //! somme rat rat
-                Rationnel* res=r1->Somme(r2);
-                m_pStock.push(res);
+
+                m_pStock.push(r1->Somme(r2));
                 return true;
             }
-            // Traiter les cas o√π rationnel + complexe.
             break;
 
             //! Soustraction
@@ -78,14 +87,12 @@ bool Calculatrice::OperationBinaire(char operation){
             if (type=="cc") //! <soustraction cpx cpx
             {
 
-                Complexe* res=c1->Difference(c2);
-                m_pStock.push(res);
+                m_pStock.push(c1->Difference(c2));
                 return true;
             }
 
             if(type=="rr"){ //! <soustraction rat rat
-                Rationnel* res=r1->Difference(r2);
-                m_pStock.push(res);
+                m_pStock.push(r1->Difference(r2));
                 return true;
             }
 
@@ -95,15 +102,12 @@ bool Calculatrice::OperationBinaire(char operation){
         case '*':
             if (type=="cc") //! produit cpx cpx
             {
-
-                Complexe* res=c1->Produit(c2);
-                m_pStock.push(res);
+                m_pStock.push(c1->Produit(c2));
                 return true;
             }
 
             if(type=="rr"){ //! produit rat rat
-                Rationnel* res=r1->Produit(r2);/* Complexe**/
-                m_pStock.push(res);
+                m_pStock.push(r1->Produit(r2));
                 return true;
             }
 
@@ -114,14 +118,11 @@ bool Calculatrice::OperationBinaire(char operation){
             if (m_type==REEL){
                 if (type=="cc") //! Division cpx cpx
                 {
-
-                    Complexe* res=c1->Quotient(c2);
-                    m_pStock.push(res);
+                    m_pStock.push(c1->Quotient(c2));
                     return true;
                 }
                 if(type=="rr"){
-                    Complexe *res= r1->to_complexe()->Quotient(r2->to_complexe());
-                    m_pStock.push(res);
+                    m_pStock.push(r1->to_complexe()->Quotient(r2->to_complexe()));
                     return true;
                 }
 
@@ -130,40 +131,73 @@ bool Calculatrice::OperationBinaire(char operation){
 
             else if(m_type==RATIONNEL){
                 if(type=="rr"){ //! Division rat rat
-                    Rationnel* res=r1->Quotient(r2);
-                    m_pStock.push(res);
+                    m_pStock.push(r1->Quotient(r2));
                     return true;
                 }
+                else if(EstUnEntier(c1->Afficher())&& EstUnEntier(c2->Afficher())){
+                    r1=new Rationnel((int)c1->GetPartieReelle());
+                    r2=new Rationnel((int)c2->GetPartieReelle());
+                    m_pStock.push(r1->Quotient(r2));
+                    return true;
+                }
+
                 else{
-                    std::cout<<"Une des opÈrandes n'est pas un rationnel\n";//remplacer par une erreur
-//                    m_pStock.push(c2);
-//                    m_pStock.push(c1);
+                    m_pStock.push(op2);
+                    m_pStock.push(op1);
+                    std::cout<<"Une des operandes n'est pas un rationnel\n";//remplacer par une erreur
+                    return true;
+
                 }
             }
 
             else if(m_type==ENTIER){
+                if(type=="cc"){
+                    if(!c1->GetPartieImaginaire() &&!c2->GetPartieImaginaire()){
+                        // Alors division tronquÈe
+                        Rationnel* res = new Rationnel((int)c1->GetPartieReelle()/(int)c2->GetPartieImaginaire());
+                        m_pStock.push(res);
+                        return true;
 
-            }
+                    }
+                    else{
 
-            break;
+                        m_pStock.push(op2);
+                        m_pStock.push(op1);
+                        std::cout<<"Division entiere impossible entre 2 complexes\n";//remplacer par une erreur
+                        return true;
+                    }
+                }
+                    else{
+                        Rationnel* res= r1->Quotient(r2);
+                        Rationnel* res1= new Rationnel((int)res->GetFloat());
+                        m_pStock.push(res1);
+                        return true;
+                    }
 
+                }
 
+                break;
+
+                m_pStock.push(op2);
+                m_pStock.push(op1);
+                std::cout<<"Une des opÈrandes n'est pas un rationnel\n";//remplacer par une erreur
+                return true;
         default:
-            break;
+                    break;
+            }
         }
+        else std::cout<<"La pile ne contient pas assez d'√©l√©ments";
+        return false;//envoyer une exception
+
+
     }
-    else std::cout<<"La pile ne contient pas assez d'√©l√©ments";
-    return false;//envoyer une exception
 
 
-}
+    //void Calculatrice::OperationBinaire2(char operation){
+    //    std::cout<<"coucou";
+    //}
 
-
-//void Calculatrice::OperationBinaire2(char operation){
-//    std::cout<<"coucou";
-//}
-
-/* Algorithme op√©ration binaire
+    /* Algorithme op√©ration binaire
   1. R√©cup√©rer les 2 op√©randes. DOnc checker qu'il y en a au moins 2. Sinon envoyer erreur
   et r√©empiler la donn√©e.
   2. V√©rifier le type.
@@ -176,50 +210,50 @@ Si c'est une expression alors il faut la concat√©ner.
   Sinon choisir traitement.
 
   */
-bool Calculatrice::MajPileS(QString s){
-    Constante* c;
+    bool Calculatrice::MajPileS(QString s){
+        Constante* c;
 
-    /*! Cas 1: On a entrÈ une expression: elle est construite
+        /*! Cas 1: On a entrÈ une expression: elle est construite
       La vÈrification se fera seulement si on appelle EVAL */
-    if(s.startsWith("'")){
-        if(s.endsWith("'")) c= new Expression(s);
+        if(s.startsWith("'")){
+            if(s.endsWith("'")) c= new Expression(s);
 
-        else  return false;
+            else  return false;
 
-    }
+        }
 
-    /*! Cas 2: on entre une constante complexe.
+        /*! Cas 2: on entre une constante complexe.
       Rappel: On ne peut pas rentrer un rationnel directement. Un rationnel est construit slmt si on dÈpile
       2 opÈrandes et que l'on est en mode rationnel
       */
 
-    //! Complexe "classique" seulement si le mode complexe est activÈ. sinon renvoyer une erreur.
-    else if(s.contains("$")&& m_modeComplexe ){
-        int n=s.indexOf('$');
-        QString re=s.left(n);
-        QString im=s.right(s.size()-n-1);
-        if(EstUnNombre(re)&& EstUnNombre(im))
-            c= new Complexe(re.toFloat(), im.toFloat());
-        else return false;
-    }
-    //! Rationnel
-    else if(s.contains("/")){
-        int n=s.indexOf('/');
-        QString num=s.left(n);
-        QString den=s.right(s.size()-n-1);
-        if(EstUnEntier(num)&& EstUnEntier(den)){
-            //try{
-            c= new Rationnel(num.toInt(), den.toInt());
+        //! Complexe "classique" seulement si le mode complexe est activÈ. sinon renvoyer une erreur.
+        else if(s.contains("$")&& m_modeComplexe ){
+            int n=s.indexOf('$');
+            QString re=s.left(n);
+            QString im=s.right(s.size()-n-1);
+            if(EstUnNombre(re)&& EstUnNombre(im))
+                c= new Complexe(re.toFloat(), im.toFloat());
+            else return false;
+        }
+        //! Rationnel
+        else if(s.contains("/")){
+            int n=s.indexOf('/');
+            QString num=s.left(n);
+            QString den=s.right(s.size()-n-1);
+            if(EstUnEntier(num)&& EstUnEntier(den)){
+                //try{
+                c= new Rationnel(num.toInt(), den.toInt());
             }
+            else return false;
+        }
+        //    else if(EstUnEntier(s)) c= new Rationnel(s.toInt());
+        else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
         else return false;
+
+        m_pStock.push(c);
+        //m_calc.EmpilerPileA(s); Gestion  historique
+        return true;
+
     }
-    else if(EstUnEntier(s)) c= new Rationnel(s.toInt());
-    else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
-    else return false;
-
-    m_pStock.push(c);
-    //m_calc.EmpilerPileA(s); Gestion  historique
-    return true;
-
-}
 

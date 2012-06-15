@@ -42,4 +42,14 @@ void Rationnel::VerifSigne(){
             m_denominateur=-m_denominateur;
             m_numerateur=-m_numerateur;
         }
+    if(m_denominateur==m_numerateur){
+        m_numerateur=1;
+        m_denominateur=1;
+    }
+}
+
+Rationnel* Rationnel::to_rationnel(Complexe *c){
+    if(EstUnEntier(c->Afficher()))
+        return new Rationnel(c->GetPartieReelle());
+    return 0;
 }

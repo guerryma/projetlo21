@@ -3,14 +3,15 @@
 #include "constante.h"
 #include<iostream>
 #include <cmath>
+#include <QtCore/qmath.h>
 
 
 class Complexe: public Constante
         /*!
                   Les objets complexe sont composés d'une partie réelle et d'une partie imaginaire de type float.
                   Tous les calculs peuvent être réalisés en float.
-                  Cependant on pourra autoriser grâce au design pattern factory la fabrication de complexe à partir de
-                  Rationnels. (à confirmer)
+                  Cependant on pourra autoriser grâce au design pattern factory la fabrication de complexe �  partir de
+                  Rationnels. (�  confirmer)
 
                 //  */
 
@@ -23,7 +24,7 @@ protected:
 public:
 
     Complexe():Constante("complexe"), m_reelle(0), m_imaginaire(0){}
-    // Complexe(Rationnel r); //Méthode à partir d'un Rationnel
+    // Complexe(Rationnel r); //Méthode �  partir d'un Rationnel
     Complexe(float r, float i=0): Constante("complexe"), m_reelle(r),m_imaginaire(i){}
 
 
@@ -48,6 +49,22 @@ public:
 
     Complexe* Oppose() const;
 
+    Complexe* Sinus() const;
+    Complexe* Cosinus() const;
+    Complexe* Tang() const;
+
+    Complexe* SinusH() const;
+    Complexe* CosinusH() const;
+    Complexe* TangH() const;
+
+    Complexe* Ln()const;
+    Complexe* Log()const;
+
+    Complexe* RacineC()const;
+    Complexe* Carre()const;
+    Complexe* Cube()const;
+    Complexe* Fact()const;
+
 private:
     Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);}
     //! < Renvoie le conjugué d'un nombre complexe. Fonction utile pour les racines et les quotients
@@ -55,7 +72,7 @@ private:
 };
 
 
-//reste à faire: racine
+//reste �  faire: racine
 
 
 

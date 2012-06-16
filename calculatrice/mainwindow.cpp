@@ -186,9 +186,14 @@ void MainWindow::ClavierPile(){
 }
 
 void MainWindow::BSwapPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText("SWAP");
+   if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc->Swap())
+            MajVuePile();
+
+        else ui->lineEdit->setText("Erreur");
+    }
+    else ui->lineEdit->setText("Erreur");
 }
 
 void MainWindow::BSumPressed(){
@@ -410,7 +415,17 @@ void MainWindow::ClavierVueExecution(){
     QObject::connect(ui->bEval, SIGNAL(clicked()), this, SLOT(BEvalPressed()));
     QObject::connect(ui->bEnter, SIGNAL(clicked()), this, SLOT(BEnterPressed2()));
     QObject::connect(ui->bSpace, SIGNAL(clicked()), this, SLOT(BSpacePressed()));
-    QObject::connect(ui->bSup, SIGNAL(clicked()), this->ui->lineEdit, SLOT(clear()));
+    QObject::connect(ui->bSup, SIGNAL(clicked()), this, SLOT(BSupPressed()));
+}
+
+void MainWindow::BSupPressed(){
+    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+        ui->lineEdit->clear();
+    else{
+        QString s = ui->lineEdit->text();
+        s.truncate(s.size()-1);
+        ui->lineEdit->setText(s);
+    }
 }
 
 void MainWindow::BSpacePressed(){

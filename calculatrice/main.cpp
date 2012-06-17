@@ -21,10 +21,6 @@ int main(int argc, char *argv[])
 
 
 //    std::cout<<e->Afficher().toStdString()<<"\n";
-    Rationnel r(5,3);
-    std::cout<<r.GetFloat();
-
-
 
 
 

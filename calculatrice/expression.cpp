@@ -108,8 +108,7 @@ QStack<QString> Expression::TransformerExpression(){
 
 
 bool EstUnNombre(QString s){
-    /*! Cette fonction vérifie que chaque caractère d'une chaîne est un nombre ou une virgule
-Elle retourne Faux si le carcatère n'est ni un chiffre, ni une 1ère virgule, ni un moins en début de chaine*/
+    /*! Vérifie que la chaine entrée est  bien un float*/
 
 
     QRegExp nombre("^[\-]{0,1}[0-9]{1,}(([\.\,]{0,1}[0-9]{1,})|([0-9]{0,}))$");

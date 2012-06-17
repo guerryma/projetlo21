@@ -437,6 +437,7 @@ void MainWindow::BSpacePressed(){
 void MainWindow::BEvalPressed(){
     QString s = ui->lineEdit->text();
     QString s2 = ui->lineEdit->text();
+    QString s3;
     QStack<QString> stack;
 
      if(s.contains("'")){
@@ -446,12 +447,18 @@ void MainWindow::BEvalPressed(){
 
             stack = e.TransformerExpression();
             if(!stack.isEmpty()){
-            s = stack.first();
+                s = stack.first();
 
-            if(QString::compare(s, "Erreur", Qt::CaseInsensitive) == 0)
-                ui->lineEdit->setText(s2);//afficher un QMessageBox
-            else
-                ui->lineEdit->setText("OK");//faire une fonction "evaluer l'expression"
+                if(QString::compare(s, "Erreur", Qt::CaseInsensitive) == 0)
+                    ui->lineEdit->setText(s2);//afficher un QMessageBox
+                else{
+                    while(!stack.isEmpty()){
+                        s = stack.pop();
+                        s3 = ui->lineEdit->text();
+                        ui->lineEdit->setText(s3+" "+s);
+                    }
+                    //ui->lineEdit->setText("OK");//faire une fonction "evaluer l'expression"
+                }
             }
 
             else

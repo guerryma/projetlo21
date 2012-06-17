@@ -18,7 +18,7 @@ class Expression: public Constante
     QString m_expression;
 
 public:
-    Expression(QString expr): /*Constante("Expr"),*/ m_expression(expr){}
+    Expression(QString expr): Constante("expression"), m_expression(expr){}
 
 
     QString GetExpression() const {return m_expression;}

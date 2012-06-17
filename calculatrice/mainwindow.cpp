@@ -209,21 +209,22 @@ void MainWindow::BMeanPressed(){
 }
 
 void MainWindow::BClearPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText("CLEAR");
+    m_calc->Clear();
+    MajVuePile();
 }
 
 void MainWindow::BDupPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText("DUP");
+    if(m_calc->Dup())
+        MajVuePile();
+
+        //else QMessageBox pas assez d'elements dans la pile
 }
 
 void MainWindow::BDropPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText("DROP");
+    if(m_calc->Drop())
+        MajVuePile();
+
+        //else QMessageBox pas assez d'elements dans la pile
 }
 
 
@@ -467,174 +468,17 @@ void MainWindow::BEvalPressed(){
      }
 }
 
-void MainWindow::BEnterPressed(){
-
-    /*! Fonction à déplacer ds calculatrice si temps
-      Eventuellement remplacer erreur par l'expression fausse qui doit etre modifiée,
-      et envoyer un QMessageBox erreur dans l'expression
-    */
-/*
-    QStack <QString> stack;
-    QString s = ui->lineEdit->text();
-    QString s2;
-    int i = 0;
-    QString pRe;
-    QString pIm;
-    Constante* c;
-
-
-
-    //si il y a des espaces avant il faut les supprimer
-    if(QString(s[i]).contains(" ")){
-        s2 = s;
-        s = "";
-        while(QString(s2[i]).contains(" ")){
-            i++;
-        }
-        while(s2[i] != '\0'){
-            s.append(s2[i]);
-            i++;
-        }
-        s.append('\0');
-        s2 = "";
-    }
-
-    //si il y a des cotes on empile une expression (la vérif se fait par éval)
-    if(s.contains("'")){
-        if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
-            // Expression e = Expression(s); Ce qui ne marche pas!
-            // m_calc->EmpilerPileS(&e);
-            //m_calc->EmpilerPileA(s);
-            //ui->pile->insertPlainText(s+"\n");
-            ui->lineEdit->clear();
-            /*
-            stack = e.TransformerExpression();
-            if(!stack.isEmpty()){
-            s2 = stack.first();
-
-            if(QString::compare(s2, "Erreur", Qt::CaseInsensitive) == 0)
-                ui->lineEdit->setText("Erreur");
-            else
-                ui->lineEdit->setText("OK");
-            }
-
-            else
-                ui->lineEdit->setText("Erreur");
-            */
-       /* }
-
-        else ui->lineEdit->setText("Erreur"); // expliquer qu'il manque une cote
-        //laisser l'utilisateur corriger
-    }
-
-    else if(s=="+"){
-        m_calc->OperationBinaire('+');
-        ui->lineEdit->clear();
-    }
-    else if(s.contains("-")){
-        if(s.count("-") > 1)
-            ui->lineEdit->setText("Erreur");
-        else{
-            while(i < s.size()){
-                if(QString(s[i]).contains(" ") || QString(s[i]).contains("-"))
-                    i++;
-                else{
-                    ui->lineEdit->setText("Erreur");
-                    return;
-                }
-
-            }
-            ui->lineEdit->setText("ok -"); //appel a la fonction - de la calculatrice
-        }
-    }
-
-    else if(s.contains("*")){
-        if(s.count("*") > 1)
-            ui->lineEdit->setText("Erreur");
-        else{
-            while(i < s.size()){
-                if(QString(s[i]).contains(" ") || QString(s[i]).contains("*"))
-                    i++;
-                else{
-                    ui->lineEdit->setText("Erreur");
-                    return;
-                }
-
-            }
-            ui->lineEdit->setText("ok *"); //appel a la fonction * de la calculatrice
-        }
-    }
-
-    else if(s.contains("/")){
-        if(s.count("/") > 1)
-            ui->lineEdit->setText("Erreur");
-        else{
-            while(i < s.size()){
-                if(QString(s[i]).contains(" ") || QString(s[i]).contains("/"))
-                    i++;
-                else{
-                    ui->lineEdit->setText("Erreur");
-                    return;
-                }
-
-            }
-            ui->lineEdit->setText("ok /");//appel a la fonction / de la calculatrice(attention voir les modes)
-        }
-    }
-    //! Si on a un complexe
-
-    else if(s.contains("$")){//sinon si ça contient un $
-        if(s.count("$") > 1)//s'il y a plus d'un
-            ui->lineEdit->setText("Erreur");
-        else{//c'est que c'est un complexe
-            i = 0;
-            while(i < s.size() && s[i] != '$'){//on recupere la partie reelle
-                pRe.append(s[i]);
-                i++;
-            }
-            i++;//on saute le $
-            while(i < s.size()){//on recupere la partie imaginaire
-                pIm.append(s[i]);
-                i++;
-            }
-            c= new Complexe(pRe.toFloat(), pIm.toFloat());
-
-        }
-    }
-
-    else if(s.contains(",")){//sinon si ça contient une virgule
-        if(s.count(",") > 1) //s'il n'y en a qu'une seule
-            ui->lineEdit->setText("Erreur");
-        else{//c'est que c'est un reel
-            c= new Complexe(s.toFloat());
-
-        }
-    }
-
-    else{//sinon c'est que c'est un entier
-        while(i < s.size()){
-            if(s[i] >= '0' && s[i] <= '9')
-                i++;
-            else{
-                ui->lineEdit->setText("Erreur");
-                return;
-            }
-        }
-        c= new Complexe(s.toInt());
-
-    }
-    m_calc->EmpilerPileS(c);
-    m_calc->EmpilerPileA(s);
-    ui->pile->insertPlainText(c->Afficher()+"\n");
-    ui->lineEdit->clear();
-
-*/
-}
-
 void MainWindow::BEnterPressed2(){
-    if(m_calc->MajPileS(ui->lineEdit->text())){
+    if(ui->lineEdit->text().isEmpty()){
+        m_calc->Dup();
         MajVuePile();
-        ui->lineEdit->clear();
+    }
+
+    else{
+        if(m_calc->MajPileS(ui->lineEdit->text())){
+            MajVuePile();
+            ui->lineEdit->clear();
+        }
     }
 
 

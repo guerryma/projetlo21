@@ -61,7 +61,8 @@ bool MajPileS(QString s);
 bool Swap();
 bool Sum();
 bool Mean();
-bool Clear();
+void Clear();
+bool Dup();
 bool Drop();
 
 

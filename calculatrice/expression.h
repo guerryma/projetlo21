@@ -25,11 +25,7 @@ public:
 
 
     QStack<QString> TransformerExpression();
-    /*! Fonction verifie la validite d'une expression,
-      et retourne une pile de string si elle est valide.
-      Si l'expression n'est pas valide, elle renvoie une
-      pile ne contenant que "Erreur".
-      */
+
 
 QString Afficher() const {return m_expression;}
 

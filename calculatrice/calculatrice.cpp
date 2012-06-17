@@ -255,5 +255,67 @@ Si c'est une expression alors il faut la concaténer.
         //m_calc.EmpilerPileA(s); Gestion  historique
         return true;
 
+}
+
+
+/*! Inversion de deux elements a la position x et y*/
+bool Calculatrice::Swap(){
+    int x, y;
+    Complexe * c1, *c2;
+
+    if(m_taille >= 2){
+        Constante * yInt = m_pStock.pop(); //y intermediaire
+        if(yInt->GetType() == "complexe"){
+            c1 = dynamic_cast<Complexe*>(yInt);
+            if(c1->GetPartieImaginaire() == 0){
+                y = static_cast<int>(c1->GetPartieReelle());
+            }
+            else{
+                m_pStock.push(c1);
+                return false; //faire exception ou afficher erreur ce n'est pas un entier
+            }
+        }
+        else{
+            return false;// faire une exception ou afficher une erreur, ce n'est pas un entier
+        }
+
+        Constante * xInt = m_pStock.pop(); //x intermediaire
+        if(xInt->GetType() == "complexe"){
+            c2 = dynamic_cast<Complexe*>(xInt);
+            if(c2->GetPartieImaginaire() == 0){
+                x = static_cast<int>(c2->GetPartieReelle());
+            }
+            else{
+                m_pStock.push(c2);
+                m_pStock.push(c1);
+                return false; //faire exception ou afficher erreur ce n'est pas un entier
+            }
+        }
+        else{
+            m_pStock.push(c1);
+            return false;// faire une exception ou afficher une erreur, ce n'est pas un entier
+        }
+
+        int max = qMax(x-1, y-1);
+        if(m_pStock.size() <= max){
+            m_pStock.push(c2);
+            m_pStock.push(c1);
+            return false; //pas assez d'elemts dans la pile
+        }
+
+        else{
+            Constante* valeurX = m_pStock.at(x-1);
+            Constante* valeurY = m_pStock.at(y-1);
+
+            m_pStock.replace(x-1, valeurY);
+            m_pStock.replace(y-1, valeurX);
+
+            return true;
+
+        }
     }
+    else{
+        return false;// pas assez d'elmts ds la pile
+    }
+}
 

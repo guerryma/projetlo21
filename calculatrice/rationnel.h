@@ -31,7 +31,7 @@ protected:
     float m_float;
 
 private:
-    void VerifSigne();//! <Met à jour le signe du rationnel dans le numérateur
+    void VerifSigne();//! <Met �  jour le signe du rationnel dans le numérateur
     void SetFloat(){m_float=(float)m_numerateur/(float)m_denominateur;}//! calcule le réel correspondant
 
 public:

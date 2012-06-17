@@ -58,6 +58,11 @@ bool OperationBinaire(char operation);
 
 //Opérations sur la pile
 bool MajPileS(QString s);
+bool Swap();
+bool Sum();
+bool Mean();
+bool Clear();
+bool Drop();
 
 
 

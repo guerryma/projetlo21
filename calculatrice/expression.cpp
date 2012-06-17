@@ -43,7 +43,7 @@ QStack<QString> Expression::TransformerExpression(){
     while(i < m_expression.size()){ //on parcourt maintenant l'expression pour tester sa validite
 
         if(QString::compare(QString(m_expression[i])," ") == 0){//si on a un espace il faut regarder
-                        //si on vient de recuperer une fonction, une constante ou un operateur
+            //si on vient de recuperer une fonction, une constante ou un operateur
 
             if(fct != ""){//si la variable qui contient les fonctions unaires n'est pas nulle
                 if(fct == "SIN"|| fct == "COS" || fct == "TAN" || fct == "COSH"
@@ -52,7 +52,7 @@ QStack<QString> Expression::TransformerExpression(){
                         || fct == "MOD"|| fct == "SIGN"){//si �a correspond a l'une de ces valeurs
 
                     if(stack.isEmpty()){//si la pile est vide
-                        resStack.push(err);//on empile sur la pile de resultat le message d'erreur
+                        resStack.push(err);//on empile sur la pile de resultatopt le message d'erreur
                         return resStack;//et on retourne la pile resultat
                     }
                     a = stack.pop();//on depile une constante de la pile intermediare
@@ -140,8 +140,7 @@ QStack<QString> Expression::TransformerExpression(){
 
 
 bool EstUnNombre(QString s){
-    /*! Cette fonction vérifie que chaque caractère d'une chaîne est un nombre ou une virgule
-Elle retourne Faux si le carcatère n'est ni un chiffre, ni une 1ère virgule, ni un moins en début de chaine*/
+    /*! Vérifie que la chaine entrée est  bien un float*/
 
 
     QRegExp nombre("^[\-]{0,1}[0-9]{1,}(([\.\,]{0,1}[0-9]{1,})|([0-9]{0,}))$");

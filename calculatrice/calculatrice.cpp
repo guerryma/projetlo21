@@ -167,37 +167,57 @@ bool Calculatrice::OperationBinaire(char operation){
                         return true;
                     }
                 }
-                    else{
-                        Rationnel* res= r1->Quotient(r2);
-                        Rationnel* res1= new Rationnel((int)res->GetFloat());
-                        m_pStock.push(res1);
-                        return true;
-                    }
-
+                else{
+                    Rationnel* res= r1->Quotient(r2);
+                    Rationnel* res1= new Rationnel((int)res->GetFloat());
+                    m_pStock.push(res1);
+                    return true;
                 }
 
-                break;
-
-                m_pStock.push(op2);
-                m_pStock.push(op1);
-                std::cout<<"Une des opÈrandes n'est pas un rationnel\n";//remplacer par une erreur
-                return true;
-        default:
-                    break;
             }
+
+            break;
+
+            m_pStock.push(op2);
+            m_pStock.push(op1);
+            std::cout<<"Une des opÈrandes n'est pas un rationnel\n";//remplacer par une erreur
+            return true;
+        default:
+            break;
         }
-        else std::cout<<"La pile ne contient pas assez d'√©l√©ments";
-        return false;//envoyer une exception
-
-
     }
+    else std::cout<<"La pile ne contient pas assez d'√©l√©ments";
+    return false;//envoyer une exception
 
 
-    //void Calculatrice::OperationBinaire2(char operation){
-    //    std::cout<<"coucou";
-    //}
+}
 
-    /* Algorithme op√©ration binaire
+
+bool Calculatrice::Signe(){
+    Constante *c= m_pStock.top();
+    if(c->GetType()=="expression") return false;
+
+        c=m_pStock.pop();
+        c->Signe();
+        m_pStock.push(c);
+        return true;
+
+}
+
+bool Calculatrice::Inverse(){
+    Constante *c= m_pStock.top();
+    if(c->GetType()=="expression") return false;
+
+        c=m_pStock.pop();
+        c->Inverse();
+        m_pStock.push(c);
+        return true;
+
+}
+
+
+
+/* Algorithme op√©ration binaire
   1. R√©cup√©rer les 2 op√©randes. DOnc checker qu'il y en a au moins 2. Sinon envoyer erreur
   et r√©empiler la donn√©e.
   2. V√©rifier le type.
@@ -210,50 +230,90 @@ Si c'est une expression alors il faut la concat√©ner.
   Sinon choisir traitement.
 
   */
-    bool Calculatrice::MajPileS(QString s){
-        Constante* c;
 
-        /*! Cas 1: On a entrÈ une expression: elle est construite
-      La vÈrification se fera seulement si on appelle EVAL */
-        if(s.startsWith("'")){
-            if(s.endsWith("'")) c= new Expression(s);
-
-            else  return false;
-
+/*! Cette fonction Èvalue une expression.
+Si c'est une expression entrÈe en ligne de commande,
+  alors on transmet l'expression construite et sa pile transformÈe ‡ la fonction.
+  Sinon, eval dÈpile une constante expression*/
+bool Calculatrice::EvalExpression(QStack<QString> pileExpr, Expression* expr){
+    if(expr==0 && pileExpr.isEmpty()){ // Si on cherche ‡ Èvaluer une expression qui est dans la pile
+        Constante* tmp= m_pStock.pop();
+        if(tmp->GetType()=="expression") expr= dynamic_cast<Expression*>(tmp);
+        else{
+            m_pStock.push(tmp); // Si la constante n'est pas une expression on la remet dans la pile
+            return false;
         }
+            pileExpr=expr->TransformerExpression();
+//            QString s=pileExpr.pop();
+//            if(s=="Erreur") return false;
+//            else pileExpr.push(s);
+    }
 
-        /*! Cas 2: on entre une constante complexe.
+    QString elem;
+    for(int i=0; i<pileExpr.size()+2;i++){
+
+        elem=pileExpr.pop();
+
+        std::cout<<elem.toStdString()<<"\n";
+
+//        if(elem=="+"){
+
+//            OperationBinaire('+'); // On teste d'abord si on a une fonction. Sinon c'est qu'on a une constante
+
+//        }
+//        else MajPileS(elem);
+
+    }
+    return true;
+
+}
+
+bool Calculatrice::MajPileS(QString s){
+    Constante* c;
+
+    /*! Cas 1: On a entrÈ une expression: elle est construite
+      La vÈrification se fera seulement si on appelle EVAL */
+if(s.startsWith("'")){
+    if(s.endsWith("'")) c= new Expression(s);
+
+    else  return false;
+
+}
+
+/*! Cas 2: on entre une constante complexe.
       Rappel: On ne peut pas rentrer un rationnel directement. Un rationnel est construit slmt si on dÈpile
       2 opÈrandes et que l'on est en mode rationnel
       */
 
-        //! Complexe "classique" seulement si le mode complexe est activÈ. sinon renvoyer une erreur.
-        else if(s.contains("$")&& m_modeComplexe ){
-            int n=s.indexOf('$');
-            QString re=s.left(n);
-            QString im=s.right(s.size()-n-1);
-            if(EstUnNombre(re)&& EstUnNombre(im))
-                c= new Complexe(re.toFloat(), im.toFloat());
-            else return false;
-        }
-        //! Rationnel
-        else if(s.contains("/")){
-            int n=s.indexOf('/');
-            QString num=s.left(n);
-            QString den=s.right(s.size()-n-1);
-            if(EstUnEntier(num)&& EstUnEntier(den)){
-                //try{
-                c= new Rationnel(num.toInt(), den.toInt());
-            }
-            else return false;
-        }
-        //    else if(EstUnEntier(s)) c= new Rationnel(s.toInt());
-        else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
-        else return false;
+//! Complexe "classique" seulement si le mode complexe est activÈ. sinon renvoyer une erreur.
+else if(s.contains("$")&& m_modeComplexe ){
+    int n=s.indexOf('$');
+    QString re=s.left(n);
+    QString im=s.right(s.size()-n-1);
+    if(EstUnEntier(re)&& !im.toFloat()) c= new Rationnel(re.toInt());
+    if(EstUnNombre(re)&& EstUnNombre(im))
+        c= new Complexe(re.toFloat(), im.toFloat());
+    else return false;
+}
+//! Rationnel
+else if(s.contains("/")){
+    int n=s.indexOf('/');
+    QString num=s.left(n);
+    QString den=s.right(s.size()-n-1);
+    if(EstUnEntier(num)&& EstUnEntier(den)){
+        //try{
+        c= new Rationnel(num.toInt(), den.toInt());
+    }
+    else return false;
+}
+else if(EstUnEntier(s)) c= new Rationnel(s.toInt());
+else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
+else return false;
 
-        m_pStock.push(c);
-        //m_calc.EmpilerPileA(s); Gestion  historique
-        return true;
+//Si size dÈpasse la taille: traitement.
+m_pStock.push(c);
+//m_calc.EmpilerPileA(s); Gestion  historique
+return true;
 
 }
 
@@ -261,14 +321,14 @@ Si c'est une expression alors il faut la concat√©ner.
 /*! Inversion de deux elements a la position x et y*/
 bool Calculatrice::Swap(){
     int x, y;
-    Complexe * c1, *c2;
+    Rationnel * c1, *c2;
 
     if(m_taille >= 2){
         Constante * yInt = m_pStock.pop(); //y intermediaire
-        if(yInt->GetType() == "complexe"){
-            c1 = dynamic_cast<Complexe*>(yInt);
-            if(c1->GetPartieImaginaire() == 0){
-                y = static_cast<int>(c1->GetPartieReelle());
+        if(yInt->GetType() == "rationnel"){
+            c1 = dynamic_cast<Rationnel*>(yInt);
+            if(c1->GetDenominateur() == 1){
+                y = c1->GetNumerateur();
             }
             else{
                 m_pStock.push(c1);
@@ -280,10 +340,10 @@ bool Calculatrice::Swap(){
         }
 
         Constante * xInt = m_pStock.pop(); //x intermediaire
-        if(xInt->GetType() == "complexe"){
-            c2 = dynamic_cast<Complexe*>(xInt);
-            if(c2->GetPartieImaginaire() == 0){
-                x = static_cast<int>(c2->GetPartieReelle());
+        if(xInt->GetType() == "rationnel"){
+            c2 = dynamic_cast<Rationnel*>(xInt);
+            if(c2->GetDenominateur() == 1){
+                x =c2->GetNumerateur();
             }
             else{
                 m_pStock.push(c2);

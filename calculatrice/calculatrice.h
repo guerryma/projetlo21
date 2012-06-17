@@ -5,6 +5,7 @@
 #include"expression.h"
 #include "rationnel.h"
 #include <QStack>
+#include <iostream>
 
 enum Angle{RADIAN, DEGRE};
 enum Type{RATIONNEL, REEL, ENTIER};
@@ -53,8 +54,9 @@ bool EstVidePileS(){return m_pStock.isEmpty();}
 //Gestion de la pile (calculs)
 
 bool OperationBinaire(char operation);
-//void OperationBinaire2(char operation);
-
+bool EvalExpression(QStack<QString> pileExpr,Expression* expr=0);
+bool Signe();
+bool Inverse();
 
 //Opérations sur la pile
 bool MajPileS(QString s);

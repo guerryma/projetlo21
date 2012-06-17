@@ -186,14 +186,14 @@ void MainWindow::ClavierPile(){
 }
 
 void MainWindow::BSwapPressed(){
-   if (ui->lineEdit->text().isEmpty()){
+    if (ui->lineEdit->text().isEmpty()){
 
         if(m_calc->Swap())
             MajVuePile();
 
-        else ui->lineEdit->setText("Erreur");
+        else Erreur("Erreur swap");
     }
-    else ui->lineEdit->setText("Erreur");
+    else Erreur("Erreur swap");
 }
 
 void MainWindow::BSumPressed(){
@@ -295,9 +295,8 @@ void MainWindow::BLogPressed(){
 }
 
 void MainWindow::BInvPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"INV ");
+    if(m_calc->Inverse()) MajVuePile();
+
 }
 
 void MainWindow::BCubePressed(){
@@ -319,9 +318,7 @@ void MainWindow::BSqrPressed(){
 }
 
 void MainWindow::BSignPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"SIGN ");
+if(m_calc->Signe()) MajVuePile();
 }
 
 void MainWindow::BFactPressed(){
@@ -436,56 +433,71 @@ void MainWindow::BSpacePressed(){
 
 void MainWindow::BEvalPressed(){
     QString s = ui->lineEdit->text();
-    QString s2 = ui->lineEdit->text();
-    QString s3;
-    QStack<QString> stack;
 
-     if(s.contains("'")){
-        if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
-            Expression e = Expression(s);
-            ui->lineEdit->clear();
-
-            stack = e.TransformerExpression();
-            if(!stack.isEmpty()){
-                s = stack.first();
-
-                if(QString::compare(s, "Erreur", Qt::CaseInsensitive) == 0)
-                    ui->lineEdit->setText(s2);//afficher un QMessageBox
-                else{
-                    while(!stack.isEmpty()){
-                        s = stack.pop();
-                        s3 = ui->lineEdit->text();
-                        ui->lineEdit->setText(s3+" "+s);
-                    }
-                    //ui->lineEdit->setText("OK");//faire une fonction "evaluer l'expression"
-                }
-            }
-
-            else
-                ui->lineEdit->setText(s2); //afficher un QMessageBox
+    if(s.isEmpty()) {// C'est qu'on cherche à dépiler une constante
+        QStack<QString> tmp;
+        if(m_calc->EvalExpression(tmp)) MajVuePile();
+    }
+    else if (s.startsWith("'") && s.endsWith("'")){
+        //Alors on a entré une expression, il faut la construire, la tester et l'évaluer
+        Expression* e= new Expression(s);
+        QStack<QString> pile= e->TransformerExpression();
+        if(pile.top()!="Erreur"){
+            if(m_calc->EvalExpression(pile,e)) MajVuePile();
 
         }
-        else{
-            ui->lineEdit->setText(s2); //afficher un QMessageBox
-        }
+
     }
 
-     else{
-        ui->lineEdit->setText(s2); //afficher un QMessageBox
-     }
 }
 
-void MainWindow::BEnterPressed2(){
-    if(ui->lineEdit->text().isEmpty()){
-        m_calc->Dup();
-        MajVuePile();
+void MainWindow::BEnterPressed(){
+
+    /*! Fonction à déplacer ds calculatrice si temps
+      Eventuellement remplacer erreur par l'expression fausse qui doit etre modifiée,
+      et envoyer un QMessageBox erreur dans l'expression
+    */
+    
+    QStack <QString> stack;
+    QString s = ui->lineEdit->text();
+    QString s2;
+    int i = 0;
+    QString pRe;
+    QString pIm;
+    Constante* c;
+
+
+
+    //si il y a des espaces avant il faut les supprimer
+    if(QString(s[i]).contains(" ")){
+        s2 = s;
+        s = "";
+        while(QString(s2[i]).contains(" ")){
+            i++;
+        }
+        while(s2[i] != '\0'){
+            s.append(s2[i]);
+            i++;
+        }
+        s.append('\0');
+        s2 = "";
+
     }
 
     else{
         if(m_calc->MajPileS(ui->lineEdit->text())){
             MajVuePile();
             ui->lineEdit->clear();
+
         }
+    }
+}
+
+void MainWindow::BEnterPressed2(){
+
+    if(m_calc->MajPileS(ui->lineEdit->text())){
+        MajVuePile();
+        ui->lineEdit->clear();
     }
 
 

@@ -1,34 +1,51 @@
 #include "rationnel.h"
 
 
-Rationnel* Rationnel::Inverse() const{
+Rationnel* Rationnel::Inverse2(){
     if (m_numerateur==0) throw RationnelException("Erreur Inverse d'un nombre nul");
 
-    else return new Rationnel(m_denominateur, m_numerateur);
+    else{
+        int den=m_numerateur;
+        int num=m_denominateur;
+        this->SetDenominateur(1);
+        this->SetNumerateur(num);
+        std::cout<<num<<" "<<m_numerateur<<"\n";
+        this->SetDenominateur(den);
+        std::cout<<num<<" "<<m_denominateur;
+
+        return this;
+    }
+}
+void Rationnel::Inverse(){
+    Inverse2();
 }
 
 Rationnel* Rationnel::Somme(const Rationnel* r2) const{
-   int d, n;
-   d=m_denominateur*r2->GetDenominateur();
-   n=m_numerateur*r2->GetDenominateur()+r2->GetNumerateur()*m_denominateur;
+    int d, n;
+    d=m_denominateur*r2->GetDenominateur();
+    n=m_numerateur*r2->GetDenominateur()+r2->GetNumerateur()*m_denominateur;
 
-   return new Rationnel(n,d);
+    return new Rationnel(n,d);
 }
 
-Rationnel* Rationnel::Oppose() const{
-    return new Rationnel(-m_numerateur, m_denominateur);
+Rationnel* Rationnel::Oppose() {
+    SetNumerateur(-m_numerateur);
+    return this;
+}
+void Rationnel::Signe(){
+    Oppose();
 }
 
-Rationnel* Rationnel::Difference(const Rationnel *r2) const{
+Rationnel* Rationnel::Difference(Rationnel *r2) const{
     return Somme(r2->Oppose());
 }
 
 Rationnel* Rationnel::Produit(const Rationnel* r2)const{
-   return new Rationnel(m_numerateur*r2->GetNumerateur(), m_denominateur*r2->GetDenominateur());
+    return new Rationnel(m_numerateur*r2->GetNumerateur(), m_denominateur*r2->GetDenominateur());
 }
 
-Rationnel* Rationnel::Quotient(const Rationnel* r2)const{
-    return Produit(r2->Inverse());
+Rationnel* Rationnel::Quotient(Rationnel* r2)const{
+    return Produit(r2->Inverse2());
 }
 
 QString Rationnel::Afficher() const{
@@ -39,9 +56,9 @@ QString Rationnel::Afficher() const{
 void Rationnel::VerifSigne(){
     if(m_denominateur<0){
 
-            m_denominateur=-m_denominateur;
-            m_numerateur=-m_numerateur;
-        }
+        m_denominateur=-m_denominateur;
+        m_numerateur=-m_numerateur;
+    }
     if(m_denominateur==m_numerateur){
         m_numerateur=1;
         m_denominateur=1;

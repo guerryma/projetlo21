@@ -7,12 +7,18 @@ Complexe* Complexe:: Somme(const Complexe* c)const{
     return new Complexe(m_reelle+c->GetPartieReelle(), m_imaginaire+c->GetPartieImaginaire());
 }
 
-Complexe* Complexe::Oppose()const{
-    return new Complexe(-m_reelle, -m_imaginaire);
+Complexe* Complexe::Oppose(){
+    SetPartieReelle(-m_reelle);
+    SetPartieImaginaire(-m_imaginaire);
+    return this;
+}
+void Complexe::Signe(){
+    Oppose();
 }
 
-Complexe* Complexe::Difference(const Complexe *c) const{
-    return Somme(c->Oppose());
+Complexe* Complexe::Difference( Complexe *c) const{
+    c->Oppose();
+    return Somme(c);
 }
 
 Complexe* Complexe::Produit(const Complexe* c) const{
@@ -23,26 +29,27 @@ Complexe* Complexe::Produit(const Complexe* c) const{
 
 }
 
-Complexe* Complexe::Inverse() const{
+Complexe* Complexe::InversePrive(){
     float d=(pow(m_reelle,2)+pow(m_imaginaire,2));
+    SetPartieReelle(m_reelle/d);
+    SetPartieImaginaire(-m_imaginaire/d);
 
-    return new  Complexe(m_reelle/d, -m_imaginaire/d);
+    return this;
 }
 
-Complexe* Complexe::Quotient(const Complexe* c) const{
+void Complexe::Inverse(){
+   InversePrive();
+}
 
-    Complexe* y=c->Inverse();
+Complexe* Complexe::Quotient(Complexe* c) const{
+
+    Complexe* y=c->InversePrive();
     return Produit(y) ;
 }
 
 QString Complexe::Afficher()const{
 
-
-    if(!m_imaginaire)
-        return QString(QString::number(m_reelle));
-
     return QString(QString::number(m_reelle)+"$"+QString::number(m_imaginaire));
-
 }
 
 Complexe* Complexe::Sinus() const{
@@ -104,6 +111,7 @@ Complexe* Complexe::Log()const{
 
 Complexe* Complexe::RacineC()const{
     return new Complexe(qSqrt(m_reelle), 0);
+    //Ajouter cas nombre négatif
 }
 
 Complexe* Complexe::Carre()const{

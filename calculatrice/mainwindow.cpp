@@ -433,7 +433,8 @@ void MainWindow::BSpacePressed(){
 
 void MainWindow::BEvalPressed(){
     QString s = ui->lineEdit->text();
-
+    QString s2 = ui->lineEdit->text();
+    QString s3;
     if(s.isEmpty()) {// C'est qu'on cherche à dépiler une constante
         QStack<QString> tmp;
         if(m_calc->EvalExpression(tmp)) MajVuePile();
@@ -441,12 +442,25 @@ void MainWindow::BEvalPressed(){
     else if (s.startsWith("'") && s.endsWith("'")){
         //Alors on a entré une expression, il faut la construire, la tester et l'évaluer
         Expression* e= new Expression(s);
-        QStack<QString> pile= e->TransformerExpression();
-        if(pile.top()!="Erreur"){
-            if(m_calc->EvalExpression(pile,e)) MajVuePile();
+        QQueue<QString> file= e->TransformerExpression();
+        ui->lineEdit->clear();
+        if(file.first() !="Erreur"){
+            while(!file.isEmpty()){
+                s3 = file.dequeue();
+                s2 = ui->lineEdit->text();
+                ui->lineEdit->setText(s2+" "+s3);
+            }
+            //if(m_calc->EvalExpression(pile,e)) MajVuePile();
 
         }
+        else{
+            ui->lineEdit->setText(s2);
+        }
 
+    }
+
+    else{
+        ui->lineEdit->setText(s2);
     }
 
 }

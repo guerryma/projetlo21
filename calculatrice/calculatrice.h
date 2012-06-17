@@ -2,7 +2,7 @@
 #define CALCULATRICE_H
 
 #include "complexe.h"
-#include"expression.h"
+#include "expression.h"
 #include "rationnel.h"
 #include <QStack>
 #include <iostream>

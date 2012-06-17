@@ -2,6 +2,7 @@
 #define EXPRESSION_H
 #include "constante.h"
 #include <QStack>
+#include <QQueue>
 #include <QString>
 #include <QChar>
 #include <QRegExp>
@@ -24,7 +25,7 @@ public:
     QString GetExpression() const {return m_expression;}
 
 
-    QStack<QString> TransformerExpression();
+    QQueue<QString> TransformerExpression();
 
 
     QString Afficher() const {return m_expression;}

@@ -243,7 +243,7 @@ bool Calculatrice::EvalExpression(QStack<QString> pileExpr, Expression* expr){
             m_pStock.push(tmp); // Si la constante n'est pas une expression on la remet dans la pile
             return false;
         }
-            pileExpr=expr->TransformerExpression();
+            //pileExpr=expr->TransformerExpression(); modifie !!!!!!!!!!!
 //            QString s=pileExpr.pop();
 //            if(s=="Erreur") return false;
 //            else pileExpr.push(s);

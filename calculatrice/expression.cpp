@@ -1,13 +1,13 @@
 #include "expression.h"
 
-QStack<QString> Expression::TransformerExpression(){
+QQueue<QString> Expression::TransformerExpression(){
     /*! Fonction verifie la validite d'une expression,
       et retourne une pile de string si elle est valide.
       Si l'expression n'est pas valide, elle renvoie une
       pile ne contenant en dernier element "Erreur".
       */
     QStack<QString> stack;// pile intermediaire
-    QStack<QString> resStack; //la pile finale
+    QQueue<QString> resQueue; //la file finale
     QString res = "res"; //pour simuler le resultat de l'operation
     QString err = "Erreur";
     QString operand = ""; //operand + - / ou *
@@ -52,42 +52,42 @@ QStack<QString> Expression::TransformerExpression(){
                         || fct == "MOD"|| fct == "SIGN"){//si ça correspond a l'une de ces valeurs
 
                     if(stack.isEmpty()){//si la pile est vide
-                        resStack.push(err);//on empile sur la pile de resultatopt le message d'erreur
-                        return resStack;//et on retourne la pile resultat
+                        resQueue.push_front(err);//on enfile sur la file de resultat le message d'erreur
+                        return resQueue;//et on retourne la file resultat
                     }
                     a = stack.pop();//on depile une constante de la pile intermediare
                     if(a != "res"){ //si ce n'est une constante qui simule le resultat
-                        resStack.push(a); //on l'empile dans la pile de resultat
+                        resQueue.enqueue(a); //on l'enfile dans la file de resultat
                     }
                     stack.push(res); //on empile la variable qui simule le resultat dans la pile
-                    resStack.push(fct);//on empile la fonction unaire sur la pile de resultat
+                    resQueue.enqueue(fct);//on enfile la fonction unaire sur la file de resultat
                     fct = "";//on remet le contenu de la variable à 0
                 }
                 else{//sinon si ça ne correspond a aucune des fonctions comparees plus haut
-                    resStack.push(err); //on empile la variable erreur sur la pile de resultat
-                    return resStack;//et on renvoie la pile de resultat
+                    resQueue.push_front(err); //on enfile la variable erreur sur la file de resultat
+                    return resQueue;//et on renvoie la file de resultat
                 }
             }
 
             else if(QString::compare(operand,"") != 0){//sinon si la variable qui contient les operandes n'est pas nulle
                 if(operand.contains("$")){ //si l'operande contient $
                     if(operand.count("$") > 1){ // si il le contient en plusieurs exemplaire
-                        resStack.push(err);
-                        return resStack;
+                        resQueue.push_front(err);
+                        return resQueue;
                     }
                 }
 
                 else if(operand.contains(",")){ //si l'operande contient ,
                     if(operand.count(",") > 1){ // si il le contient en plusieurs exemplaire
-                        resStack.push(err);
-                        return resStack;
+                        resQueue.push_front(err);
+                        return resQueue;
                     }
                 }
 
                 else if(operand.contains("/")){ //si l'operande contient /
                     if(operand.count("/") > 1){ // si il le contient en plusieurs exemplaire
-                        resStack.push(err);
-                        return resStack;
+                        resQueue.push_front(err);
+                        return resQueue;
                     }
                 }
                 stack.push(operand);//on empile l'orerande dans la pile intermediaire
@@ -103,17 +103,17 @@ QStack<QString> Expression::TransformerExpression(){
                 b = stack.pop();
 
                 if(b != "res") //si ce n'est pas une variable qui simule un resultat
-                    resStack.push(b); //on empile la constante dans la pile de resultat
+                    resQueue.enqueue(b); //on enfile la constante dans la file de resultat
 
                 if(a != "res") //si ce n'est pas une variable qui simule un resultat
-                    resStack.push(a);//on empile la constante dans la pile de resultat
+                    resQueue.enqueue(a);//on enfile la constante dans la file de resultat
 
-                resStack.push(QString(m_expression[i]));//on empile l'operande dans la pile de resultat
+                resQueue.enqueue(QString(m_expression[i]));//on enfile l'operande dans la file de resultat
                 stack.push(res);//on empile une variable qui simule le resultat dans la pile intermediaire
             }
             else{//sinon c'est que la pile ne contient pas assez d'argument
-                resStack.push(err);//empilement de l'erreur dans la pile de resultat
-                return resStack;//on retourne la pile de resultat
+                resQueue.push_front(err);//enfilement de l'erreur dans la file de resultat
+                return resQueue;//on retourne la file de resultat
             }
         }
 
@@ -133,9 +133,9 @@ QStack<QString> Expression::TransformerExpression(){
 
     //A la fin de la boucle
     if(stack.size() != 1) //si on a pas une seule constante dans la pile c'est que l'expression n'est pas valide
-        resStack.push(err); //et donc on empile l'erreur
+        resQueue.push_front(err); //et donc on enfile l'erreur
 
-    return resStack;//on retourne la pile de resultat
+    return resQueue;//on retourne la file de resultat
 }
 
 

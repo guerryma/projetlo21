@@ -434,7 +434,37 @@ void MainWindow::BSpacePressed(){
 }
 
 void MainWindow::BEvalPressed(){
+    QString s = ui->lineEdit->text();
+    QString s2 = ui->lineEdit->text();
+    QStack<QString> stack;
 
+     if(s.contains("'")){
+        if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
+            Expression e = Expression(s);
+            ui->lineEdit->clear();
+
+            stack = e.TransformerExpression();
+            if(!stack.isEmpty()){
+            s = stack.first();
+
+            if(QString::compare(s, "Erreur", Qt::CaseInsensitive) == 0)
+                ui->lineEdit->setText(s2);//afficher un QMessageBox
+            else
+                ui->lineEdit->setText("OK");//faire une fonction "evaluer l'expression"
+            }
+
+            else
+                ui->lineEdit->setText(s2); //afficher un QMessageBox
+
+        }
+        else{
+            ui->lineEdit->setText(s2); //afficher un QMessageBox
+        }
+    }
+
+     else{
+        ui->lineEdit->setText(s2); //afficher un QMessageBox
+     }
 }
 
 void MainWindow::BEnterPressed(){
@@ -442,8 +472,8 @@ void MainWindow::BEnterPressed(){
     /*! Fonction à déplacer ds calculatrice si temps
       Eventuellement remplacer erreur par l'expression fausse qui doit etre modifiée,
       et envoyer un QMessageBox erreur dans l'expression
-*/
-
+    */
+/*
     QStack <QString> stack;
     QString s = ui->lineEdit->text();
     QString s2;
@@ -491,29 +521,12 @@ void MainWindow::BEnterPressed(){
             else
                 ui->lineEdit->setText("Erreur");
             */
-        }
+       /* }
 
         else ui->lineEdit->setText("Erreur"); // expliquer qu'il manque une cote
         //laisser l'utilisateur corriger
     }
 
-    /*else if(s.contains("+")){
-        if(s.count("+") > 1)
-            ui->lineEdit->setText("Erreur");
-        else{
-            while(i < s.size()){
-                if(QString(s[i]).contains(" ") || QString(s[i]).contains("+"))
-                    i++;
-                else{
-                    ui->lineEdit->setText("Erreur");
-                    return;
-                }
-
-            }
-            ui->lineEdit->setText("ok +"); //appel a la fonction + de la calculatrice
-        }
-    }
-*/
     else if(s=="+"){
         m_calc->OperationBinaire('+');
         ui->lineEdit->clear();
@@ -570,8 +583,8 @@ void MainWindow::BEnterPressed(){
     }
     //! Si on a un complexe
 
-    else if(s.contains("$")){//sinon si ça continet un $
-        if(s.count("$") > 1)//s'il n' en a qu'un seul
+    else if(s.contains("$")){//sinon si ça contient un $
+        if(s.count("$") > 1)//s'il y a plus d'un
             ui->lineEdit->setText("Erreur");
         else{//c'est que c'est un complexe
             i = 0;
@@ -615,7 +628,7 @@ void MainWindow::BEnterPressed(){
     ui->pile->insertPlainText(c->Afficher()+"\n");
     ui->lineEdit->clear();
 
-
+*/
 }
 
 void MainWindow::BEnterPressed2(){

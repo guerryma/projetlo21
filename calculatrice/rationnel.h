@@ -64,12 +64,14 @@ public:
 
 
     //Fonctions de calcul
-    Rationnel* Inverse() const;//! Calcule l'inverse d'une fraction en vérifiant que le numérateur n'est pas nul
-    Rationnel* Oppose() const;
+    Rationnel* Inverse2();//! Calcule l'inverse d'une fraction en vérifiant que le numérateur n'est pas nul
+    void Inverse();
+    Rationnel* Oppose();
+    void Signe();
     Rationnel* Somme(const Rationnel* r2) const;
-    Rationnel* Difference(const Rationnel* r2) const;
+    Rationnel* Difference(Rationnel* r2) const;
     Rationnel* Produit (const Rationnel* r2) const;
-    Rationnel* Quotient(const Rationnel* r2) const;
+    Rationnel* Quotient(Rationnel* r2) const;
     //Autres fonctions
     QString Afficher() const;
 

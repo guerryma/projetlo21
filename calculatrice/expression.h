@@ -10,7 +10,7 @@
 
 class Expression: public Constante
 {
-/*!
+    /*!
   Une expression est encadrée par des cotes ''
   Il s'agit d'une expression en polonaise inversée qui pourra être évaluée.
 
@@ -18,16 +18,19 @@ class Expression: public Constante
     QString m_expression;
 
 public:
-    Expression(QString expr): /*Constante("Expr"),*/ m_expression(expr){}
-
-
+    Expression(QString expr): Constante("expression"),m_expression(expr){}
     QString GetExpression() const {return m_expression;}
 
 
     QStack<QString> TransformerExpression();
 
 
-QString Afficher() const {return m_expression;}
+    QString Afficher() const {return m_expression;}
+
+    //Opérations
+    void Signe(){};
+    void Inverse(){};
+
 
 
 };

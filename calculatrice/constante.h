@@ -16,8 +16,8 @@ public:
 
     //Opérations
 
-    //virtual Constante* Somme(const Constante* c)const {return new Constante();}
-    //virtual Constante* operator +(Constante * c)const;
+    virtual void Signe()=0;
+    virtual void Inverse()=0;
 
 };
 

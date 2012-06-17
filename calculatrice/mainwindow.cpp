@@ -186,14 +186,14 @@ void MainWindow::ClavierPile(){
 }
 
 void MainWindow::BSwapPressed(){
-   if (ui->lineEdit->text().isEmpty()){
+    if (ui->lineEdit->text().isEmpty()){
 
         if(m_calc->Swap())
             MajVuePile();
 
-        else ui->lineEdit->setText("Erreur");
+        else Erreur("Erreur swap");
     }
-    else ui->lineEdit->setText("Erreur");
+    else Erreur("Erreur swap");
 }
 
 void MainWindow::BSumPressed(){
@@ -294,9 +294,8 @@ void MainWindow::BLogPressed(){
 }
 
 void MainWindow::BInvPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"INV ");
+    if(m_calc->Inverse()) MajVuePile();
+
 }
 
 void MainWindow::BCubePressed(){
@@ -318,9 +317,7 @@ void MainWindow::BSqrPressed(){
 }
 
 void MainWindow::BSignPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"SIGN ");
+if(m_calc->Signe()) MajVuePile();
 }
 
 void MainWindow::BFactPressed(){
@@ -435,36 +432,20 @@ void MainWindow::BSpacePressed(){
 
 void MainWindow::BEvalPressed(){
     QString s = ui->lineEdit->text();
-    QString s2 = ui->lineEdit->text();
-    QStack<QString> stack;
-
-     if(s.contains("'")){
-        if(QString(s[0]).contains("'") && QString(s[s.size()-1]).contains("'")){
-            Expression e = Expression(s);
-            ui->lineEdit->clear();
-
-            stack = e.TransformerExpression();
-            if(!stack.isEmpty()){
-            s = stack.first();
-
-            if(QString::compare(s, "Erreur", Qt::CaseInsensitive) == 0)
-                ui->lineEdit->setText(s2);//afficher un QMessageBox
-            else
-                ui->lineEdit->setText("OK");//faire une fonction "evaluer l'expression"
-            }
-
-            else
-                ui->lineEdit->setText(s2); //afficher un QMessageBox
-
+    if(s.isEmpty()) {// C'est qu'on cherche à dépiler une constante
+        QStack<QString> tmp;
+        if(m_calc->EvalExpression(tmp)) MajVuePile();
+    }
+    else if (s.startsWith("'") && s.endsWith("'")){
+        //Alors on a entré une expression, il faut la construire, la tester et l'évaluer
+        Expression* e= new Expression(s);
+        QStack<QString> pile= e->TransformerExpression();
+        if(pile.top()!="Erreur"){
+            if(m_calc->EvalExpression(pile,e)) MajVuePile();
         }
-        else{
-            ui->lineEdit->setText(s2); //afficher un QMessageBox
-        }
+
     }
 
-     else{
-        ui->lineEdit->setText(s2); //afficher un QMessageBox
-     }
 }
 
 void MainWindow::BEnterPressed(){
@@ -473,7 +454,7 @@ void MainWindow::BEnterPressed(){
       Eventuellement remplacer erreur par l'expression fausse qui doit etre modifiée,
       et envoyer un QMessageBox erreur dans l'expression
     */
-/*
+    /*
     QStack <QString> stack;
     QString s = ui->lineEdit->text();
     QString s2;
@@ -521,7 +502,7 @@ void MainWindow::BEnterPressed(){
             else
                 ui->lineEdit->setText("Erreur");
             */
-       /* }
+    /* }
 
         else ui->lineEdit->setText("Erreur"); // expliquer qu'il manque une cote
         //laisser l'utilisateur corriger
@@ -632,6 +613,7 @@ void MainWindow::BEnterPressed(){
 }
 
 void MainWindow::BEnterPressed2(){
+
     if(m_calc->MajPileS(ui->lineEdit->text())){
         MajVuePile();
         ui->lineEdit->clear();

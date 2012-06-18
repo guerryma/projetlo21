@@ -49,7 +49,8 @@ QString DepilerPileA(){return m_pAff.pop();}
 bool EstVidePileA(){return m_pAff.isEmpty();}
 
 QStack<Constante*> GetPileS()const {return m_pStock;}
-void EmpilerPileS(Constante* c){m_pStock.push(c);}
+void EmpilerPileS(Constante* c); //!< Permet d'empiler tout en vérifiant la taille.
+void push(Constante* c);
 Constante* DepilerPileS(){return m_pStock.pop();}
 bool EstVidePileS(){return m_pStock.isEmpty();}
 

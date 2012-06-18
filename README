@@ -27,9 +27,4 @@ Tu peux en tenir compte pour tes autres fonctions. Il y a une fonction EstUnEnti
 
 
 --Laety
-Attention! quand on entre 3/9 ça l'empile alors que ça ne devrait pas!
-
-Transformer expression:
-pb1: il semble que les éléments sont empilés à l'envers: l'élément le plus à droite dans l'expression devrait être le premier inséré dans la pile de résultat, et donc le dernier à être dépilé lors de l'évaluation. 
-pb2
-
+Attention! quand on entre 3/9 ça l'empile alors que ça ne devrait pas! Pourquoi ça ne devrait pas?

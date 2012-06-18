@@ -1,7 +1,12 @@
 #include "calculatrice.h"
 
 
-
+void Calculatrice::EmpilerPileS(Constante *c){
+    m_pStock.push(c);
+    if(m_pStock.size()==m_taille){
+        Drop();
+    }
+}
 
 bool Calculatrice::OperationBinaire(char operation){
     /*! Traitement d'un opÃ©rateur binaire: les opÃ©randes sont dÃ©pilÃ©es puis l'opÃ©ration est calculÃ©e
@@ -69,23 +74,14 @@ bool Calculatrice::OperationBinaire(char operation){
         }
         else if(op1->GetType()=="expression"){
             e1=dynamic_cast<Expression*>(op1);
-
-//            if(op2->GetType()=="rationnel") r2=dynamic_cast<Rationnel*>(op2);
-//            else if(op2->GetType()=="complexe") c2=dynamic_cast<Complexe*>(op2);
-//            else if(op2->GetType()=="expression") e2=dynamic_cast<Expression*>(op2);
-
             e2=e1->ConcatenerDevant(QString(operation),op2);
-            m_pStock.push(e2);
+            EmpilerPileS(e2);
             return true;
         }
         else if(op2->GetType()=="expression"){
             e2=dynamic_cast<Expression*>(op2);
-
-//            if(op1->GetType()=="rationnel") r1=dynamic_cast<Rationnel*>(op1);
-//            else if(op1->GetType()=="complexe") c1=dynamic_cast<Complexe*>(op1);
-//            else if(op1->GetType()=="expression") e1=dynamic_cast<Expression*>(op1);
             e1=e2->ConcatenerDerriere(QString(operation),op1);
-            m_pStock.push(e1);
+            EmpilerPileS(e1);
             return true;
 
         }
@@ -94,13 +90,13 @@ bool Calculatrice::OperationBinaire(char operation){
         case '+':
             if (type=="cc") //! somme cpx cpx
             {
-                m_pStock.push(c1->Somme(c2));
+                EmpilerPileS(c1->Somme(c2));
                 return true;
             }
 
             if(type=="rr"){ //! somme rat rat
 
-                m_pStock.push(r1->Somme(r2));
+                EmpilerPileS(r1->Somme(r2));
                 return true;
             }
 
@@ -111,12 +107,12 @@ bool Calculatrice::OperationBinaire(char operation){
             if (type=="cc") //! <soustraction cpx cpx
             {
 
-                m_pStock.push(c1->Difference(c2));
+                EmpilerPileS(c1->Difference(c2));
                 return true;
             }
 
             if(type=="rr"){ //! <soustraction rat rat
-                m_pStock.push(r1->Difference(r2));
+                EmpilerPileS(r1->Difference(r2));
                 return true;
             }
 
@@ -126,12 +122,12 @@ bool Calculatrice::OperationBinaire(char operation){
         case '*':
             if (type=="cc") //! produit cpx cpx
             {
-                m_pStock.push(c1->Produit(c2));
+                EmpilerPileS(c1->Produit(c2));
                 return true;
             }
 
             if(type=="rr"){ //! produit rat rat
-                m_pStock.push(r1->Produit(r2));
+                EmpilerPileS(r1->Produit(r2));
                 return true;
             }
 
@@ -142,11 +138,11 @@ bool Calculatrice::OperationBinaire(char operation){
             if (m_type==REEL){
                 if (type=="cc") //! Division cpx cpx
                 {
-                    m_pStock.push(c1->Quotient(c2));
+                    EmpilerPileS(c1->Quotient(c2));
                     return true;
                 }
                 if(type=="rr"){
-                    m_pStock.push(r1->to_complexe()->Quotient(r2->to_complexe()));
+                    EmpilerPileS(r1->to_complexe()->Quotient(r2->to_complexe()));
                     return true;
                 }
 
@@ -155,19 +151,19 @@ bool Calculatrice::OperationBinaire(char operation){
 
             else if(m_type==RATIONNEL){
                 if(type=="rr"){ //! Division rat rat
-                    m_pStock.push(r1->Quotient(r2));
+                    EmpilerPileS(r1->Quotient(r2));
                     return true;
                 }
                 else if(EstUnEntier(c1->Afficher())&& EstUnEntier(c2->Afficher())){
                     r1=new Rationnel((int)c1->GetPartieReelle());
                     r2=new Rationnel((int)c2->GetPartieReelle());
-                    m_pStock.push(r1->Quotient(r2));
+                    EmpilerPileS(r1->Quotient(r2));
                     return true;
                 }
 
                 else{
-                    m_pStock.push(op2);
-                    m_pStock.push(op1);
+                    EmpilerPileS(op2);
+                    EmpilerPileS(op1);
                     std::cout<<"Une des operandes n'est pas un rationnel\n";//remplacer par une erreur
                     return true;
 
@@ -179,14 +175,14 @@ bool Calculatrice::OperationBinaire(char operation){
                     if(!c1->GetPartieImaginaire() &&!c2->GetPartieImaginaire()){
                         // Alors division tronquée
                         Rationnel* res = new Rationnel((int)c1->GetPartieReelle()/(int)c2->GetPartieImaginaire());
-                        m_pStock.push(res);
+                        EmpilerPileS(res);
                         return true;
 
                     }
                     else{
 
-                        m_pStock.push(op2);
-                        m_pStock.push(op1);
+                        EmpilerPileS(op2);
+                        EmpilerPileS(op1);
                         std::cout<<"Division entiere impossible entre 2 complexes\n";//remplacer par une erreur
                         return true;
                     }
@@ -194,7 +190,7 @@ bool Calculatrice::OperationBinaire(char operation){
                 else{
                     Rationnel* res= r1->Quotient(r2);
                     Rationnel* res1= new Rationnel((int)res->GetFloat());
-                    m_pStock.push(res1);
+                    EmpilerPileS(res1);
                     return true;
                 }
 
@@ -202,8 +198,8 @@ bool Calculatrice::OperationBinaire(char operation){
 
             break;
 
-            m_pStock.push(op2);
-            m_pStock.push(op1);
+            EmpilerPileS(op2);
+            EmpilerPileS(op1);
             std::cout<<"Une des opérandes n'est pas un rationnel\n";//remplacer par une erreur
             return true;
         default:
@@ -218,24 +214,29 @@ bool Calculatrice::OperationBinaire(char operation){
 
 
 bool Calculatrice::Signe(){
-    Constante *c= m_pStock.top();
-    if(c->GetType()=="expression") return false;
+    if(!m_pStock.isEmpty()){
+        Constante *c= m_pStock.top();
+        if(c->GetType()=="expression") return false;
 
-    c=m_pStock.pop();
-    c->Signe();
-    m_pStock.push(c);
-    return true;
+        c=m_pStock.pop();
+        c->Signe();
+        EmpilerPileS(c);
+        return true;
+    }
 
 }
 
 bool Calculatrice::Inverse(){
-    Constante *c= m_pStock.top();
-    //if(c->GetType()=="expression") return false;
+    if(!m_pStock.isEmpty()){
+        Constante *c= m_pStock.top();
+        //if(c->GetType()=="expression") return false;
 
-    c=m_pStock.pop();
-    c->Inverse();
-    m_pStock.push(c);
-    return true;
+        c=m_pStock.pop();
+        c->Inverse();
+        EmpilerPileS(c);
+        return true;
+    }
+    return false;
 
 }
 
@@ -264,13 +265,13 @@ bool Calculatrice::EvalExpression(QQueue<QString> pileExpr, Expression* expr){
         Constante* tmp= m_pStock.pop();
         if(tmp->GetType()=="expression") expr= dynamic_cast<Expression*>(tmp);
         else{
-            m_pStock.push(tmp); // Si la constante n'est pas une expression on la remet dans la pile
+            EmpilerPileS(tmp); // Si la constante n'est pas une expression on la remet dans la pile
             return false;
         }
         pileExpr=expr->TransformerExpression();
-        //QString s=pileExpr[0];
-        // if(s=="Erreur") return false;
-        // else pileExpr.;
+        QString s=pileExpr.first();
+        if(s=="Erreur") return false;
+
     }
 
     QString elem;
@@ -291,6 +292,7 @@ bool Calculatrice::EvalExpression(QQueue<QString> pileExpr, Expression* expr){
 
 bool Calculatrice::MajPileS(QString s){
     Constante* c;
+
 
     /*! Cas 1: On a entré une expression: elle est construite
       La vérification se fera seulement si on appelle EVAL */
@@ -332,7 +334,8 @@ bool Calculatrice::MajPileS(QString s){
     else return false;
 
     //Si size dépasse la taille: traitement.
-    m_pStock.push(c);
+    EmpilerPileS(c);
+
     //m_calc.EmpilerPileA(s); Gestion  historique
     return true;
 
@@ -355,12 +358,12 @@ bool Calculatrice::Swap(){
                 y = c1->GetNumerateur();
             }
             else{
-                m_pStock.push(c1);
+                EmpilerPileS(c1);
                 return false; //faire exception ou afficher erreur ce n'est pas un entier
             }
         }
         else{
-            m_pStock.push(yInt);
+            EmpilerPileS(yInt);
             return false;// faire une exception ou afficher une erreur, ce n'est pas un entier
         }
 
@@ -371,21 +374,21 @@ bool Calculatrice::Swap(){
                 x =c2->GetNumerateur();
             }
             else{
-                m_pStock.push(c2);
-                m_pStock.push(c1);
+                EmpilerPileS(c2);
+                EmpilerPileS(c1);
                 return false; //faire exception ou afficher erreur ce n'est pas un entier
             }
         }
         else{
-            m_pStock.push(xInt);
-            m_pStock.push(c1);
+            EmpilerPileS(xInt);
+            EmpilerPileS(c1);
             return false;// faire une exception ou afficher une erreur, ce n'est pas un entier
         }
 
         int max = qMax(x-1, y-1);
         if(m_pStock.size() <= max){
-            m_pStock.push(c2);
-            m_pStock.push(c1);
+            EmpilerPileS(c2);
+            EmpilerPileS(c1);
             return false; //pas assez d'elemts dans la pile
         }
 
@@ -428,26 +431,26 @@ bool Calculatrice::Dup(){
         if(a->GetType() == "complexe"){
             c2 = dynamic_cast <Complexe *>(a);
             c = new Complexe(c2->GetPartieReelle(), c2->GetPartieImaginaire());
-            m_pStock.push(c);
+            EmpilerPileS(c);
             return true;
         }
         else if(a->GetType() == "rationnel"){
             r2 = dynamic_cast <Rationnel *>(a);
             r = new Rationnel(r2->GetNumerateur(),r2->GetDenominateur());
-            m_pStock.push(r);
+            EmpilerPileS(r);
             return true;
         }
         else{
             e2 = dynamic_cast <Expression *>(a);
             e = new Expression(e2->GetExpression());
-            m_pStock.push(e);
+            EmpilerPileS(e);
             return true;
         }
     }
 }
 
 /*! Fonction qui supprime le premier element de la pile
-     et retourne true si la duplication s'est faite correctement
+     et retourne true si la suppression s'est faite correctement
     false dans le cas contraire
 */
 bool Calculatrice::Drop(){
@@ -476,12 +479,12 @@ bool Calculatrice::Sum(){
             if(r->GetDenominateur() == 1){
                 int x = r->GetNumerateur();
 
-                 if(m_pStock.size() < x){
-                    m_pStock.push(r);
+                if(m_pStock.size() < x){
+                    EmpilerPileS(r);
                     return false; //faire exception ou afficher erreur taille de la pile inferieure
-                 }
+                }
 
-                 else{
+                else{
                     for(int i = 0; i < x; i++){
                         if(m_pStock.at(i)->GetType() == "expression")
                             return false;
@@ -489,7 +492,7 @@ bool Calculatrice::Sum(){
 
                     for(int i=0; i< x; i++){
                         c = m_pStock.front();
-                        m_pStock.push(c);
+                        EmpilerPileS(c);
                         m_pStock.remove(0);
                     }
 
@@ -497,17 +500,17 @@ bool Calculatrice::Sum(){
                         OperationBinaire('+');
                     }
                     return true;
-                 }
+                }
 
 
             }
             else{
-                m_pStock.push(r);
+                EmpilerPileS(r);
                 return false; //faire exception ou afficher erreur ce n'est pas un entier
             }
         }
         else{
-            m_pStock.push(xInt);
+            EmpilerPileS(xInt);
             return false; //faire exception ou afficher erreur ce n'est pas un entier
         }
     }
@@ -529,12 +532,12 @@ bool Calculatrice::Mean(){
             if(r->GetDenominateur() == 1){
                 x = r->GetNumerateur();
 
-                 if(m_pStock.size() < x){
-                    m_pStock.push(r);
+                if(m_pStock.size() < x){
+                    EmpilerPileS(r);
                     return false; //faire exception ou afficher erreur taille de la pile inferieure
-                 }
+                }
 
-                 else{
+                else{
                     for(int i = 0; i < x; i++){
                         if(m_pStock.at(i)->GetType() == "expression")
                             return false;
@@ -542,7 +545,7 @@ bool Calculatrice::Mean(){
 
                     for(int i=0; i< x; i++){
                         c = m_pStock.front();
-                        m_pStock.push(c);
+                        EmpilerPileS(c);
                         m_pStock.remove(0);
                     }
 
@@ -551,21 +554,21 @@ bool Calculatrice::Mean(){
                     }
                     Complexe* c1 = new Complexe(float(x));
                     Constante* c2 = m_pStock.pop();
-                    m_pStock.push(c1);
-                    m_pStock.push(c2);
+                    EmpilerPileS(c1);
+                    EmpilerPileS(c2);
                     OperationBinaire('/');
                     return true;
-                 }
+                }
 
 
             }
             else{
-                m_pStock.push(r);
+                EmpilerPileS(r);
                 return false; //faire exception ou afficher erreur ce n'est pas un entier
             }
         }
         else{
-            m_pStock.push(xInt);
+            EmpilerPileS(xInt);
             return false; //faire exception ou afficher erreur ce n'est pas un entier
         }
     }

@@ -148,7 +148,11 @@ Expression* Expression::ConcatenerDerriere(const QString &operateur,const Consta
 
 Expression* Expression::ConcatenerDevant(const QString &operateur, const Constante *constante){
     QString res;
-    if(constante) m_expression.insert(1, constante->Afficher()+" "); //si c'est un op binaire
+    if(constante){
+        res=constante->Afficher();
+        if(constante->GetType()=="expression")res.remove("'");
+        m_expression.insert(1, res+" "); //si c'est un op binaire
+    }
     m_expression.insert(m_expression.lastIndexOf("'")," "+operateur);
     return this;
 }

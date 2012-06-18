@@ -17,10 +17,12 @@ int main(int argc, char *argv[])
 
 //    Complexe* e=c->Somme(d);
 
-//    Expression e2("'1 1 +'");
+   //Expression e2("'1 1 +'");
+
 
 
 //    std::cout<<e->Afficher().toStdString()<<"\n";
+
 
 
 

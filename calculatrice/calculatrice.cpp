@@ -243,7 +243,7 @@ bool Calculatrice::EvalExpression(QStack<QString> pileExpr, Expression* expr){
             m_pStock.push(tmp); // Si la constante n'est pas une expression on la remet dans la pile
             return false;
         }
-            pileExpr=expr->TransformerExpression();
+            //pileExpr=expr->TransformerExpression(); modifie !!!!!!!!!!!
 //            QString s=pileExpr.pop();
 //            if(s=="Erreur") return false;
 //            else pileExpr.push(s);
@@ -377,5 +377,49 @@ bool Calculatrice::Swap(){
     else{
         return false;// pas assez d'elmts ds la pile
     }
+}
+
+/*! Fonction qui vide la pile */
+void Calculatrice::Clear(){
+    m_pStock.clear();
+    m_pStock = QStack<Constante*>(); //je ne sais pas si c'est necessaire
+}
+
+/*! Fonction qui duplique le premier element de la pile*/
+bool Calculatrice::Dup(){
+    Constante * a;
+    Complexe* c2, *c;
+    Rationnel* r2, *r;
+    Expression* e, *e2;
+
+    if(m_pStock.isEmpty())
+        return false;
+    else{
+        a = m_pStock.first();
+        if(a->GetType() == "complexe"){
+            c2 = dynamic_cast <Complexe *>(a);
+            c = new Complexe(c2->GetPartieReelle(), c2->GetPartieImaginaire());
+            m_pStock.push(c);
+            return true;
+        }
+        else if(a->GetType() == "rationnel"){
+            r2 = dynamic_cast <Rationnel *>(a);
+            r = new Rationnel(r2->GetNumerateur(),r2->GetDenominateur());
+            m_pStock.push(r);
+            return true;
+        }
+        else{
+            e2 = dynamic_cast <Expression *>(a);
+            e2 = dynamic_cast <Expression *>(a);
+            e = new Expression(e2->GetExpression());
+            m_pStock.push(r);
+            return true;
+        }
+    }
+}
+
+/*! Fonction qui supprime le premier element de la pile*/
+bool Calculatrice::Drop(){
+    //continuer ici
 }
 

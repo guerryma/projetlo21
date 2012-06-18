@@ -2,7 +2,7 @@
 #define CALCULATRICE_H
 
 #include "complexe.h"
-#include"expression.h"
+#include "expression.h"
 #include "rationnel.h"
 #include <QStack>
 #include <iostream>
@@ -63,7 +63,8 @@ bool MajPileS(QString s);
 bool Swap();
 bool Sum();
 bool Mean();
-bool Clear();
+void Clear();
+bool Dup();
 bool Drop();
 
 

@@ -138,6 +138,20 @@ QQueue<QString> Expression::TransformerExpression(){
     return resQueue;//on retourne la file de resultat
 }
 
+Expression* Expression::ConcatenerDerriere(const QString &operateur,const Constante* constante){
+    QString res;
+    res=" "+constante->Afficher() +" "+ operateur+"'";
+    m_expression.replace(m_expression.lastIndexOf("'"),1,res);
+    return this;
+
+}
+
+Expression* Expression::ConcatenerDevant(const QString &operateur, const Constante *constante){
+    QString res;
+    if(constante) m_expression.insert(1, constante->Afficher()+" "); //si c'est un op binaire
+    m_expression.insert(m_expression.lastIndexOf("'")," "+operateur);
+    return this;
+}
 
 bool EstUnNombre(QString s){
     /*! Vérifie que la chaine entrée est  bien un float*/

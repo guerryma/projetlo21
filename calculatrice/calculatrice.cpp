@@ -16,6 +16,8 @@ bool Calculatrice::OperationBinaire(char operation){
         Complexe* c2;
         Rationnel* r1;
         Rationnel* r2;
+        Expression* e1;
+        Expression *e2;
 
 
         /*! type Permettra de stocker le type de constante:
@@ -34,14 +36,12 @@ bool Calculatrice::OperationBinaire(char operation){
 
             type="cc";
         }
-
         else if (op1->GetType()=="rationnel"&& op2->GetType()=="rationnel"){
             r1=dynamic_cast<Rationnel*>(op1);
             r2=dynamic_cast<Rationnel*>(op2);
 
             type="rr";
         }
-
         else if(op1->GetType()=="rationnel"&& op2->GetType()=="complexe"){
             c2=dynamic_cast<Complexe*>(op2);
             r2=Rationnel::to_rationnel(c2);
@@ -66,6 +66,28 @@ bool Calculatrice::OperationBinaire(char operation){
                 type="cc";
             }
         }
+        else if(op1->GetType()=="expression"){
+            e1=dynamic_cast<Expression*>(op1);
+
+//            if(op2->GetType()=="rationnel") r2=dynamic_cast<Rationnel*>(op2);
+//            else if(op2->GetType()=="complexe") c2=dynamic_cast<Complexe*>(op2);
+//            else if(op2->GetType()=="expression") e2=dynamic_cast<Expression*>(op2);
+
+            e2=e1->ConcatenerDevant(QString(operation),op2);
+            m_pStock.push(e2);
+            return true;
+        }
+        else if(op2->GetType()=="expression"){
+            e2=dynamic_cast<Expression*>(op2);
+
+//            if(op1->GetType()=="rationnel") r1=dynamic_cast<Rationnel*>(op1);
+//            else if(op1->GetType()=="complexe") c1=dynamic_cast<Complexe*>(op1);
+//            else if(op1->GetType()=="expression") e1=dynamic_cast<Expression*>(op1);
+            e1=e2->ConcatenerDerriere(QString(operation),op1);
+            m_pStock.push(e1);
+            return true;
+
+        }
 
         switch(operation){
         case '+':
@@ -80,6 +102,7 @@ bool Calculatrice::OperationBinaire(char operation){
                 m_pStock.push(r1->Somme(r2));
                 return true;
             }
+
             break;
 
             //! Soustraction
@@ -206,7 +229,7 @@ bool Calculatrice::Signe(){
 
 bool Calculatrice::Inverse(){
     Constante *c= m_pStock.top();
-    if(c->GetType()=="expression") return false;
+    //if(c->GetType()=="expression") return false;
 
     c=m_pStock.pop();
     c->Inverse();
@@ -256,7 +279,7 @@ bool Calculatrice::EvalExpression(QQueue<QString> pileExpr, Expression* expr){
 
         if((elem=="+")||(elem=="+")||(elem=="*")||(elem=="/"))
             OperationBinaire(elem[0].toLatin1()); // On teste d'abord si on a une fonction. Sinon c'est qu'on a une constante
-
+        else if(elem=="INV") Inverse();
 
         else MajPileS(elem);
 

@@ -24,3 +24,5 @@ SWap: j'ai l'impression que ça marche.
 J'ai oublié de te dire que maintenant un entier est tjs un rationnel par défaut. c'était plus simple pour la division. Excuse moi, j'aurai pas du modifier le modèle sans t'en parler. Du coup pour swap il faut tester si c un rationnel avec dénominateur =1. Je modifie. 
 Tu peux en tenir compte pour tes autres fonctions. Il y a une fonction EstUnEntier() qui peut te dire si un QString est un entier ou pas, si tu en as besoin :)
 
+--Laety
+Attention! quand on entre 3/9 ça l'empile alors que ça ne devrait pas!

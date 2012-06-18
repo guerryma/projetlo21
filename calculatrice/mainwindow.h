@@ -16,8 +16,6 @@ class MainWindow : public QMainWindow
 private:
     Ui::MainWindow *ui;
     Calculatrice* m_calc;
-    //QStack <Complexe> m_pStock; //! pile de stockage de la calculatrice
-    //QStack <QString> m_pAff; //! pile d'affichage de la calculatrice
 
 
 public:

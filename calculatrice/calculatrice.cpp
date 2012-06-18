@@ -2,6 +2,7 @@
 
 
 
+
 bool Calculatrice::OperationBinaire(char operation){
     /*! Traitement d'un opérateur binaire: les opérandes sont dépilées puis l'opération est calculée
       En fonction du type d'opération envoyé en paramètre.
@@ -318,7 +319,10 @@ return true;
 }
 
 
-/*! Inversion de deux elements a la position x et y*/
+/*! Inversion de deux elements a la position x et y
+     et retourne true si l'inversion s'est faite correctement
+    false dans le cas contraire
+*/
 bool Calculatrice::Swap(){
     int x, y;
     Rationnel * c1, *c2;
@@ -336,6 +340,7 @@ bool Calculatrice::Swap(){
             }
         }
         else{
+            m_pStock.push(yInt);
             return false;// faire une exception ou afficher une erreur, ce n'est pas un entier
         }
 
@@ -352,6 +357,7 @@ bool Calculatrice::Swap(){
             }
         }
         else{
+            m_pStock.push(xInt);
             m_pStock.push(c1);
             return false;// faire une exception ou afficher une erreur, ce n'est pas un entier
         }
@@ -385,7 +391,10 @@ void Calculatrice::Clear(){
     m_pStock = QStack<Constante*>(); //je ne sais pas si c'est necessaire
 }
 
-/*! Fonction qui duplique le premier element de la pile*/
+/*! Fonction qui duplique le premier element de la pile
+    et retourne true si la duplication s'est faite correctement
+    false dans le cas contraire
+*/
 bool Calculatrice::Dup(){
     Constante * a;
     Complexe* c2, *c;
@@ -418,8 +427,128 @@ bool Calculatrice::Dup(){
     }
 }
 
-/*! Fonction qui supprime le premier element de la pile*/
+/*! Fonction qui supprime le premier element de la pile
+     et retourne true si la duplication s'est faite correctement
+    false dans le cas contraire
+*/
 bool Calculatrice::Drop(){
-    //continuer ici
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        m_pStock.remove(0);
+        return true;
+    }
+}
+
+bool Calculatrice::Sum(){
+    Rationnel* r;
+    Constante* c;
+
+    if(m_pStock.isEmpty()){
+        return false;
+    }
+
+    else{ 
+        Constante * xInt = m_pStock.pop(); //x intermediaire
+        if(xInt->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(xInt);
+            if(r->GetDenominateur() == 1){
+                int x = r->GetNumerateur();
+
+                 if(m_pStock.size() < x){
+                    m_pStock.push(r);
+                    return false; //faire exception ou afficher erreur taille de la pile inferieure
+                 }
+
+                 else{
+                    for(int i = 0; i < x; i++){
+                        if(m_pStock.at(i)->GetType() == "expression")
+                            return false;
+                    }
+
+                    for(int i=0; i< x; i++){
+                        c = m_pStock.front();
+                        m_pStock.push(c);
+                        m_pStock.remove(0);
+                    }
+
+                    for(int i=0; i< x-1; i++){
+                        OperationBinaire('+');
+                    }
+                    return true;
+                 }
+
+
+            }
+            else{
+                m_pStock.push(r);
+                return false; //faire exception ou afficher erreur ce n'est pas un entier
+            }
+        }
+        else{
+            m_pStock.push(xInt);
+            return false; //faire exception ou afficher erreur ce n'est pas un entier
+        }
+    }
+}
+
+bool Calculatrice::Mean(){
+    Rationnel* r;
+    Constante* c;
+    int x;
+
+    if(m_pStock.isEmpty()){
+        return false;
+    }
+
+    else{
+        Constante * xInt = m_pStock.pop(); //x intermediaire
+        if(xInt->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(xInt);
+            if(r->GetDenominateur() == 1){
+                x = r->GetNumerateur();
+
+                 if(m_pStock.size() < x){
+                    m_pStock.push(r);
+                    return false; //faire exception ou afficher erreur taille de la pile inferieure
+                 }
+
+                 else{
+                    for(int i = 0; i < x; i++){
+                        if(m_pStock.at(i)->GetType() == "expression")
+                            return false;
+                    }
+
+                    for(int i=0; i< x; i++){
+                        c = m_pStock.front();
+                        m_pStock.push(c);
+                        m_pStock.remove(0);
+                    }
+
+                    for(int i=0; i< x-1; i++){
+                        OperationBinaire('+');
+                    }
+                    Complexe* c1 = new Complexe(float(x));
+                    Constante* c2 = m_pStock.pop();
+                    m_pStock.push(c1);
+                    m_pStock.push(c2);
+                    OperationBinaire('/');
+                    return true;
+                 }
+
+
+            }
+            else{
+                m_pStock.push(r);
+                return false; //faire exception ou afficher erreur ce n'est pas un entier
+            }
+        }
+        else{
+            m_pStock.push(xInt);
+            return false; //faire exception ou afficher erreur ce n'est pas un entier
+        }
+    }
+
 }
 

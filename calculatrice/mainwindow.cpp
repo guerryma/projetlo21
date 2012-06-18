@@ -191,21 +191,41 @@ void MainWindow::BSwapPressed(){
         if(m_calc->Swap())
             MajVuePile();
 
-        else Erreur("Erreur swap");
+        else{
+            Erreur("Erreur swap");
+            MajVuePile();
+        }
     }
     else Erreur("Erreur swap");
 }
 
 void MainWindow::BSumPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText("SUM");
+
+    if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc->Sum())
+            MajVuePile();
+
+        else{
+            Erreur("Erreur sum");
+            MajVuePile();
+        }
+    }
+    else Erreur("Erreur sum");
 }
 
 void MainWindow::BMeanPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText("MEAN");
+    if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc->Mean())
+            MajVuePile();
+
+        else{
+            Erreur("Erreur mean");
+            MajVuePile();
+        }
+    }
+    else Erreur("Erreur mean");
 }
 
 void MainWindow::BClearPressed(){

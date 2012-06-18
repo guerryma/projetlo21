@@ -34,6 +34,8 @@ public:
     void Signe(){};
     void Inverse(){};
 
+    Expression* Concatener(const Constante& constante, const QString& operateur, bool avant=true);
+
 
 
 };

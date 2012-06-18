@@ -197,10 +197,10 @@ bool Calculatrice::Signe(){
     Constante *c= m_pStock.top();
     if(c->GetType()=="expression") return false;
 
-        c=m_pStock.pop();
-        c->Signe();
-        m_pStock.push(c);
-        return true;
+    c=m_pStock.pop();
+    c->Signe();
+    m_pStock.push(c);
+    return true;
 
 }
 
@@ -208,10 +208,10 @@ bool Calculatrice::Inverse(){
     Constante *c= m_pStock.top();
     if(c->GetType()=="expression") return false;
 
-        c=m_pStock.pop();
-        c->Inverse();
-        m_pStock.push(c);
-        return true;
+    c=m_pStock.pop();
+    c->Inverse();
+    m_pStock.push(c);
+    return true;
 
 }
 
@@ -235,7 +235,7 @@ Si c'est une expression alors il faut la concatÃ©ner.
 Si c'est une expression entrée en ligne de commande,
   alors on transmet l'expression construite et sa pile transformée à la fonction.
   Sinon, eval dépile une constante expression*/
-bool Calculatrice::EvalExpression(QStack<QString> pileExpr, Expression* expr){
+bool Calculatrice::EvalExpression(QQueue<QString> pileExpr, Expression* expr){
     if(expr==0 && pileExpr.isEmpty()){ // Si on cherche à évaluer une expression qui est dans la pile
         Constante* tmp= m_pStock.pop();
         if(tmp->GetType()=="expression") expr= dynamic_cast<Expression*>(tmp);
@@ -243,25 +243,22 @@ bool Calculatrice::EvalExpression(QStack<QString> pileExpr, Expression* expr){
             m_pStock.push(tmp); // Si la constante n'est pas une expression on la remet dans la pile
             return false;
         }
-            //pileExpr=expr->TransformerExpression(); modifie !!!!!!!!!!!
-//            QString s=pileExpr.pop();
-//            if(s=="Erreur") return false;
-//            else pileExpr.push(s);
+        pileExpr=expr->TransformerExpression();
+        //QString s=pileExpr[0];
+        // if(s=="Erreur") return false;
+        // else pileExpr.;
     }
 
     QString elem;
-    for(int i=0; i<pileExpr.size()+2;i++){
+    for(QQueue<QString>::iterator i=pileExpr.begin();i!=pileExpr.end();i++){
 
-        elem=pileExpr.pop();
+        elem=pileExpr.dequeue();
 
-        std::cout<<elem.toStdString()<<"\n";
+        if((elem=="+")||(elem=="+")||(elem=="*")||(elem=="/"))
+            OperationBinaire(elem[0].toLatin1()); // On teste d'abord si on a une fonction. Sinon c'est qu'on a une constante
 
-//        if(elem=="+"){
 
-//            OperationBinaire('+'); // On teste d'abord si on a une fonction. Sinon c'est qu'on a une constante
-
-//        }
-//        else MajPileS(elem);
+        else MajPileS(elem);
 
     }
     return true;
@@ -273,47 +270,47 @@ bool Calculatrice::MajPileS(QString s){
 
     /*! Cas 1: On a entré une expression: elle est construite
       La vérification se fera seulement si on appelle EVAL */
-if(s.startsWith("'")){
-    if(s.endsWith("'")) c= new Expression(s);
+    if(s.startsWith("'")){
+        if(s.endsWith("'")) c= new Expression(s);
 
-    else  return false;
+        else  return false;
 
-}
+    }
 
-/*! Cas 2: on entre une constante complexe.
+    /*! Cas 2: on entre une constante complexe.
       Rappel: On ne peut pas rentrer un rationnel directement. Un rationnel est construit slmt si on dépile
       2 opérandes et que l'on est en mode rationnel
       */
 
-//! Complexe "classique" seulement si le mode complexe est activé. sinon renvoyer une erreur.
-else if(s.contains("$")&& m_modeComplexe ){
-    int n=s.indexOf('$');
-    QString re=s.left(n);
-    QString im=s.right(s.size()-n-1);
-    if(EstUnEntier(re)&& !im.toFloat()) c= new Rationnel(re.toInt());
-    if(EstUnNombre(re)&& EstUnNombre(im))
-        c= new Complexe(re.toFloat(), im.toFloat());
-    else return false;
-}
-//! Rationnel
-else if(s.contains("/")){
-    int n=s.indexOf('/');
-    QString num=s.left(n);
-    QString den=s.right(s.size()-n-1);
-    if(EstUnEntier(num)&& EstUnEntier(den)){
-        //try{
-        c= new Rationnel(num.toInt(), den.toInt());
+    //! Complexe "classique" seulement si le mode complexe est activé. sinon renvoyer une erreur.
+    else if(s.contains("$")&& m_modeComplexe ){
+        int n=s.indexOf('$');
+        QString re=s.left(n);
+        QString im=s.right(s.size()-n-1);
+        if(EstUnEntier(re)&& !im.toFloat()) c= new Rationnel(re.toInt());
+        if(EstUnNombre(re)&& EstUnNombre(im))
+            c= new Complexe(re.toFloat(), im.toFloat());
+        else return false;
     }
+    //! Rationnel
+    else if(s.contains("/")){
+        int n=s.indexOf('/');
+        QString num=s.left(n);
+        QString den=s.right(s.size()-n-1);
+        if(EstUnEntier(num)&& EstUnEntier(den)){
+            //try{
+            c= new Rationnel(num.toInt(), den.toInt());
+        }
+        else return false;
+    }
+    else if(EstUnEntier(s)) c= new Rationnel(s.toInt());
+    else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
     else return false;
-}
-else if(EstUnEntier(s)) c= new Rationnel(s.toInt());
-else if(EstUnNombre(s)) c= new Complexe(s.toFloat());
-else return false;
 
-//Si size dépasse la taille: traitement.
-m_pStock.push(c);
-//m_calc.EmpilerPileA(s); Gestion  historique
-return true;
+    //Si size dépasse la taille: traitement.
+    m_pStock.push(c);
+    //m_calc.EmpilerPileA(s); Gestion  historique
+    return true;
 
 }
 
@@ -382,7 +379,7 @@ bool Calculatrice::Swap(){
 /*! Fonction qui vide la pile */
 void Calculatrice::Clear(){
     m_pStock.clear();
-    m_pStock = QStack<Constante*>(); //je ne sais pas si c'est necessaire
+    // m_pStock = QStack<Constante*>(); //je ne sais pas si c'est necessaire. en effet :)
 }
 
 /*! Fonction qui duplique le premier element de la pile*/
@@ -410,9 +407,8 @@ bool Calculatrice::Dup(){
         }
         else{
             e2 = dynamic_cast <Expression *>(a);
-            e2 = dynamic_cast <Expression *>(a);
             e = new Expression(e2->GetExpression());
-            m_pStock.push(r);
+            m_pStock.push(e);
             return true;
         }
     }
@@ -421,5 +417,6 @@ bool Calculatrice::Dup(){
 /*! Fonction qui supprime le premier element de la pile*/
 bool Calculatrice::Drop(){
     //continuer ici
+    return false;
 }
 

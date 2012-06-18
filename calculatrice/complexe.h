@@ -44,7 +44,6 @@ public:
     Complexe* Somme(const Complexe* c) const;     //!< Calcule la somme de deux complexes et renvoie un complexe
     Complexe* Difference(Complexe* c) const;     //!< Calcule la somme de deux complexes et renvoie un complexe
     Complexe* Produit(const Complexe* c) const; //!< Calcule le produit de deux complexes et renvoie un complexe
-    Complexe* Racine(); //! < Calcule la racine carrée de l'objet. ce nombre peut être négatif
     Complexe* Quotient(Complexe* c) const; //!< Calcule le quotient de deux complexes et renvoie un complexe
 
     Complexe* Oppose();
@@ -63,14 +62,15 @@ public:
     Complexe* Ln()const;
     Complexe* Log()const;
 
-    Complexe* RacineC()const;
+    Complexe* RacineC()const;//!< Calcule la racine carrée de l'objet. ce nombre peut être négatif
+
     Complexe* Carre()const;
     Complexe* Cube()const;
     Complexe* Fact()const;
 
 private:
     Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);}
-    //! < Renvoie le conjugué d'un nombre complexe. Fonction utile pour les racines et les quotients
+    //!< Renvoie le conjugué d'un nombre complexe. Fonction utile pour les racines et les quotients
     Complexe* InversePrive();
 };
 

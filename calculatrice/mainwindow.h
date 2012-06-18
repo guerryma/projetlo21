@@ -53,7 +53,6 @@ private slots:
 
     void BSpacePressed();
     void BEvalPressed();
-    void BEnterPressed();
     void BEnterPressed2();
     void BSupPressed();
 

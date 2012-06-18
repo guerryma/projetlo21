@@ -32,7 +32,14 @@ public:
 
     //Opérations
     void Signe(){};
-    void Inverse(){};
+    void Inverse(){ConcatenerDevant("INV");};
+
+    Expression* ConcatenerDevant(const QString& operateur,const Constante* constante=0);
+    //!< Dans le cas d'une operation binaire, si l'expression est la 1ere opérande (càd dernier elem empilé)
+    Expression* ConcatenerDerriere( const QString& operateur, const Constante* constante);
+    //!< Dans le cas d'une operation binaire, si l'expression est la 2e opérande (càd avant dernier elem empilé)
+
+
 
 
 

@@ -25,7 +25,7 @@ QQueue<QString> Expression::TransformerExpression(){
     m_expression = expr; //on remet l'expression recuperee sans les cotes dans l'attribut
 
     i = 0;
-    while(i < m_expression.size()){//on parcourt l'expression sans les cotes
+    while(i <m_expression.size()){//on parcourt l'expression sans les cotes
         if(QString::compare(QString(m_expression[i])," ") == 0){//si le caractere est un espace
             expr.append(m_expression[i]);//on l'ajoute une fois dans l'expression que l'on veut recuperer
             i++;//on passe au caractere suivant
@@ -96,8 +96,8 @@ QQueue<QString> Expression::TransformerExpression(){
         }
 
         //sinon si on a un de ces operateur
-        else if(QString(m_expression[i]).contains("+") || QString(m_expression[i]).contains("-")
-                || QString(m_expression[i]).contains("*") || QString(m_expression[i]).contains("/") && QString(m_expression[i-1]).contains(" ")){
+        else if((QString(m_expression[i]).contains("+")) ||(QString(m_expression[i]).contains("-"))
+                || (QString(m_expression[i]).contains("*")) ||(QString(m_expression[i]).contains("/") && QString(m_expression[i-1]).contains(" "))){
             if(stack.size() >= 2){//on verifie que l'on a au moins deux constantes
                 a = stack.pop(); //on depile les deux constantes
                 b = stack.pop();
@@ -138,6 +138,20 @@ QQueue<QString> Expression::TransformerExpression(){
     return resQueue;//on retourne la file de resultat
 }
 
+Expression* Expression::ConcatenerDerriere(const QString &operateur,const Constante* constante){
+    QString res;
+    res=" "+constante->Afficher() +" "+ operateur+"'";
+    m_expression.replace(m_expression.lastIndexOf("'"),1,res);
+    return this;
+
+}
+
+Expression* Expression::ConcatenerDevant(const QString &operateur, const Constante *constante){
+    QString res;
+    if(constante) m_expression.insert(1, constante->Afficher()+" "); //si c'est un op binaire
+    m_expression.insert(m_expression.lastIndexOf("'")," "+operateur);
+    return this;
+}
 
 bool EstUnNombre(QString s){
     /*! Vérifie que la chaine entrée est  bien un float*/

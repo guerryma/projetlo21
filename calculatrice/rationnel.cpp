@@ -7,11 +7,9 @@ Rationnel* Rationnel::Inverse2(){
     else{
         int den=m_numerateur;
         int num=m_denominateur;
-        this->SetDenominateur(1);
+        this->SetDenominateur(1); // Il faut changer la valeur du dénominateur pour que VérifSigne ne tranforme pas le rationnel
         this->SetNumerateur(num);
-        std::cout<<num<<" "<<m_numerateur<<"\n";
         this->SetDenominateur(den);
-        std::cout<<num<<" "<<m_denominateur;
 
         return this;
     }

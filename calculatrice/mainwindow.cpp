@@ -237,14 +237,14 @@ void MainWindow::BDupPressed(){
     if(m_calc->Dup())
         MajVuePile();
 
-        //else QMessageBox pas assez d'elements dans la pile
+    //else QMessageBox pas assez d'elements dans la pile
 }
 
 void MainWindow::BDropPressed(){
     if(m_calc->Drop())
         MajVuePile();
 
-        //else QMessageBox pas assez d'elements dans la pile
+    //else QMessageBox pas assez d'elements dans la pile
 }
 
 
@@ -338,7 +338,7 @@ void MainWindow::BSqrPressed(){
 }
 
 void MainWindow::BSignPressed(){
-if(m_calc->Signe()) MajVuePile();
+    if(m_calc->Signe()) MajVuePile();
 }
 
 void MainWindow::BFactPressed(){
@@ -453,94 +453,40 @@ void MainWindow::BSpacePressed(){
 
 void MainWindow::BEvalPressed(){
     QString s = ui->lineEdit->text();
-    QString s2 = ui->lineEdit->text();
-    QString s3;
+
     if(s.isEmpty()) {// C'est qu'on cherche à dépiler une constante
-        QStack<QString> tmp;
+        QQueue<QString> tmp;
         if(m_calc->EvalExpression(tmp)) MajVuePile();
     }
     else if (s.startsWith("'") && s.endsWith("'")){
         //Alors on a entré une expression, il faut la construire, la tester et l'évaluer
         Expression* e= new Expression(s);
         QQueue<QString> file= e->TransformerExpression();
-        ui->lineEdit->clear();
-        if(file.first() !="Erreur"){
-            while(!file.isEmpty()){
-                s3 = file.dequeue();
-                s2 = ui->lineEdit->text();
-                ui->lineEdit->setText(s2+" "+s3);
-            }
-            //if(m_calc->EvalExpression(pile,e)) MajVuePile();
 
-        }
-        else{
-            ui->lineEdit->setText(s2);
+        if(m_calc->EvalExpression(file,e)){
+
+            MajVuePile();
+            ui->lineEdit->clear();
         }
 
     }
-
-    else{
-        ui->lineEdit->setText(s2);
-    }
-
 }
 
-void MainWindow::BEnterPressed(){
 
-    /*! Fonction à déplacer ds calculatrice si temps
-      Eventuellement remplacer erreur par l'expression fausse qui doit etre modifiée,
-      et envoyer un QMessageBox erreur dans l'expression
-    */
-    
-    QStack <QString> stack;
-    QString s = ui->lineEdit->text();
-    QString s2;
-    int i = 0;
-    QString pRe;
-    QString pIm;
-    Constante* c;
+    void MainWindow::BEnterPressed2(){
 
-
-
-    //si il y a des espaces avant il faut les supprimer
-    if(QString(s[i]).contains(" ")){
-        s2 = s;
-        s = "";
-        while(QString(s2[i]).contains(" ")){
-            i++;
-        }
-        while(s2[i] != '\0'){
-            s.append(s2[i]);
-            i++;
-        }
-        s.append('\0');
-        s2 = "";
-
-    }
-
-    else{
         if(m_calc->MajPileS(ui->lineEdit->text())){
             MajVuePile();
             ui->lineEdit->clear();
+        }
 
+
+    }
+
+    void MainWindow::MajVuePile(){
+        ui->pile->clear();
+        for(int i=0;i<m_calc->GetPileS().size();i++){
+            ui->pile->insertPlainText(m_calc->GetPileS()[i]->Afficher()+"\n");
         }
     }
-}
-
-void MainWindow::BEnterPressed2(){
-
-    if(m_calc->MajPileS(ui->lineEdit->text())){
-        MajVuePile();
-        ui->lineEdit->clear();
-    }
-
-
-}
-
-void MainWindow::MajVuePile(){
-    ui->pile->clear();
-    for(int i=0;i<m_calc->GetPileS().size();i++){
-        ui->pile->insertPlainText(m_calc->GetPileS()[i]->Afficher()+"\n");
-    }
-}
 

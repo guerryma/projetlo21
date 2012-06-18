@@ -20,7 +20,12 @@ Commentaires sur transformerExpression : ok
 En cours : fonctions unaires
 
 --Maëva:
-SWap: j'ai l'impression que ça marche. 
+SWap: 
+
 J'ai oublié de te dire que maintenant un entier est tjs un rationnel par défaut. c'était plus simple pour la division. Excuse moi, j'aurai pas du modifier le modèle sans t'en parler. Du coup pour swap il faut tester si c un rationnel avec dénominateur =1. Je modifie. 
 Tu peux en tenir compte pour tes autres fonctions. Il y a une fonction EstUnEntier() qui peut te dire si un QString est un entier ou pas, si tu en as besoin :)
+
+Transformer expression:
+pb1: il semble que les éléments sont empilés à l'envers: l'élément le plus à droite dans l'expression devrait être le premier inséré dans la pile de résultat, et donc le dernier à être dépilé lors de l'évaluation. 
+pb2
 

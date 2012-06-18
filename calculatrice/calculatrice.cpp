@@ -572,3 +572,56 @@ bool Calculatrice::Mean(){
 
 }
 
+bool Calculatrice::Sin(){
+    Constante * x;
+    Rationnel* r;
+    Complexe* c, *c2, *c3;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(x);
+                return false;
+            }
+            else{
+                c2 = c->Sinus();
+
+                if(m_angle == DEGRE){
+                    Complexe*c3 = c2->to_degre();
+                    m_pStock.push(c3);
+                    return true;
+                }
+
+
+                m_pStock.push(c2);
+                return true;
+            }
+
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->Sinus();
+            if(m_angle == DEGRE){
+                Complexe*c3 = c2->to_degre();
+                m_pStock.push(c3);
+                return true;
+            }
+            m_pStock.push(c2);
+            return true;
+        }
+
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+
+    }
+
+}
+

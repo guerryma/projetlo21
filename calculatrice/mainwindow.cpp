@@ -279,9 +279,16 @@ void MainWindow::BCosHPressed(){
 }
 
 void MainWindow::BSinPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"SIN ");
+    if (ui->lineEdit->text().isEmpty()){
+
+        if(m_calc->Sin())
+            MajVuePile();
+
+        else{
+            Erreur("Erreur sin");
+            MajVuePile();
+        }
+    }
 }
 
 void MainWindow::BSinHPressed(){

@@ -26,10 +26,16 @@ J'ai oublié de te dire que maintenant un entier est tjs un rationnel par défau
 Tu peux en tenir compte pour tes autres fonctions. Il y a une fonction EstUnEntier() qui peut te dire si un QString est un entier ou pas, si tu en as besoin :)
 
 
---Laety
-Attention! quand on entre 3/9 ça l'empile alors que ça ne devrait pas!
-
 Transformer expression:
 pb1: il semble que les éléments sont empilés à l'envers: l'élément le plus à droite dans l'expression devrait être le premier inséré dans la pile de résultat, et donc le dernier à être dépilé lors de l'évaluation. 
 pb2
+
+--Laety
+
+pb sur le mean pour les complexes
+si on entre successivement 1/2 3/5 2 (1/2 a été entré par 2 1 /)
+et que l'on clique sur MEAN 
+ça entre 2$0 11/10 au lieu de 11/2[$0](?)
+
+pb2 : division entière 
 

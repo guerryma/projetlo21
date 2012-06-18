@@ -68,14 +68,13 @@ public:
     Complexe* Cube()const;
     Complexe* Fact()const;
 
+    Complexe* to_degre()const {return new Complexe(((180*m_reelle)/3.14), 0);}
+
 private:
     Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);}
     //!< Renvoie le conjuguÃ© d'un nombre complexe. Fonction utile pour les racines et les quotients
     Complexe* InversePrive();
 };
-
-
-//reste Ã  faire: racine
 
 
 

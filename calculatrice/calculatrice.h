@@ -16,9 +16,6 @@ class Calculatrice
         /*!
                   */
 {
-
-
-
     QStack<Constante*> m_pStock;
     QStack<QString> m_pAff;
     int m_taille; //! taille de la pile d'affichage
@@ -59,6 +56,9 @@ bool OperationBinaire(char operation);
 bool EvalExpression(QQueue<QString> pileExpr,Expression* expr=0);
 bool Signe();
 bool Inverse();
+
+//Operations unaires
+bool Sin();
 
 //Opérations sur la pile
 bool MajPileS(QString s);

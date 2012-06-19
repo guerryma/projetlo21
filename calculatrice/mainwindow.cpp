@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), m_calc(new Calculatrice(10, DEGRE, REEL))
+    ui(new Ui::MainWindow), m_calc(new Calculatrice(this))
 {
     ui->setupUi(this);
     ClavierNumerique();
@@ -37,6 +37,7 @@ MainWindow::~MainWindow()
 
 //Gestion des erreurs
 void MainWindow::Erreur(QString raison){
+    //QMessageBox::critical(this, "Erreur", chaine);
     ui->lineEdit->setText(raison);
 }
 
@@ -131,6 +132,7 @@ void MainWindow::BVirgulePressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
     ui->lineEdit->setText(ui->lineEdit->text()+",");
+
 }
 
 //Parametres
@@ -140,7 +142,7 @@ void MainWindow::Parametres(){
     QObject::connect(ui->bEntier, SIGNAL(toggled(bool)), this, SLOT(BEntierChecked(bool)));
     QObject::connect(ui->bDegre, SIGNAL(toggled(bool)), this, SLOT(BDegreChecked(bool)));
     QObject::connect(ui->bRadiant, SIGNAL(toggled(bool)), this, SLOT(BRadianChecked(bool)));
-    QObject::connect(ui->nbOpPile, SIGNAL(editingFinished()), this, SLOT(ReglerParamX()));
+    QObject::connect(ui->nbOpPile, SIGNAL(textChanged(QString)), this, SLOT(ReglerParamX(QString)));
 
 }
 
@@ -167,11 +169,16 @@ void MainWindow::BRadianChecked(bool b){
     if(b)
         m_calc->SetAngle(RADIAN);
 }
-void MainWindow::ReglerParamX(){
-    if(ui->nbOpPile->text() == ""){
-        ui->nbOpPile->setText(QString::number(m_calc->GetTaille()));
+void MainWindow::ReglerParamX(QString n){
+
+    m_calc->SetTaille(n.toInt());
+    if(m_calc->GetTaille()!=n.toInt()){
+
+        n=QString::number(m_calc->GetTaille());
+        ui->nbOpPile->setText(n);
     }
-    ui->pile->setMaximumBlockCount(ui->nbOpPile->text().toInt()+ 1);
+    ui->pile->setMaximumBlockCount(n.toInt()+ 1);
+
 }
 
 
@@ -536,20 +543,30 @@ void MainWindow::BEvalPressed(){
 }
 
 
-    void MainWindow::BEnterPressed2(){
-
+void MainWindow::BEnterPressed2(){
+    try{
         if(m_calc->MajPileS(ui->lineEdit->text())){
             MajVuePile();
             ui->lineEdit->clear();
         }
+    }
+    catch(const QString chaine){
 
+        Erreur(chaine);
 
     }
 
-    void MainWindow::MajVuePile(){
-        ui->pile->clear();
-        for(int i=0;i<m_calc->GetPileS().size();i++){
-            ui->pile->insertPlainText(m_calc->GetPileS()[i]->Afficher()+"\n");
-        }
-    }
 
+}
+
+void MainWindow::MajVuePile(){
+    ui->pile->clear();
+    for(int i=0;i<m_calc->GetPileS().size();i++){
+        ui->pile->insertPlainText(m_calc->GetPileS()[i]->Afficher()+"\n");
+    }
+}
+//Sauvegarde du contexte et des paramètres
+void MainWindow::closeEvent(QCloseEvent * event){
+    m_calc->EnregistrerParametres();
+    event->accept();
+}

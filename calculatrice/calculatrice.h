@@ -7,6 +7,7 @@
 #include <QStack>
 #include <QQueue>
 #include <iostream>
+#include <QSettings>
 
 
 enum Angle{RADIAN, DEGRE};
@@ -14,20 +15,27 @@ enum Type{RATIONNEL, REEL, ENTIER};
 
 class Calculatrice
         /*!
-                  */
+                          */
 {
     QStack<Constante*> m_pStock;
     QStack<QString> m_pAff;
     int m_taille; //! taille de la pile d'affichage
+    int m_MAX; //! taille max de la pile
     Angle m_angle;
     Type m_type;
     bool m_modeComplexe;
 
+    QSettings m_param;
+
 
 public:
     Calculatrice(){}
-   inline Calculatrice(int taille=10, Angle angle=DEGRE, Type type=REEL, bool complexe=true):
-        m_taille(taille), m_angle(angle), m_type(type), m_modeComplexe(complexe){}
+     inline Calculatrice(QObject* parent=0):
+       m_MAX(20), m_param("../parametres.ini", QSettings::IniFormat, parent)
+    {
+        ChargerOptions();
+    }
+
 
    //Accesseurs
 int GetTaille() const {return m_taille;}
@@ -78,8 +86,10 @@ void Clear();
 bool Dup();
 bool Drop();
 
-
-
+//Parametrage
+    void EnregistrerParametres();
+private:
+    void ChargerOptions();
 };
 
 #endif // CALCULATRICE_H

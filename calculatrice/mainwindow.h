@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QStack>
 #include "calculatrice.h"
+#include <QMessageBox>
+#include <QSettings>
 
 namespace Ui {
 class MainWindow;
@@ -84,13 +86,17 @@ private slots:
     void BPowPressed();
 
     //Parametrage
-    void ReglerParamX();
+    void ReglerParamX(QString n);
     void BComplexeChecked(bool b);
     void BDegreChecked(bool b);
     void BRadianChecked(bool b);
     void BReelChecked(bool b);
     void BRationnelChecked(bool b);
     void BEntierChecked(bool b);
+
+protected:
+    //Fenetre
+    void closeEvent(QCloseEvent *);
 
 public:
     void ClavierNumerique();

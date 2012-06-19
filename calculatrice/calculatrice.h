@@ -30,57 +30,71 @@ class Calculatrice
 
 public:
     Calculatrice(){}
-    inline Calculatrice(QObject* parent=0):
+     inline Calculatrice(QObject* parent=0):
        m_MAX(20), m_param("../parametres.ini", QSettings::IniFormat, parent)
     {
         ChargerOptions();
     }
 
-    //Accesseurs
-    int GetTaille() const {return m_taille;}
-    Angle GetAngle() const {return m_angle;}
-    Type GetType() const {return m_type;}
-    bool GetModeComplexe() const {return m_modeComplexe;}
 
-    void SetTaille(int n){if(n>m_MAX) n=m_MAX; m_taille=n;}
-    void SetAngle(Angle a){m_angle=a;}
-    void SetType(Type t){m_type=t;}
-    void SetModeComplexe(bool b){m_modeComplexe=b;}
 
-    //Operations sur les piles (accesseurs de pile)
-    void EmpilerPileA(QString s){m_pAff.push(s);}
-    QString DepilerPileA(){return m_pAff.pop();}
-    bool EstVidePileA(){return m_pAff.isEmpty();}
+   //Accesseurs
+int GetTaille() const {return m_taille;}
+Angle GetAngle() const {return m_angle;}
+Type GetType() const {return m_type;}
+bool GetModeComplexe() const {return m_modeComplexe;}
 
-    QStack<Constante*> GetPileS()const {return m_pStock;}
-    void EmpilerPileS(Constante* c); //!< Permet d'empiler tout en vérifiant la taille.
-    Constante* DepilerPileS(){return m_pStock.pop();}
-    bool EstVidePileS(){return m_pStock.isEmpty();}
+void SetTaille(int n){m_taille=n;}
+void SetAngle(Angle a){m_angle=a;}
+void SetType(Type t){m_type=t;}
+void SetModeComplexe(bool b){m_modeComplexe=b;}
 
-    //Gestion de la pile (calculs)
+//Operations sur les piles (accesseurs de pile)
+void EmpilerPileA(QString s){m_pAff.push(s);}
+QString DepilerPileA(){return m_pAff.pop();}
+bool EstVidePileA(){return m_pAff.isEmpty();}
 
-    bool OperationBinaire(char operation);
-    bool EvalExpression(QQueue<QString> pileExpr,Expression* expr=0);
-    bool Signe();
-    bool Inverse();
+QStack<Constante*> GetPileS()const {return m_pStock;}
+void EmpilerPileS(Constante* c); //!< Permet d'empiler tout en vérifiant la taille.
+void push(Constante* c);
+Constante* DepilerPileS(){return m_pStock.pop();}
+bool EstVidePileS(){return m_pStock.isEmpty();}
 
-    //Operations unaires
-    bool Sin();
+//Gestion de la pile (calculs)
 
-    //Opérations sur la pile
-    bool MajPileS(QString s);
-    bool Swap();
-    bool Sum();
-    bool Mean();
-    void Clear();
-    bool Dup();
-    bool Drop();
+bool OperationBinaire(char operation);
+bool EvalExpression(QQueue<QString> pileExpr,Expression* expr=0);
+bool Signe();
+bool Inverse();
 
-    //Parametrage
+//Operations unaires
+bool Sin();
+bool Cos();
+bool Tan();
+bool SinH();
+bool CosH();
+bool TanH();
+bool Ln();
+bool Log();
+bool Sqrt();
+bool Sqr();
+bool Cube();
+bool Fact();
+
+//Opérations sur la pile
+bool MajPileS(QString s);
+bool Swap();
+bool Sum();
+bool Mean();
+void Clear();
+bool Dup();
+bool DropTete();
+bool Drop();
+
+//Parametrage
     void EnregistrerParametres();
 private:
     void ChargerOptions();
-
 };
 
 #endif // CALCULATRICE_H

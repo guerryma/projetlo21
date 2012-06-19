@@ -69,9 +69,14 @@ Rationnel* Rationnel::to_rationnel(Complexe *c){
     return 0;
 }
 
-Complexe* Rationnel::Sinus() const{
-    Complexe* c = to_complexe();
-    c = c->Sinus();
-    return c;
+Rationnel* Rationnel::Facto()const{
+    int i = 1;
+    int fact = 1;
+
+   for(int i = 1; i<= m_numerateur; i++){
+        fact = fact* i;
+    }
+    return new Rationnel(fact);
 }
+
 

@@ -20,8 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //paramètrage
-    ui->bReel->setChecked(true);
-    ui->bDegre->setChecked(true);
+
     ui->nbOpPile->setText(QString::number(m_calc->GetTaille()));
     ui->pile->setMaximumBlockCount(m_calc->GetTaille());
     QObject::connect(ui->Complexe, SIGNAL(toggled(bool)),this,SLOT(BComplexeChecked(bool)));
@@ -277,15 +276,29 @@ void MainWindow::ClavierOperateurUnaire(){
 }
 //Boutons Operateurs unaires
 void MainWindow::BCosPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"COS ");
+    if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Cos())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur cos");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BCosHPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"COSH ");
+    if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->CosH())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur cosh");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BSinPressed(){
@@ -302,33 +315,68 @@ void MainWindow::BSinPressed(){
 }
 
 void MainWindow::BSinHPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"SINH ");
+    if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->SinH())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur sinh");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BTanPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"TAN ");
+    if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Tan())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur tan");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BTanHPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"TANH ");
+   if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->TanH())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur tanh");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BLnPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"LN ");
+    if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Ln())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur ln");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BLogPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"LOG");
+    if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Log())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur log");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BInvPressed(){
@@ -337,21 +385,42 @@ void MainWindow::BInvPressed(){
 }
 
 void MainWindow::BCubePressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"CUBE ");
+   if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Cube())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur cube");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BSqrtPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"SQRT ");
+   if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Sqrt())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur sqrt");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BSqrPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"SQR ");
+   if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Sqr())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur sqr");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BSignPressed(){
@@ -359,9 +428,16 @@ void MainWindow::BSignPressed(){
 }
 
 void MainWindow::BFactPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"! ");
+   if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Fact())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur fact");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::ClavierOperateurBinaire(){

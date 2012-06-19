@@ -7,6 +7,7 @@ class Constante
 {
 protected:
     QString m_type;
+    void SetType(QString t){m_type=t;}
 public:
     Constante(){}
     Constante(QString type): m_type(type){}
@@ -15,6 +16,7 @@ public:
     virtual ~Constante(){};
 
     QString GetType() const {return m_type;}
+
 
 
     //Opérations

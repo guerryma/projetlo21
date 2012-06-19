@@ -4,6 +4,8 @@
 #include<iostream>
 #include <cmath>
 #include <QtCore/qmath.h>
+#include <QVariant>
+
 
 
 class Complexe: public Constante
@@ -26,10 +28,10 @@ public:
     Complexe():Constante("complexe"), m_reelle(0), m_imaginaire(0){}
     // Complexe(Rationnel r); //MÃ©thode Ã  partir d'un Rationnel
     Complexe(float r, float i=0): Constante("complexe"), m_reelle(r),m_imaginaire(i){}
-    inline Complexe(const Complexe*& cpx):Constante("complexe"){
-        m_reelle=cpx->GetPartieReelle();
-        m_imaginaire=cpx->GetPartieImaginaire();
-    }
+//    inline Complexe(const Complexe& cpx):Constante("complexe"){
+//        m_reelle=cpx->GetPartieReelle();
+//        m_imaginaire=cpx->GetPartieImaginaire();
+//    }
 
 
 
@@ -85,6 +87,7 @@ private:
 
 
 //Entrees et sorties fichier
+Q_DECLARE_METATYPE(Complexe);
 QDataStream & operator << (QDataStream & out, const Complexe*& Valeur);
 QDataStream & operator >> (QDataStream & in,  Complexe* & Valeur);
 

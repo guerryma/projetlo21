@@ -136,14 +136,27 @@ Complexe* Complexe::Fact()const{
 }
 
 QDataStream & operator << (QDataStream & out, const Complexe*& Valeur){
-    out<<QString(Valeur->GetType())<<float(Valeur->GetPartieReelle())<<float(Valeur->GetPartieImaginaire());
+    out<<QString(Valeur->GetType())
+       <<float(Valeur->GetPartieReelle())
+       <<float(Valeur->GetPartieImaginaire());
     return out;
 }
 
 QDataStream & operator >> (QDataStream & in, Complexe* & Valeur){
-    in>>Valeur->m_type;
-    in>>Valeur->m_reelle;
-    in>>Valeur->m_imaginaire;
+    QString type;
+    float r, i;
+    in>>type;
+    in>>r;
+    in>>i;
+
+    Valeur->SetPartieReelle(r);
+    Valeur->SetPartieImaginaire(i);
+    Valeur->SetType(type);
+
+
+
+
+
 
     return in;
 

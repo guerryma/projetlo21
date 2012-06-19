@@ -4,16 +4,16 @@
 #include<QString>
 #include <iostream>
 #include <stdexcept>
-#include<exception>
+//#include <exception>
 #include "constante.h"
 #include "complexe.h"
 #include "expression.h"
 
-class RationnelException{
+class RationnelException /*: public exception*/ {
     QString info;
 public:
     RationnelException(const QString& s):info(s){}
-    const QString& getInfo() const {return info;}
+    const QString& what() const {return info;}
 };
 
 

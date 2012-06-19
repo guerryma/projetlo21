@@ -37,8 +37,8 @@ MainWindow::~MainWindow()
 
 //Gestion des erreurs
 void MainWindow::Erreur(QString raison){
-    //QMessageBox::critical(this, "Erreur", chaine);
-    ui->lineEdit->setText(raison);
+    QMessageBox::critical(this, "Erreur", raison);
+//    ui->lineEdit->setText(raison);
 }
 
 void MainWindow::ClavierNumerique(){
@@ -176,6 +176,9 @@ void MainWindow::ReglerParamX(QString n){
 
         n=QString::number(m_calc->GetTaille());
         ui->nbOpPile->setText(n);
+        QMessageBox::warning(this, "Erreur", "Taille max dépassée");
+
+
     }
     ui->pile->setMaximumBlockCount(n.toInt()+ 1);
 
@@ -494,9 +497,9 @@ void MainWindow::BEnterPressed2(){
             ui->lineEdit->clear();
         }
     }
-    catch(const QString chaine){
+    catch(RationnelException e){
 
-        Erreur(chaine);
+        Erreur(e.what());
 
     }
 

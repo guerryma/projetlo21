@@ -30,7 +30,6 @@ int main(int argc, char *argv[])
 
 //    std::cout<<e->Afficher().toStdString()<<"\n";
 
-
 QFile test("../out.dat");
 test.open(QIODevice::ReadWrite);
 QDataStream out(&test);

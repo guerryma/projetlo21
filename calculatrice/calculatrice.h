@@ -66,6 +66,8 @@ bool OperationBinaire(char operation);
 bool EvalExpression(QQueue<QString> pileExpr,Expression* expr=0);
 bool Signe();
 bool Inverse();
+bool Mod();
+bool Pow();
 
 //Operations unaires
 bool Sin();

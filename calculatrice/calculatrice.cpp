@@ -8,6 +8,23 @@ void Calculatrice::EmpilerPileS(Constante *c){
     }
 }
 
+void Calculatrice::EnregistrerParametres(){
+    //QSettings Settings("../parametres.ini", QSettings::IniFormat, parent);
+    m_param.setValue ("taille",m_taille);
+    m_param.setValue ("type",m_type);
+    m_param.setValue ("angle",m_angle);
+    m_param.setValue("complexe",m_modeComplexe);
+
+
+}
+void Calculatrice::ChargerOptions(){
+
+    m_taille=m_param.value("taille",10).toInt();
+    m_type=(Type)m_param.value("type", RADIAN).toInt();
+    m_angle=(Angle)m_param.value("angle",REEL).toInt();
+    m_modeComplexe=m_param.value("complexe",true).toBool();
+}
+
 bool Calculatrice::OperationBinaire(char operation){
     /*! Traitement d'un opérateur binaire: les opérandes sont dépilées puis l'opération est calculée
       En fonction du type d'opération envoyé en paramètre.

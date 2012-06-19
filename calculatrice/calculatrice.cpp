@@ -224,6 +224,7 @@ bool Calculatrice::Signe(){
         return true;
     }
 
+    return false;
 }
 
 bool Calculatrice::Inverse(){
@@ -323,10 +324,10 @@ bool Calculatrice::MajPileS(QString s){
         int n=s.indexOf('/');
         QString num=s.left(n);
         QString den=s.right(s.size()-n-1);
-        if(EstUnEntier(num)&& EstUnEntier(den)){
-            //try{
+        if(EstUnEntier(num)&& EstUnEntier(den))
+
             c= new Rationnel(num.toInt(), den.toInt());
-        }
+
         else return false;
     }
     else if(EstUnEntier(s)) c= new Rationnel(s.toInt());

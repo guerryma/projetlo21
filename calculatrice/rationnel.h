@@ -10,10 +10,10 @@
 #include "expression.h"
 
 class RationnelException{
-    std::string info;
+    QString info;
 public:
-    RationnelException(const std::string& s):info(s){}
-    const std::string& getInfo() const {return info;}
+    RationnelException(const QString& s):info(s){}
+    const QString& getInfo() const {return info;}
 };
 
 

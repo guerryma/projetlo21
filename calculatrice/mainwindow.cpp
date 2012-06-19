@@ -480,20 +480,26 @@ void MainWindow::BEvalPressed(){
 }
 
 
-    void MainWindow::BEnterPressed2(){
-
+void MainWindow::BEnterPressed2(){
+    try{
         if(m_calc->MajPileS(ui->lineEdit->text())){
             MajVuePile();
             ui->lineEdit->clear();
         }
+    }
+    catch(const QString& chaine){
 
+        QMessageBox::critical(this, "Erreur", chaine);
 
     }
 
-    void MainWindow::MajVuePile(){
-        ui->pile->clear();
-        for(int i=0;i<m_calc->GetPileS().size();i++){
-            ui->pile->insertPlainText(m_calc->GetPileS()[i]->Afficher()+"\n");
-        }
+
+}
+
+void MainWindow::MajVuePile(){
+    ui->pile->clear();
+    for(int i=0;i<m_calc->GetPileS().size();i++){
+        ui->pile->insertPlainText(m_calc->GetPileS()[i]->Afficher()+"\n");
     }
+}
 

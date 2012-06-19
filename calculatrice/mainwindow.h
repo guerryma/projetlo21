@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QStack>
 #include "calculatrice.h"
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;

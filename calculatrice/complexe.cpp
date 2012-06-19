@@ -38,7 +38,7 @@ Complexe* Complexe::InversePrive(){
 }
 
 void Complexe::Inverse(){
-   InversePrive();
+    InversePrive();
 }
 
 Complexe* Complexe::Quotient(Complexe* c) const{
@@ -53,7 +53,7 @@ QString Complexe::Afficher()const{
 }
 
 Complexe* Complexe::Sinus() const{
-   return new Complexe(qSin(m_reelle),0);
+    return new Complexe(qSin(m_reelle),0);
 }
 
 Complexe* Complexe::Cosinus() const{
@@ -135,6 +135,34 @@ Complexe* Complexe::CubeC()const{
 
 Complexe* Complexe::PowC(Complexe* c)const{
     return new Complexe(qPow(m_reelle, c->GetPartieReelle()));
+}
+
+
+QDataStream & operator << (QDataStream & out, const Complexe*& Valeur){
+    out<<QString(Valeur->GetType())
+       <<float(Valeur->GetPartieReelle())
+       <<float(Valeur->GetPartieImaginaire());
+    return out;
+}
+
+QDataStream & operator >> (QDataStream & in, Complexe* & Valeur){
+    QString type;
+    float r, i;
+    in>>type;
+    in>>r;
+    in>>i;
+
+    Valeur->SetPartieReelle(r);
+    Valeur->SetPartieImaginaire(i);
+    Valeur->SetType(type);
+
+
+
+
+
+
+    return in;
+
 }
 
 

@@ -4,12 +4,11 @@
 void Calculatrice::EmpilerPileS(Constante *c){
     m_pStock.push(c);
     if(m_pStock.size()==m_taille){
-        Drop();
+        DropTete();
     }
 }
 
 void Calculatrice::EnregistrerParametres(){
-    //QSettings Settings("../parametres.ini", QSettings::IniFormat, parent);
     m_param.setValue ("taille",m_taille);
     m_param.setValue ("type",m_type);
     m_param.setValue ("angle",m_angle);
@@ -445,7 +444,7 @@ bool Calculatrice::Dup(){
     if(m_pStock.isEmpty())
         return false;
     else{
-        a = m_pStock.first();
+        a = m_pStock.top();
         if(a->GetType() == "complexe"){
             c2 = dynamic_cast <Complexe *>(a);
             c = new Complexe(c2->GetPartieReelle(), c2->GetPartieImaginaire());
@@ -471,13 +470,22 @@ bool Calculatrice::Dup(){
      et retourne true si la suppression s'est faite correctement
     false dans le cas contraire
 */
-bool Calculatrice::Drop(){
+bool Calculatrice::DropTete(){
 
     if(m_pStock.isEmpty())
         return false;
 
     else{
         m_pStock.remove(0);
+        return true;
+    }
+}
+bool Calculatrice::Drop(){
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        m_pStock.pop();
         return true;
     }
 }
@@ -926,6 +934,7 @@ bool Calculatrice::Ln(){
             }
          }
     }
+    return false;
 }
 
 bool Calculatrice::Log(){
@@ -982,6 +991,7 @@ bool Calculatrice::Log(){
             }
          }
     }
+    return false;
 }
 
 bool Calculatrice::Sqrt(){

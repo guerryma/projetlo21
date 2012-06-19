@@ -79,7 +79,7 @@ public:
     Complexe* to_complexe()const {return new Complexe(m_float);}
     static Rationnel* to_rationnel(Complexe* c);
 
-
+    Rationnel* Facto()const;
 };
 
 

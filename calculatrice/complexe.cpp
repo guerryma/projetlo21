@@ -101,17 +101,36 @@ Complexe* Complexe::LogC()const{
 
 Complexe* Complexe::RacineC()const{
     return new Complexe(qSqrt(m_reelle), 0);
-    //Ajouter cas nombre négatif
 }
 
 Complexe* Complexe::Carre()const{
-    return new Complexe(qPow(m_reelle, 2), 0);
-    //ajouter pour le cas d'un vrai complexe
+    float a2, b2; //un complexe c'est a+ib
+    float res_re, res_im;
+
+    a2 = qPow(m_reelle, 2); //a au carre
+    b2 = qPow(m_imaginaire, 2); //b au carre
+
+    res_re = a2 - b2;
+    res_im = 2*m_reelle*m_imaginaire;
+
+    return new Complexe(res_re, res_im);
 }
 
 Complexe* Complexe::CubeC()const{
-    return new Complexe(qPow(m_reelle, 3), 0);
-    //ajouter pour le cas d'un vrai complexe
+    float a2, b2, a3, b3; //un complexe c'est a+ib
+    float res_re, res_im;
+
+
+    a3 = qPow(m_reelle, 3); //a au cube
+    b3 = qPow(m_imaginaire, 3); //b au cube
+    
+    a2 = qPow(m_reelle, 2); //a au carre
+    b2 = qPow(m_imaginaire, 2); //b au carre
+    
+    res_re = a3-(2*m_reelle*b2)-(b2*m_reelle);
+    res_im = (a2*m_imaginaire)+(2*a2*m_imaginaire)-b3;
+
+    return new Complexe(res_re, res_im);
 }
 
 

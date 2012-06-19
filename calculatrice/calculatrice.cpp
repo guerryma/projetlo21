@@ -1004,10 +1004,15 @@ bool Calculatrice::Sqrt(){
                 return false;
             }
             else{
-
-                c2 = c->RacineC();
-                m_pStock.push(c2);
-                return true;
+                if(c->GetPartieReelle()< 0){
+                    m_pStock.push(c);
+                    return false;
+                }
+                else{
+                    c2 = c->RacineC();
+                    m_pStock.push(c2);
+                    return true;
+                }
             }
 
         }
@@ -1015,7 +1020,46 @@ bool Calculatrice::Sqrt(){
         else if(x->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(x);
             c2 = r->to_complexe();
-            m_pStock.push(c2->RacineC());
+
+            if(c2->GetPartieReelle()< 0){
+                m_pStock.push(c2);
+                return false;
+            }
+            else{
+                m_pStock.push(c2->RacineC());
+                return true;
+            }
+        }
+
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+
+    }
+}
+
+bool Calculatrice::Sqr(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            m_pStock.push(c->Carre());
+            return true;
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c = r->to_complexe();
+            m_pStock.push(c->Carre());
             return true;
         }
 
@@ -1026,6 +1070,67 @@ bool Calculatrice::Sqrt(){
 
     }
 }
+
+bool Calculatrice::Cube(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            m_pStock.push(c->CubeC());
+            return true;
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c = r->to_complexe();
+            m_pStock.push(c->CubeC());
+            return true;
+        }
+
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+
+    }
+}
+
+bool Calculatrice::Fact(){
+    Constante* x;
+    Rationnel* r;
+
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            if(r->GetNumerateur() >= 0){
+                m_pStock.push(r->Facto());
+                return true;
+            }
+            else{
+                m_pStock.push(r);
+                return false;
+            }
+        }
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+    }
+}
+
 
 
 

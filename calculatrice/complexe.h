@@ -67,7 +67,6 @@ public:
 
     Complexe* Carre()const;
     Complexe* CubeC()const;
-    //Complexe* Fact()const;
 
     Complexe* to_degre()const {return new Complexe((3.14/float(180)*m_reelle), 0);}
 

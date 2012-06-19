@@ -76,6 +76,9 @@ bool TanH();
 bool Ln();
 bool Log();
 bool Sqrt();
+bool Sqr();
+bool Cube();
+bool Fact();
 
 //Opérations sur la pile
 bool MajPileS(QString s);

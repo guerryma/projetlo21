@@ -6,6 +6,7 @@
 #include <QtCore/qmath.h>
 
 
+
 class Complexe: public Constante
         /*!
                   Les objets complexe sont composés d'une partie réelle et d'une partie imaginaire de type float.
@@ -59,16 +60,16 @@ public:
     Complexe* CosinusH() const;
     Complexe* TangH() const;
 
-    Complexe* Ln()const;
-    Complexe* Log()const;
+    Complexe* LnC()const;
+    Complexe* LogC()const;
 
     Complexe* RacineC()const;//!< Calcule la racine carrée de l'objet. ce nombre peut être négatif
 
     Complexe* Carre()const;
-    Complexe* Cube()const;
-    Complexe* Fact()const;
+    Complexe* CubeC()const;
+    //Complexe* Fact()const;
 
-    Complexe* to_degre()const {return new Complexe(((180*m_reelle)/3.14), 0);}
+    Complexe* to_degre()const {return new Complexe((3.14/float(180)*m_reelle), 0);}
 
 private:
     Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);}

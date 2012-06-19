@@ -592,15 +592,13 @@ bool Calculatrice::Sin(){
                 return false;
             }
             else{
-                c2 = c->Sinus();
-
                 if(m_angle == DEGRE){
-                    Complexe*c3 = c2->to_degre();
-                    m_pStock.push(c3);
+                    c2 = c->to_degre();
+                    m_pStock.push(c2->Sinus());
                     return true;
                 }
 
-
+                c2 = c->Sinus();
                 m_pStock.push(c2);
                 return true;
             }
@@ -609,13 +607,14 @@ bool Calculatrice::Sin(){
 
         else if(x->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(x);
-            c2 = r->Sinus();
+            c2 = r->to_complexe();
             if(m_angle == DEGRE){
-                Complexe*c3 = c2->to_degre();
-                m_pStock.push(c3);
+                c3 = c2->to_degre();
+                m_pStock.push(c3->Sinus());
                 return true;
             }
-            m_pStock.push(c2);
+
+            m_pStock.push(c2->Sinus());
             return true;
         }
 
@@ -627,4 +626,388 @@ bool Calculatrice::Sin(){
     }
 
 }
+
+bool Calculatrice::Cos(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c, *c2, *c3;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(x);
+                return false;
+            }
+            else{
+                if(m_angle == DEGRE){
+                    c2 = c->to_degre();
+                    m_pStock.push(c2->Cosinus());
+                    return true;
+                }
+
+                c2 = c->Cosinus();
+                m_pStock.push(c2);
+                return true;
+            }
+
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->to_complexe();
+            if(m_angle == DEGRE){
+                c3 = c2->to_degre();
+                m_pStock.push(c3->Cosinus());
+                return true;
+            }
+
+            m_pStock.push(c2->Cosinus());
+            return true;
+        }
+
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+
+    }
+
+}
+
+bool Calculatrice::Tan(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c, *c2, *c3;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(x);
+                return false;
+            }
+            else{
+                if(m_angle == DEGRE){
+                    c2 = c->to_degre();
+                    m_pStock.push(c2->Tang());
+                    return true;
+                }
+
+                c2 = c->Tang();
+                m_pStock.push(c2);
+                return true;
+            }
+
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->to_complexe();
+            if(m_angle == DEGRE){
+               c3 = c2->to_degre();
+                m_pStock.push(c3->Tang());
+                return true;
+            }
+
+            m_pStock.push(c2->Tang());
+            return true;
+        }
+
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+
+    }
+
+}
+
+bool Calculatrice::SinH(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c, *c2;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(x);
+                return false;
+            }
+            else{
+
+                c2 = c->SinusH();
+                m_pStock.push(c2);
+                return true;
+            }
+
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->to_complexe();
+            m_pStock.push(c2->SinusH());
+            return true;
+        }
+
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+
+    }
+}
+
+bool Calculatrice::CosH(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c, *c2;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(x);
+                return false;
+            }
+            else{
+
+                c2 = c->CosinusH();
+                m_pStock.push(c2);
+                return true;
+            }
+
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->to_complexe();
+            m_pStock.push(c2->CosinusH());
+            return true;
+        }
+
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+
+    }
+}
+
+bool Calculatrice::TanH(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c, *c2;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(x);
+                return false;
+            }
+            else{
+
+                c2 = c->TangH();
+                m_pStock.push(c2);
+                return true;
+            }
+
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->to_complexe();
+            m_pStock.push(c2->TangH());
+            return true;
+        }
+
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+
+    }
+}
+
+bool Calculatrice::Ln(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c, *c2;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(c);
+                return false;
+
+            }
+
+            else{
+                if(c->GetPartieReelle() > 0){
+                    m_pStock.push(c->LnC());
+                    return true;
+                }
+                else{
+                    m_pStock.push(c);
+                    return false;
+                }
+            }
+
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->to_complexe();
+
+            if(c2->GetPartieImaginaire() != 0){
+                m_pStock.push(c2);
+                return false;
+
+            }
+
+            else{
+                if(c2->GetPartieReelle() > 0){
+                    m_pStock.push(c2->LnC());
+                    return true;
+                }
+                else{
+                    m_pStock.push(c2);
+                    return false;
+                }
+            }
+         }
+    }
+}
+
+bool Calculatrice::Log(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c, *c2;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(c);
+                return false;
+
+            }
+
+            else{
+                if(c->GetPartieReelle() > 0){
+                    m_pStock.push(c->LogC());
+                    return true;
+                }
+                else{
+                    m_pStock.push(c);
+                    return false;
+                }
+            }
+
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->to_complexe();
+
+            if(c2->GetPartieImaginaire() != 0){
+                m_pStock.push(c2);
+                return false;
+
+            }
+
+            else{
+                if(c2->GetPartieReelle() > 0){
+                    m_pStock.push(c2->LogC());
+                    return true;
+                }
+                else{
+                    m_pStock.push(c2);
+                    return false;
+                }
+            }
+         }
+    }
+}
+
+bool Calculatrice::Sqrt(){
+
+    Constante * x;
+    Rationnel* r;
+    Complexe* c, *c2;
+    if(m_pStock.isEmpty())
+        return false;
+
+    else{
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(x);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(x);
+                return false;
+            }
+            else{
+
+                c2 = c->RacineC();
+                m_pStock.push(c2);
+                return true;
+            }
+
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->to_complexe();
+            m_pStock.push(c2->RacineC());
+            return true;
+        }
+
+        else{
+            m_pStock.push(x);
+            return false;
+        }
+
+    }
+}
+
+
 

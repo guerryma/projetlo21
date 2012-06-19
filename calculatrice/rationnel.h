@@ -79,22 +79,6 @@ public:
     Complexe* to_complexe()const {return new Complexe(m_float);}
     static Rationnel* to_rationnel(Complexe* c);
 
-    Complexe* Sinus() const;
-    Rationnel* Cosinus() const;
-    Rationnel* Tang() const;
-
-    Rationnel* SinusH() const;
-    Rationnel* CosinusH() const;
-    Rationnel* TangH() const;
-
-    Rationnel* Ln()const;
-    Rationnel* Log()const;
-
-    Rationnel* RacineC()const;//!< Calcule la racine carrée de l'objet. ce nombre peut être négatif
-
-    Rationnel* Carre()const;
-    Rationnel* Cube()const;
-    Rationnel* Fact()const;
 
 };
 

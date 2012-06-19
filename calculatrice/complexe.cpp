@@ -66,30 +66,20 @@ Complexe* Complexe::Tang() const{
     return sin->Quotient(cos);
 }
 
-Complexe* Complexe::SinusH() const{
-    Complexe* cos = Cosinus();
-    Complexe* sin = Sinus();
-
-    Complexe* expP = cos->Somme(sin); //e(x) = cos(x) + sin(x)
-    Complexe* expM = cos->Difference(sin); //e(-x) = cos(x) - sin(x)
-
+Complexe* Complexe::SinusH() const{    
+    Complexe* expP = new Complexe(exp(m_reelle),0); //e(x)
+    Complexe* expM = new Complexe(exp(-m_reelle),0); //e(-x)
     Complexe* shInt = expP->Difference(expM); //sh intermediaire
     Complexe* Deux = new Complexe(2, 0);
-
     return shInt->Quotient(Deux); //sh = (e(x)-e(-x))/2
 }
 
 Complexe* Complexe::CosinusH() const{
-    Complexe* cos = Cosinus();
-    Complexe* sin = Sinus();
-
-    Complexe* expP = cos->Somme(sin); //e(x) = cos(x) + sin(x)
-    Complexe* expM = cos->Difference(sin); //e(-x) = cos(x) - sin(x)
-
-    Complexe* chInt = expP->Difference(expM); //ch intermediaire
+    Complexe* expP = new Complexe(exp(m_reelle),0); //e(x)
+    Complexe* expM = new Complexe(exp(-m_reelle),0); //e(-x)
+    Complexe* chInt = expP->Somme(expM); //ch intermediaire
     Complexe* Deux = new Complexe(2, 0);
-
-    return chInt->Quotient(Deux); //ch = (e(x)+e(-x))/2
+    return chInt->Quotient(Deux);//ch = (e(x)+e(-x))/2
 }
 
 Complexe* Complexe::TangH() const{
@@ -99,11 +89,11 @@ Complexe* Complexe::TangH() const{
     return sh->Quotient(ch);
 }
 
-Complexe* Complexe::Ln()const{
+Complexe* Complexe::LnC()const{
     return new Complexe(qLn(m_reelle), 0);
 }
-Complexe* Complexe::Log()const{
-    Complexe* ln = Ln();
+Complexe* Complexe::LogC()const{
+    Complexe* ln = LnC();
     Complexe* ln10 = new Complexe(qLn(10));
     return ln->Quotient(ln10);
 }
@@ -119,18 +109,9 @@ Complexe* Complexe::Carre()const{
     //ajouter pour le cas d'un vrai complexe
 }
 
-Complexe* Complexe::Cube()const{
+Complexe* Complexe::CubeC()const{
     return new Complexe(qPow(m_reelle, 3), 0);
     //ajouter pour le cas d'un vrai complexe
 }
 
-Complexe* Complexe::Fact()const{
-    float fac = 1;
-    int i;
 
-    for(i = 1; i < m_reelle+1; i++){
-        fac = fac*i;
-    }
-
-    return new Complexe(fac, 0);
-}

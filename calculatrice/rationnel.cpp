@@ -68,10 +68,15 @@ Rationnel* Rationnel::to_rationnel(Complexe *c){
         return new Rationnel(c->GetPartieReelle());
     return 0;
 }
+/*
+Complexe* Complexe::Fact()const{
+    float fac = 1;
+    int i;
 
-Complexe* Rationnel::Sinus() const{
-    Complexe* c = to_complexe();
-    c = c->Sinus();
-    return c;
-}
+    for(i = 1; i < m_reelle+1; i++){
+        fac = fac*i;
+    }
+
+    return new Complexe(fac, 0);
+}*/
 

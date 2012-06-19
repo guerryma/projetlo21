@@ -60,6 +60,14 @@ bool Inverse();
 
 //Operations unaires
 bool Sin();
+bool Cos();
+bool Tan();
+bool SinH();
+bool CosH();
+bool TanH();
+bool Ln();
+bool Log();
+bool Sqrt();
 
 //Opérations sur la pile
 bool MajPileS(QString s);

@@ -535,8 +535,9 @@ bool Calculatrice::Sum(){
 }
 
 bool Calculatrice::Mean(){
-    Rationnel* r;
+    Rationnel* r, *r2;
     Constante* c;
+    Complexe* c3;
     int x;
 
     if(m_pStock.isEmpty()){
@@ -570,11 +571,19 @@ bool Calculatrice::Mean(){
                     for(int i=0; i< x-1; i++){
                         OperationBinaire('+');
                     }
-                    Complexe* c1 = new Complexe(float(x));
+                    Complexe* c1 = r->to_complexe();
                     Constante* c2 = m_pStock.pop();
-                    EmpilerPileS(c1);
-                    EmpilerPileS(c2);
-                    OperationBinaire('/');
+                    if(c2->GetType() == "rationnel"){
+                        r2 = dynamic_cast<Rationnel*>(c2);
+                        c3 = r2->to_complexe();
+                    }
+                    else{
+                        c3 = dynamic_cast<Complexe*>(c2);
+                    }
+                    EmpilerPileS(c3->Quotient(c1));
+                    //EmpilerPileS(c1);
+                    //EmpilerPileS(c2);
+                    //OperationBinaire('/');
                     return true;
                 }
 
@@ -1115,7 +1124,7 @@ bool Calculatrice::Fact(){
 
         if(x->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(x);
-            if(r->GetNumerateur() >= 0){
+            if(r->GetNumerateur() >= 0 && r->GetDenominateur() == 1){
                 m_pStock.push(r->Facto());
                 return true;
             }
@@ -1128,6 +1137,115 @@ bool Calculatrice::Fact(){
             m_pStock.push(x);
             return false;
         }
+    }
+}
+
+bool Calculatrice::Mod(){
+    Constante* x, *y; //on veut faire x modulo y
+    Rationnel* r1, *r2;
+
+    if(m_pStock.size() >= 2){
+        y = m_pStock.pop();
+        if(y->GetType() == "rationnel"){
+            r1 = dynamic_cast<Rationnel*>(y);
+            if(r1->GetNumerateur() == 0 || r1->GetDenominateur() != 1){
+                m_pStock.push(r1);
+                return false;
+            }
+            else{
+                x = m_pStock.pop();
+                if(x->GetType() == "rationnel"){
+                    r2 = dynamic_cast<Rationnel*>(x);
+                    if(r2->GetDenominateur() != 1){
+                        m_pStock.push(r2);
+                        m_pStock.push(r1);
+                        return false;
+                    }
+                    else{
+                       m_pStock.push(r2->Modulo(r1));
+                       return true;
+                    }
+                }
+                else{
+                     m_pStock.push(r1);
+                     m_pStock.push(x);
+                     return false;
+                }
+            }
+        }
+        else{
+            m_pStock.push(y);
+            return false;
+        }
+    }
+    else{
+        return false;
+    }
+}
+
+bool Calculatrice::Pow(){
+    Constante*x, *y; //on veut faire x pow y
+    Complexe* c, *c2;
+    Rationnel* r, *r2;
+
+    if(m_pStock.size() >= 2){
+        y = m_pStock.pop();
+
+        if(y->GetType() == "complexe"){
+            c = dynamic_cast<Complexe*>(y);
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(c);
+                return false;
+            }
+        }
+
+        else if(y->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(y);
+            c = r->to_complexe();
+            if(c->GetPartieImaginaire() != 0){
+                m_pStock.push(r);
+                return false;
+            }
+        }
+
+        else{
+            m_pStock.push(y);
+            return false;
+        }
+
+        x = m_pStock.pop();
+
+        if(x->GetType() == "complexe"){
+            c2 = dynamic_cast<Complexe*>(x);
+            if(c2->GetPartieImaginaire() != 0){
+                m_pStock.push(c2);
+                m_pStock.push(c);
+                return false;
+            }
+        }
+
+        else if(x->GetType() == "rationnel"){
+            r = dynamic_cast<Rationnel*>(x);
+            c2 = r->to_complexe();
+            if(c2->GetPartieImaginaire() != 0){
+                m_pStock.push(r);
+                m_pStock.push(c);
+                return false;
+            }
+        }
+
+        else{
+            m_pStock.push(x);
+            m_pStock.push(y);
+            return false;
+        }
+
+        m_pStock.push(c2->PowC(c));
+        return true;
+
+    }
+    else{
+        return false;
     }
 }
 

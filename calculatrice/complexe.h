@@ -49,8 +49,8 @@ public:
 
     Complexe* Oppose();
     void Signe();
-
     void Inverse();
+    Complexe* PowC(Complexe* c)const;
 
     Complexe* Sinus() const;
     Complexe* Cosinus() const;

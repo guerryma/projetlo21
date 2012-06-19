@@ -70,7 +70,6 @@ Rationnel* Rationnel::to_rationnel(Complexe *c){
 }
 
 Rationnel* Rationnel::Facto()const{
-    int i = 1;
     int fact = 1;
 
    for(int i = 1; i<= m_numerateur; i++){
@@ -80,3 +79,7 @@ Rationnel* Rationnel::Facto()const{
 }
 
 
+Rationnel* Rationnel::Modulo(Rationnel* r)const{
+    int res = m_numerateur%r->GetNumerateur();
+    return new Rationnel(res);
+}

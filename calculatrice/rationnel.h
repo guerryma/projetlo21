@@ -80,6 +80,8 @@ public:
     static Rationnel* to_rationnel(Complexe* c);
 
     Rationnel* Facto()const;
+
+    Rationnel* Modulo(Rationnel* r)const;
 };
 
 

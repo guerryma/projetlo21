@@ -30,9 +30,9 @@ Tu peux en tenir compte pour tes autres fonctions. Il y a une fonction EstUnEnti
 pb sur le mean pour les complexes
 si on entre successivement 1/2 3/5 2 (1/2 a été entré par 2 1 /)
 et que l'on clique sur MEAN 
-ça entre 2$0 11/10 au lieu de 11/2[$0](?)
+ça entre 2$0 11/10 au lieu de 11/2[$0](?) : réglé
 
-pb2 : division entière 
+pb2 : division entière : réglé
 
 --Maëva:
 gérer exceptions 
@@ -42,3 +42,6 @@ fichier de log
 
 *attention slot modifier taille non relié
 
+--Laety
+Fonctions unaires et pow, mod fini
+option en cours

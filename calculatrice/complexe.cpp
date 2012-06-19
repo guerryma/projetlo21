@@ -133,4 +133,8 @@ Complexe* Complexe::CubeC()const{
     return new Complexe(res_re, res_im);
 }
 
+Complexe* Complexe::PowC(Complexe* c)const{
+    return new Complexe(qPow(m_reelle, c->GetPartieReelle()));
+}
+
 

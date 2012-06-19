@@ -141,7 +141,7 @@ void MainWindow::Parametres(){
     QObject::connect(ui->bReel, SIGNAL(toggled(bool)), this, SLOT(BReelChecked(bool)));
     QObject::connect(ui->bEntier, SIGNAL(toggled(bool)), this, SLOT(BEntierChecked(bool)));
     QObject::connect(ui->bDegre, SIGNAL(toggled(bool)), this, SLOT(BDegreChecked(bool)));
-    QObject::connect(ui->bRadiant, SIGNAL(toggled(bool)), this, SLOT(BRadianChecked(bool)));
+    QObject::connect(ui->bRadian, SIGNAL(toggled(bool)), this, SLOT(BRadianChecked(bool)));
     QObject::connect(ui->nbOpPile, SIGNAL(textChanged(QString)), this, SLOT(ReglerParamX(QString)));
 
 }
@@ -449,9 +449,16 @@ void MainWindow::ClavierOperateurBinaire(){
 }
 //Boutons Opérateurs Binaire
 void MainWindow::BModPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"MOD ");
+       if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Mod())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur mod");
+           MajVuePile();
+       }
+    }
 }
 
 void MainWindow::BFoisPressed(){
@@ -508,9 +515,16 @@ void MainWindow::BDivisionPressed(){
     else ui->lineEdit->setText(ui->lineEdit->text()+"/");
 }
 void MainWindow::BPowPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
-        ui->lineEdit->clear();
-    ui->lineEdit->setText(ui->lineEdit->text()+"POW ");
+    if (ui->lineEdit->text().isEmpty()){
+
+       if(m_calc->Pow())
+           MajVuePile();
+
+       else{
+           Erreur("Erreur pow");
+           MajVuePile();
+       }
+    }
 }
 
 
@@ -528,7 +542,12 @@ void MainWindow::ClavierVueExecution(){
 }
 
 void MainWindow::BSupPressed(){
-    if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
+    if(ui->lineEdit->text().isEmpty()){
+        m_calc->Drop();
+         MajVuePile();
+
+    }
+    else if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
     else{
         QString s = ui->lineEdit->text();
@@ -566,6 +585,11 @@ void MainWindow::BEvalPressed(){
 
 void MainWindow::BEnterPressed2(){
     try{
+        if(ui->lineEdit->text().isEmpty()){
+            m_calc->Dup();
+            MajVuePile();
+        }
+
         if(m_calc->MajPileS(ui->lineEdit->text())){
             MajVuePile();
             ui->lineEdit->clear();

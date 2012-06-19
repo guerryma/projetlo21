@@ -8,12 +8,12 @@
 
 class Complexe: public Constante
         /*!
-                  Les objets complexe sont composés d'une partie réelle et d'une partie imaginaire de type float.
-                  Tous les calculs peuvent être réalisés en float.
-                  Cependant on pourra autoriser grâce au design pattern factory la fabrication de complexe �  partir de
-                  Rationnels. (�  confirmer)
+                          Les objets complexe sont composés d'une partie réelle et d'une partie imaginaire de type float.
+                          Tous les calculs peuvent être réalisés en float.
+                          Cependant on pourra autoriser grâce au design pattern factory la fabrication de complexe �  partir de
+                          Rationnels. (�  confirmer)
 
-                //  */
+                        //  */
 
 {
 
@@ -26,9 +26,12 @@ public:
     Complexe():Constante("complexe"), m_reelle(0), m_imaginaire(0){}
     // Complexe(Rationnel r); //Méthode �  partir d'un Rationnel
     Complexe(float r, float i=0): Constante("complexe"), m_reelle(r),m_imaginaire(i){}
+    inline Complexe(const Complexe*& cpx):Constante("complexe"){
+        m_reelle=cpx->GetPartieReelle();
+        m_imaginaire=cpx->GetPartieImaginaire();
+    }
 
 
-    //Complexe FabricationComplexe(QString s);
 
     //Accesseurs
     float GetPartieReelle() const {return m_reelle;}
@@ -74,9 +77,16 @@ private:
     Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);}
     //!< Renvoie le conjugué d'un nombre complexe. Fonction utile pour les racines et les quotients
     Complexe* InversePrive();
+
+    //les operateurs de flux sont des fonctions amies
+    friend QDataStream & operator << (QDataStream &, const Complexe* &);
+    friend QDataStream & operator >> (QDataStream &, Complexe*&);
 };
 
 
+//Entrees et sorties fichier
+QDataStream & operator << (QDataStream & out, const Complexe*& Valeur);
+QDataStream & operator >> (QDataStream & in,  Complexe* & Valeur);
 
 
 

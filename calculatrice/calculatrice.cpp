@@ -9,7 +9,6 @@ void Calculatrice::EmpilerPileS(Constante *c){
 }
 
 void Calculatrice::EnregistrerParametres(){
-    //QSettings Settings("../parametres.ini", QSettings::IniFormat, parent);
     m_param.setValue ("taille",m_taille);
     m_param.setValue ("type",m_type);
     m_param.setValue ("angle",m_angle);

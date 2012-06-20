@@ -38,7 +38,7 @@ class Calculatrice
     QSettings m_param;
 
     /*!
-      Attributs permettant d'√† annuler ou r√©tablir:
+      Attributs permettant d'√  annuler ou r√©tablir:
       A chaque modification, on empile la pile courante dans m_memoAnnul.
       A chaque Annulation, on empile la pile annul√©e dans m_memoRetab
       A chaque Retablissement, on consid√®re que l'on a modifi√© la table et donc
@@ -87,32 +87,44 @@ bool OperationBinaire(char operation);
 bool EvalExpression(QQueue<QString> pileExpr,Expression* expr=0);
 bool Signe();
 bool Inverse();
-bool Mod();
-bool Pow();
+bool Mod(); //!< Calcule le modulo d'un entier et renvoie un booleen
+bool Pow(); //!< Calcule la puissance d'un entier, rationnel ou reel et renvoie un booleen
 
 
 //Operations unaires
-bool Sin();
-bool Cos();
-bool Tan();
-bool SinH();
-bool CosH();
-bool TanH();
-bool Ln();
-bool Log();
-bool Sqrt();
-bool Sqr();
-bool Cube();
-bool Fact();
+bool Sin(); //!< Calcule le sinus d'un entier, rationnel ou reel et renvoie un booleen
+bool Cos(); //!< Calcule le cosinus d'un entier, rationnel ou reel et renvoie un booleen
+bool Tan(); //!< Calcule la tangente d'un entier, rationnel ou reel et renvoie un booleen
+bool SinH(); //!< Calcule le sinus  hyperbolique d'un entier, rationnel ou reel et renvoie un booleen
+bool CosH(); //!< Calcule le cosinus hyperbolique d'un entier, rationnel ou reel et renvoie un booleen
+bool TanH(); //!< Calcule la tangente hyperbolique d'un entier, rationnel ou reel et renvoie un booleen
+bool Ln(); //!< Calcule le logarithme neperien d'un entier, rationnel ou reel et renvoie un booleen
+bool Log(); //!< Calcule le logarithme decimal d'un entier, rationnel ou reel et renvoie un booleen
+bool Sqrt();  //!< Calcule la racine carree d'un entier, rationnel ou reel et renvoie un booleen
+bool Sqr();  //!< Calcule le carre d'une constante (entier, rationnel, reel ou complexe) et renvoie un booleen
+bool Cube(); //!< Calcule le cube d'une constante (entier, rationnel, reel ou complexe) et renvoie un booleen
+bool Fact(); //!< Calcule le factoriel d'un entier et renvoie un booleen
 
 //Op√©rations sur la pile
 bool MajPileS(QString s);
 bool Swap();
+/* ! Inversion de l'ÈlÈment numÈro x et l'ÈlÈment numÈro y de la pile (o˘
+x et y sont les arguments de l'opÈrateur) (entier)
+*/
+
 bool Sum();
+/* ! Somme des x premiers ÈlÈments de la pile (o˘ x est l'argument)
+(entier)
+*/
+
 bool Mean();
-void Clear();
-bool Dup();
-bool Drop();
+/* ! Moyenne des x premiers ÈlÈments de la pile (o˘ x est l'argument)
+(entier)
+ */
+
+void Clear(); // !< Vide la pile
+bool Dup(); // !<Duplique le premier element de la pile
+bool Drop(); // !<Supprime le premier element de la pile
 bool DropTete();
 
 //Parametrage

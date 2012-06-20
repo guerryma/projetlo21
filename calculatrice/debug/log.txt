@@ -4,3 +4,6 @@ Date: mer. juin 20 2012 Heure: 03:27:34
 Priorité :BASSE Message: Calcul du cos
 Priorité :HAUTE Message: Erreur mod
 Priorité :BASSE Message: Calcul du sin
+Date: mer. juin 20 2012 Heure: 18:19:28
+Date: mer. juin 20 2012 Heure: 20:13:44
+Date: mer. juin 20 2012 Heure: 20:13:55

@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\constante.o
+./release\expression.o
+./release\rationnel.o
+./release\complexe.o
+./release\calculatrice.o
+./release\logmessage.o
+./release\logsystem.o
+./release\moc_mainwindow.o
+);

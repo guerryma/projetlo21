@@ -74,7 +74,13 @@ public:
     Rationnel* Quotient(Rationnel* r2) const;
 
     Rationnel* Facto()const;
+    /* ! Calcule le factoriel d'un entier et renvoie un nouveau rationnel
+       contenant le resultat
+    */
     Rationnel* Modulo(Rationnel* r)const;
+    /* ! Calcule le modulo d'un entier à l'aide d'un autre entier entre en parametre
+        et renvoie un nouveau rationnel contenant le resultat
+    */
 
     //Autres fonctions
     QString Afficher() const;

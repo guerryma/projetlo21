@@ -28,6 +28,11 @@ public:
 
 
     QQueue<QString> TransformerExpression();
+    /*! Fonction verifie la validite d'une expression,
+      et retourne une file de string si l'expression est valide.
+      Si elle n'est pas valide, elle renvoie une
+      file contenant en premier element le mot "Erreur".
+    */
 
 
     QString Afficher() const {return m_expression;}
@@ -38,9 +43,9 @@ public:
     bool IsNul(){return false;}
 
     Expression* ConcatenerDevant(const QString& operateur,const Constante* constante=0);
-    //!< Dans le cas d'une operation binaire, si l'expression est la 1ere opérande (càd dernier elem empilé)
+    //!< Dans le cas d'une operation binaire, si l'expression est la 1ere operande (c� d dernier elem empilé)
     Expression* ConcatenerDerriere( const QString& operateur, const Constante* constante);
-    //!< Dans le cas d'une operation binaire, si l'expression est la 2e opérande (càd avant dernier elem empilé)
+    //!< Dans le cas d'une operation binaire, si l'expression est la 2e opérande (c� d avant dernier elem empilé)
 
     friend QDataStream & operator >> (QDataStream & , Expression*&);
 

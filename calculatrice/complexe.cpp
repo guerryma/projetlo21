@@ -147,21 +147,9 @@ QDataStream & operator << (QDataStream & out, const Complexe* Valeur){
 }
 
 QDataStream & operator >> (QDataStream & in, Complexe* & Valeur){
-    QString type;
-    float r, i;
-    in>>type;
-    in>>r;
-    in>>i;
-
-    Valeur->SetPartieReelle(r);
-    Valeur->SetPartieImaginaire(i);
-    Valeur->SetType(type);
-
-
-
-
-
-
+in>>Valeur->m_type;
+in>>Valeur->m_reelle;
+in>>Valeur->m_imaginaire;
     return in;
 
 }

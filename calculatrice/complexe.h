@@ -29,10 +29,7 @@ public:
     Complexe():Constante("complexe"), m_reelle(0), m_imaginaire(0){}
     // Complexe(Rationnel r); //MÃ©thode Ã  partir d'un Rationnel
     Complexe(float r, float i=0): Constante("complexe"), m_reelle(r),m_imaginaire(i){}
-//    inline Complexe(const Complexe& cpx):Constante("complexe"){
-//        m_reelle=cpx->GetPartieReelle();
-//        m_imaginaire=cpx->GetPartieImaginaire();
-//    }
+
 
 
 
@@ -75,6 +72,8 @@ public:
     Complexe* CubeC()const;
 
     Complexe* to_degre()const {return new Complexe((3.14/float(180)*m_reelle), 0);}
+    friend QDataStream & operator << (QDataStream &, const Complexe* &);
+    friend QDataStream & operator >> (QDataStream &, Complexe*&);
 
 private:
     Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);}
@@ -82,8 +81,7 @@ private:
     Complexe* InversePrive();
 
     //les operateurs de flux sont des fonctions amies
-    friend QDataStream & operator << (QDataStream &, const Complexe* &);
-    friend QDataStream & operator >> (QDataStream &, Complexe*&);
+
 };
 
 

@@ -720,7 +720,7 @@ void MainWindow::MajVuePile(){
 //Sauvegarde du contexte et des paramètres
 void MainWindow::closeEvent(QCloseEvent * event){
     m_calc->EnregistrerParametres();
-   // m_calc->SauvegarderPile();
+    m_calc->SauvegarderPile();
 
     event->accept();
 }

@@ -83,3 +83,18 @@ Rationnel* Rationnel::Modulo(Rationnel* r)const{
     int res = m_numerateur%r->GetNumerateur();
     return new Rationnel(res);
 }
+
+QDataStream & operator << (QDataStream & out, const Rationnel* Valeur){
+    out<<QString(Valeur->GetType())
+       <<float(Valeur->GetNumerateur())
+       <<float(Valeur->GetDenominateur());
+    return out;
+}
+
+QDataStream & operator >> (QDataStream & in, Rationnel* & Valeur){
+in>>Valeur->m_type;
+in>>Valeur->m_numerateur;
+in>>Valeur->m_denominateur;
+    return in;
+
+}

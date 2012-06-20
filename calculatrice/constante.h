@@ -24,6 +24,8 @@ public:
     virtual void Signe()=0;
     virtual void Inverse()=0;
     virtual bool IsNul()=0;
+    friend QDataStream & operator << (QDataStream &, const Constante* &);
+    friend QDataStream & operator >> (QDataStream &, Constante*&);
 
 };
 

@@ -29,7 +29,6 @@ class Calculatrice
                           */
 {
     QStack<Constante*> m_pStock;
-    QStack<QString> m_pAff;
     int m_taille; //! taille de la pile d'affichage
     int m_MAX; //! taille max de la pile
     Angle m_angle;

@@ -15,7 +15,7 @@ class Complexe: public Constante
 
 protected:
     float m_reelle;//! <partie reelle
-    float m_imaginaire;
+    float m_imaginaire;//! <partie imaginaire
 
 public:
 
@@ -45,25 +45,27 @@ public:
     Complexe* Oppose();
     void Signe();
     void Inverse();
-    Complexe* PowC(Complexe* c)const;
+    Complexe* PowC(Complexe* c)const; //!< Calcule la puissance d'un complexe par rapport a un autre entre en parametre et retourne un complexe
 
-    Complexe* Sinus() const;
-    Complexe* Cosinus() const;
-    Complexe* Tang() const;
+    Complexe* Sinus() const; //!< Calcule le sinus d'un complexe en radiant et renvoie un complexe
+    Complexe* Cosinus() const; //!< Calcule le cosinus d'un complexe en radiant et renvoie un complexe
+    Complexe* Tang() const; //!< Calcule la tangente d'un complexe en radiant et renvoie un complexe
 
-    Complexe* SinusH() const;
-    Complexe* CosinusH() const;
-    Complexe* TangH() const;
+    Complexe* SinusH() const; //!< Calcule le sinus hyperbolique d'un complexe et renvoie un complexe
+    Complexe* CosinusH() const; //!< Calcule le cosinus hyperbolique d'un complexe et renvoie un complexe
+    Complexe* TangH() const; //!< Calcule la tangente hyperbolique d'un complexe et renvoie un complexe
 
-    Complexe* LnC()const;
-    Complexe* LogC()const;
+    Complexe* LnC()const; //!< Calcule le logarithme neperien d'un complexe et renvoie un complexe
+    Complexe* LogC()const; //!< Calcule le logarithme decimal d'un complexe et renvoie un complexe
 
-    Complexe* RacineC()const;//!< Calcule la racine carrée de l'objet.
 
-    Complexe* Carre()const;
-    Complexe* CubeC()const;
+    Complexe* RacineC()const;//!< Calcule la racine carree d'un complexe et renvoie un complexe
 
-    Complexe* to_degre()const {return new Complexe((3.14/float(180)*m_reelle), 0);}
+
+    Complexe* Carre()const; //!< Calcule le carre d'un complexe et renvoie un complexe
+    Complexe* CubeC()const; //!< Calcule le cube d'un complexe et renvoie un complexe
+
+    Complexe* to_degre()const {return new Complexe((3.14/float(180)*m_reelle), 0);} //!< Fonction qui convertit un angle de radiant en degre
     friend QDataStream & operator >> (QDataStream &, Complexe*&);
 
 private:

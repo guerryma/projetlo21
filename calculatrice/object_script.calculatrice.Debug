@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\constante.o
+./debug\expression.o
+./debug\rationnel.o
+./debug\complexe.o
+./debug\calculatrice.o
+./debug\logmessage.o
+./debug\logsystem.o
+./debug\moc_mainwindow.o
+);

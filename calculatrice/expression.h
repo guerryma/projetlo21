@@ -8,14 +8,14 @@
 #include <QRegExp>
 
 
-//! Constante expression: chaine de constantes et d'opÃ©rateurs pouvant Ãªtre Ã©valuÃ©e
+//! Constante expression: chaine de constantes et d'opérateurs pouvant être évaluée
 class Expression: public Constante
 {
     /*!
   Une expression est encadrÃ©e par des cotes ''
-  Il s'agit d'une expression en polonaise inversÃ©e qui pourra Ãªtre Ã©valuÃ©e.
+  Il s'agit d'une expression en polonaise inversée qui pourra être évaluée.
 
-  //*/
+  */
 
     QString m_expression;
 
@@ -28,6 +28,11 @@ public:
 
 
     QQueue<QString> TransformerExpression();
+    /*! Fonction verifie la validite d'une expression,
+      et retourne une file de string si l'expression est valide.
+      Si elle n'est pas valide, elle renvoie une
+      file contenant en premier element le mot "Erreur".
+    */
 
 
     QString Afficher() const {return m_expression;}
@@ -36,10 +41,11 @@ public:
     void Signe(){};
     void Inverse(){ConcatenerDevant("INV");};
     bool IsNul(){return false;}
-    //! Dans le cas d'une operation binaire, si l'expression est la 1ere opÃ©rande (cÃ d dernier elem empilÃ©)
+    //! Dans le cas d'une operation binaire, si l'expression est la 1ere opérande (càd dernier elem empilÃ©)
     Expression* ConcatenerDevant(const QString& operateur,const Constante* constante=0);
-    //! Dans le cas d'une operation binaire, si l'expression est la 2e opÃ©rande (cÃ d avant dernier elem empilÃ©)
+    //! Dans le cas d'une operation binaire, si l'expression est la 2e opérande (càd avant dernier elem empilÃ©)
     Expression* ConcatenerDerriere( const QString& operateur, const Constante* constante);
+
 
     friend QDataStream & operator >> (QDataStream & , Expression*&);
 

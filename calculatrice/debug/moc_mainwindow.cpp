@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Wed 20. Jun 03:11:16 2012
+** Created: Wed 20. Jun 20:13:22 2012
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        2,       // revision
        0,       // classname
        0,    0, // classinfo
-      50,   12, // methods
+      52,   12, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -79,6 +79,8 @@ static const uint qt_meta_data_MainWindow[] = {
      738,  672,   11,   11, 0x08,
      757,  672,   11,   11, 0x08,
      781,  672,   11,   11, 0x08,
+     802,   11,   11,   11, 0x08,
+     812,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -105,7 +107,8 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "ReglerParamX(QString)\0b\0BComplexeChecked(bool)\0"
     "BDegreChecked(bool)\0BRadianChecked(bool)\0"
     "BReelChecked(bool)\0BRationnelChecked(bool)\0"
-    "BEntierChecked(bool)\0"
+    "BEntierChecked(bool)\0Annuler()\0"
+    "Retablir()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -183,9 +186,11 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 47: BReelChecked((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 48: BRationnelChecked((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 49: BEntierChecked((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 50: Annuler(); break;
+        case 51: Retablir(); break;
         default: ;
         }
-        _id -= 50;
+        _id -= 52;
     }
     return _id;
 }

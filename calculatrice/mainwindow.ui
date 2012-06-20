@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1158</width>
-    <height>509</height>
+    <width>909</width>
+    <height>513</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QPlainTextEdit" name="pile">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>50</y>
+      <x>490</x>
+      <y>40</y>
       <width>171</width>
       <height>271</height>
      </rect>
@@ -38,7 +38,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>481</width>
+      <width>471</width>
       <height>20</height>
      </rect>
     </property>
@@ -49,10 +49,10 @@
    <widget class="QWidget" name="gridLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>40</x>
       <y>50</y>
-      <width>481</width>
-      <height>278</height>
+      <width>411</width>
+      <height>261</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_5">
@@ -235,16 +235,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="4">
-      <widget class="QPushButton" name="bPlus">
-       <property name="text">
-        <string>+</string>
-       </property>
-       <property name="shortcut">
-        <string>+</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="4">
       <widget class="QPushButton" name="bMoins">
        <property name="text">
@@ -275,6 +265,19 @@
        </property>
       </widget>
      </item>
+     <item row="0" column="3">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item row="12" column="4">
       <widget class="QPushButton" name="bSign">
        <property name="text">
@@ -289,63 +292,15 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="6">
-      <widget class="QPushButton" name="bMod">
+     <item row="0" column="4">
+      <widget class="QPushButton" name="bPlus">
        <property name="text">
-        <string>MOD</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="6">
-      <widget class="QPushButton" name="bFact">
-       <property name="text">
-        <string>!</string>
+        <string>+</string>
        </property>
        <property name="shortcut">
-        <string>!</string>
+        <string>+</string>
        </property>
       </widget>
-     </item>
-     <item row="2" column="6">
-      <widget class="QPushButton" name="bSqr">
-       <property name="text">
-        <string>SQR</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="6">
-      <widget class="QPushButton" name="bCube">
-       <property name="text">
-        <string>CUBE</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="6">
-      <widget class="QPushButton" name="bPow">
-       <property name="text">
-        <string>POW</string>
-       </property>
-      </widget>
-     </item>
-     <item row="14" column="6">
-      <widget class="QPushButton" name="bSqrt">
-       <property name="text">
-        <string>SQRT</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </widget>
@@ -353,7 +308,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>360</y>
+      <y>340</y>
       <width>521</width>
       <height>91</height>
      </rect>
@@ -422,10 +377,10 @@
    <widget class="QWidget" name="gridLayoutWidget_7">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>60</y>
-      <width>361</width>
-      <height>261</height>
+      <x>700</x>
+      <y>40</y>
+      <width>178</width>
+      <height>271</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_6">
@@ -485,13 +440,58 @@
        </property>
       </widget>
      </item>
+     <item row="6" column="0">
+      <widget class="QPushButton" name="bMod">
+       <property name="text">
+        <string>MOD</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QPushButton" name="bFact">
+       <property name="text">
+        <string>!</string>
+       </property>
+       <property name="shortcut">
+        <string>!</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="bSqrt">
+       <property name="text">
+        <string>SQRT</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QPushButton" name="bCube">
+       <property name="text">
+        <string>CUBE</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QPushButton" name="bSqr">
+       <property name="text">
+        <string>SQR</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QPushButton" name="bPow">
+       <property name="text">
+        <string>POW</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>20</y>
+      <x>490</x>
+      <y>10</y>
       <width>191</width>
       <height>21</height>
      </rect>
@@ -520,19 +520,19 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>330</y>
-      <width>321</width>
-      <height>161</height>
+      <y>320</y>
+      <width>371</width>
+      <height>181</height>
      </rect>
     </property>
     <property name="title">
-     <string>Paramètres</string>
+     <string/>
     </property>
     <widget class="QCheckBox" name="Complexe">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>20</y>
+       <x>150</x>
+       <y>120</y>
        <width>221</width>
        <height>21</height>
       </rect>
@@ -544,47 +544,11 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QWidget" name="verticalLayoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>111</width>
-       <height>86</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QRadioButton" name="bEntier">
-        <property name="text">
-         <string>Entier</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="bRationnel">
-        <property name="text">
-         <string>Rationnel</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="bReel">
-        <property name="text">
-         <string>Réel</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
     <widget class="Line" name="line">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>50</y>
+       <x>180</x>
+       <y>60</y>
        <width>16</width>
        <height>61</height>
       </rect>
@@ -593,34 +557,98 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QWidget" name="verticalLayoutWidget_2">
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>40</y>
-       <width>101</width>
-       <height>80</height>
+       <x>30</x>
+       <y>30</y>
+       <width>151</width>
+       <height>111</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QRadioButton" name="bRadian">
-        <property name="text">
-         <string>Radian</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="bDegre">
-        <property name="text">
-         <string>Degré</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="title">
+      <string>Type de Constante</string>
+     </property>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>99</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QRadioButton" name="bEntier">
+         <property name="text">
+          <string>Entier</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="bRationnel">
+         <property name="text">
+          <string>Rationnel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="bReel">
+         <property name="text">
+          <string>Réel</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <zorder>verticalLayoutWidget</zorder>
+     <zorder>line</zorder>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>30</y>
+       <width>111</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Angle</string>
+     </property>
+     <widget class="QWidget" name="verticalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>101</width>
+        <height>52</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QRadioButton" name="bRadian">
+         <property name="text">
+          <string>Radian</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="bDegre">
+         <property name="text">
+          <string>Degré</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -629,7 +657,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1158</width>
+     <width>909</width>
      <height>25</height>
     </rect>
    </property>

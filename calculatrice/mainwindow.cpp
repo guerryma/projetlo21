@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), m_calc(new Calculatrice(this))
+    ui(new Ui::MainWindow), m_calc(new Calculatrice(this)), m_log(new LogSystem()), m_msg(new LogMessage())
 {
     ui->setupUi(this);
     MajVuePile();
@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     Parametres();
 
 
+
     //fenetre
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
     QObject::connect(ui->actionAnnuler, SIGNAL(triggered()),this,SLOT(Annuler()));
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //paramètrage
+
     if(m_calc->GetType()==REEL)ui->bReel->setChecked(true);
     else if(m_calc->GetType()==RATIONNEL)ui->bRationnel->setChecked(true);
     else if(m_calc->GetType()==ENTIER)ui->bEntier->setChecked(true);
@@ -32,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     ui->Complexe->setChecked(m_calc->GetModeComplexe());
+
+
     ui->nbOpPile->setText(QString::number(m_calc->GetTaille()));
     ui->pile->setMaximumBlockCount(m_calc->GetTaille());
     QObject::connect(ui->Complexe, SIGNAL(toggled(bool)),this,SLOT(BComplexeChecked(bool)));
@@ -47,10 +51,20 @@ MainWindow::~MainWindow()
 
 //Gestion des erreurs
 void MainWindow::Erreur(QString raison){
+
     QMessageBox::critical(this, "Erreur", raison);
+
+    m_msg->SetMessage(raison);
+    m_msg->SetPriorite(HAUTE);
+    m_log->Logger(m_msg);
 }
 void MainWindow::Attention(QString warning){
     QMessageBox::warning(this, "Attention",warning);
+
+
+     m_msg->SetMessage(warning);
+     m_msg->SetPriorite(HAUTE);
+     m_log->Logger(m_msg);
 }
 
 void MainWindow::ClavierNumerique(){
@@ -133,7 +147,7 @@ void MainWindow::BCotePressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
         ui->lineEdit->clear();
     ui->lineEdit->setText(ui->lineEdit->text()+"'");
-}/// pas de shortcut!!!
+}
 
 void MainWindow::BDollarPressed(){
     if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
@@ -188,9 +202,6 @@ void MainWindow::ReglerParamX(QString n){
 
         n=QString::number(m_calc->GetTaille());
         ui->nbOpPile->setText(n);
-        QMessageBox::warning(this, "Erreur", "Taille max dépassée");
-
-
     }
     ui->pile->setMaximumBlockCount(n.toInt()+ 1);
 
@@ -210,8 +221,13 @@ void MainWindow::ClavierPile(){
 void MainWindow::BSwapPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-        if(m_calc->Swap())
+        if(m_calc->Swap()){
             MajVuePile();
+
+            m_msg->SetMessage("Swap");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+        }
 
         else{
             Erreur("Erreur swap");
@@ -225,8 +241,13 @@ void MainWindow::BSumPressed(){
 
     if (ui->lineEdit->text().isEmpty()){
 
-        if(m_calc->Sum())
+        if(m_calc->Sum()){
             MajVuePile();
+
+            m_msg->SetMessage("Sum");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+        }
 
         else{
             Erreur("Erreur sum");
@@ -239,8 +260,13 @@ void MainWindow::BSumPressed(){
 void MainWindow::BMeanPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-        if(m_calc->Mean())
+        if(m_calc->Mean()){
             MajVuePile();
+
+            m_msg->SetMessage("Mean");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+        }
 
         else{
             Erreur("Erreur mean");
@@ -253,6 +279,10 @@ void MainWindow::BMeanPressed(){
 void MainWindow::BClearPressed(){
     m_calc->Clear();
     MajVuePile();
+
+    m_msg->SetMessage("Suppression des éléments dans la pile");
+    m_msg->SetPriorite(BASSE);
+    m_log->Logger(m_msg);
 }
 
 void MainWindow::BDupPressed(){
@@ -298,6 +328,21 @@ void MainWindow::BCosPressed(){
             Erreur("Erreur cos");
             MajVuePile();
         }
+
+       if(m_calc->Cos()){
+           MajVuePile();
+           m_msg->SetMessage("Calcul du cos");
+           m_msg->SetPriorite(BASSE);
+           m_log->Logger(m_msg);
+       }
+
+       else{
+           Erreur("Erreur cos");
+           MajVuePile();
+           m_msg->SetMessage("Erreur calcul du cos");
+           m_msg->SetPriorite(HAUTE);
+           m_log->Logger(m_msg);
+       }
     }
 }
 
@@ -306,6 +351,13 @@ void MainWindow::BCosHPressed(){
 
         if(m_calc->CosH())
             MajVuePile();
+
+       if(m_calc->CosH()){
+           MajVuePile();
+           m_msg->SetMessage("Calcul du cosH");
+           m_msg->SetPriorite(BASSE);
+           m_log->Logger(m_msg);
+       }
 
         else{
             Erreur("Erreur cosh");
@@ -317,8 +369,13 @@ void MainWindow::BCosHPressed(){
 void MainWindow::BSinPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-        if(m_calc->Sin())
+        if(m_calc->Sin()){
             MajVuePile();
+
+            m_msg->SetMessage("Calcul du sin");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+        }
 
         else{
             Erreur("Erreur sin");
@@ -333,6 +390,14 @@ void MainWindow::BSinHPressed(){
         if(m_calc->SinH())
             MajVuePile();
 
+       if(m_calc->SinH()){
+           MajVuePile();
+           m_msg->SetMessage("Calcul du sinH");
+           m_msg->SetPriorite(BASSE);
+           m_log->Logger(m_msg);
+       }
+
+
         else{
             Erreur("Erreur sinh");
             MajVuePile();
@@ -346,6 +411,14 @@ void MainWindow::BTanPressed(){
         if(m_calc->Tan())
             MajVuePile();
 
+       if(m_calc->Tan()){
+           MajVuePile();
+           m_msg->SetMessage("Calcul de tan");
+           m_msg->SetPriorite(BASSE);
+           m_log->Logger(m_msg);
+       }
+
+
         else{
             Erreur("Erreur tan");
             MajVuePile();
@@ -356,8 +429,16 @@ void MainWindow::BTanPressed(){
 void MainWindow::BTanHPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
+
         if(m_calc->TanH())
             MajVuePile();
+
+       if(m_calc->TanH()){
+           MajVuePile();
+           m_msg->SetMessage("Calcul de tanH");
+           m_msg->SetPriorite(BASSE);
+           m_log->Logger(m_msg);
+       }
 
         else{
             Erreur("Erreur tanh");
@@ -610,6 +691,10 @@ void MainWindow::BEnterPressed2(){
         if(ui->lineEdit->text().isEmpty()){
             m_calc->Dup();
             MajVuePile();
+            m_msg->SetMessage("Dupplication du premier élement de la pile");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+
         }
 
         if(m_calc->MajPileS(ui->lineEdit->text())){
@@ -617,9 +702,9 @@ void MainWindow::BEnterPressed2(){
             ui->lineEdit->clear();
         }
     }
-    catch(RationnelException e){
+    catch(const QString chaine){
 
-        Erreur(e.what());
+        Erreur(chaine);
 
     }
 

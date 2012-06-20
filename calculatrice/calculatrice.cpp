@@ -53,13 +53,13 @@ void Calculatrice::SauvegarderPile(){
 }
 
 bool Calculatrice::Annuler(){
-   if(!m_memoAnnul.isEmpty()){
-       m_memoRetab.push(m_pStock);
-       m_pStock=m_memoAnnul.pop();
-       return true;
-   }
+    if(!m_memoAnnul.isEmpty()){
+        m_memoRetab.push(m_pStock);
+        m_pStock=m_memoAnnul.pop();
+        return true;
+    }
 
-   return false;
+    return false;
 }
 
 bool Calculatrice::Retablir(){
@@ -563,14 +563,10 @@ bool Calculatrice::Sum(){
 
                 else{
                     for(int i = 0; i < x; i++){
-                        if(m_pStock.at(i)->GetType() == "expression")
+                        if(m_pStock.at(m_pStock.size()-1-i)->GetType() == "expression"){
+                            EmpilerPileS(r);
                             return false;
-                    }
-
-                    for(int i=0; i< x; i++){
-                        c = m_pStock.front();
-                        EmpilerPileS(c);
-                        m_pStock.remove(0);
+                        }
                     }
 
                     for(int i=0; i< x-1; i++){
@@ -617,14 +613,10 @@ bool Calculatrice::Mean(){
 
                 else{
                     for(int i = 0; i < x; i++){
-                        if(m_pStock.at(i)->GetType() == "expression")
+                        if(m_pStock.at(m_pStock.size()-1-i)->GetType() == "expression"){
+                            EmpilerPileS(r);
                             return false;
-                    }
-
-                    for(int i=0; i< x; i++){
-                        c = m_pStock.front();
-                        EmpilerPileS(c);
-                        m_pStock.remove(0);
+                        }
                     }
 
                     for(int i=0; i< x-1; i++){
@@ -640,9 +632,6 @@ bool Calculatrice::Mean(){
                         c3 = dynamic_cast<Complexe*>(c2);
                     }
                     EmpilerPileS(c3->Quotient(c1));
-                    //EmpilerPileS(c1);
-                    //EmpilerPileS(c2);
-                    //OperationBinaire('/');
                     return true;
                 }
 
@@ -1202,46 +1191,48 @@ bool Calculatrice::Fact(){
 }
 
 bool Calculatrice::Mod(){
-    Constante* x, *y; //on veut faire x modulo y
+    Constante* x, *y;
     Rationnel* r1, *r2;
 
     if(m_pStock.size() >= 2){
-        y = DepilerPileS();
+        y = m_pStock.pop();
         if(y->GetType() == "rationnel"){
             r1 = dynamic_cast<Rationnel*>(y);
-            if(r1->GetNumerateur() == 0 || r1->GetDenominateur() != 1){
-                EmpilerPileS(r1);
+            if(r1->GetDenominateur() != 1){
+                m_pStock.push(r1);
                 return false;
             }
             else{
-                x = DepilerPileS();
+                x = m_pStock.pop();
                 if(x->GetType() == "rationnel"){
                     r2 = dynamic_cast<Rationnel*>(x);
-                    if(r2->GetDenominateur() != 1){
-                        EmpilerPileS(r2);
-                        EmpilerPileS(r1);
+                    if(r2->GetNumerateur() == 0 || r2->GetDenominateur() != 1){
+                        m_pStock.push(r2);
+                        m_pStock.push(r1);
                         return false;
                     }
                     else{
-                        EmpilerPileS(r2->Modulo(r1));
+                        m_pStock.push(r1->Modulo(r2));
                         return true;
                     }
                 }
                 else{
-                    EmpilerPileS(r1);
-                    EmpilerPileS(x);
+                    m_pStock.push(r1);
+                    m_pStock.push(x);
                     return false;
                 }
             }
         }
         else{
-            EmpilerPileS(y);
+            m_pStock.push(y);
             return false;
         }
     }
     else{
         return false;
     }
+
+    return false;
 }
 
 bool Calculatrice::Pow(){
@@ -1302,6 +1293,8 @@ bool Calculatrice::Pow(){
         }
 
         EmpilerPileS(c2->PowC(c));
+
+        EmpilerPileS(c->PowC(c2));
         return true;
 
     }

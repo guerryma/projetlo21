@@ -11,11 +11,15 @@ SOURCES += main.cpp \
     expression.cpp \
     rationnel.cpp \
     complexe.cpp \
-    calculatrice.cpp
+    calculatrice.cpp \
+    logmessage.cpp \
+    logsystem.cpp
 HEADERS += mainwindow.h \
     constante.h \
     expression.h \
     rationnel.h \
     complexe.h \
-    calculatrice.h
+    calculatrice.h \
+    logmessage.h \
+    logsystem.h
 FORMS += mainwindow.ui

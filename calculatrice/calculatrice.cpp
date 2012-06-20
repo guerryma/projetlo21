@@ -199,7 +199,13 @@ bool Calculatrice::OperationBinaire(char operation){
             //! Division:
         case '/':
             //! Dans le cas de la division rÃ©elle sur des rationnels, on rÃ©alise la division et on retourne un complexe
-            if(op2->IsNul() )throw RationnelException("Division par zero non autorisee");
+            if(op2->IsNul() ){
+
+                EmpilerPileS(op2);
+                EmpilerPileS(op1);
+                throw RationnelException("Division par zero non autorisee");
+                return true;
+            }
             else{
                 if (m_type==REEL){
                     if (type=="cc") //! Division cpx cpx
@@ -220,6 +226,7 @@ bool Calculatrice::OperationBinaire(char operation){
                         EmpilerPileS(r1->Quotient(r2));
                         return true;
                     }
+                    //! On n'autorise la division rationnelle d'un complexe seulement si c'est un entier
                     else if(EstUnEntier(c1->Afficher())&& EstUnEntier(c2->Afficher())){
                         r1=new Rationnel((int)c1->GetPartieReelle());
                         r2=new Rationnel((int)c2->GetPartieReelle());
@@ -239,14 +246,14 @@ bool Calculatrice::OperationBinaire(char operation){
                 else if(m_type==ENTIER){
                     if(type=="cc"){
                         if(!c1->GetPartieImaginaire() &&!c2->GetPartieImaginaire()){
-                            // Alors division tronquée
+                            //! La division est tronquée s'il s'agit de deux réels
                             Rationnel* res = new Rationnel((int)c1->GetPartieReelle()/(int)c2->GetPartieImaginaire());
                             EmpilerPileS(res);
                             return true;
 
                         }
                         else{
-
+                            //! On n'effectue pas de division dans le cas où les deux complexes ne sont pas reels
                             EmpilerPileS(op2);
                             EmpilerPileS(op1);
                             throw(CalculatriceException("Division entiere impossible entre 2 complexes"));
@@ -265,9 +272,6 @@ bool Calculatrice::OperationBinaire(char operation){
                 break;
             }
 
-            EmpilerPileS(op2);
-            EmpilerPileS(op1);
-            throw(CalculatriceException("Une des operandes n'est pas un rationnel"));
             return true;
         default:
             break;

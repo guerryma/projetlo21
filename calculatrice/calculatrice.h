@@ -27,7 +27,7 @@ public:
 class Calculatrice
         /*! La classe Calculatrice est le coeur de l'application.
        Elle permet de r√©aliser toutes les op√©rations sur les Constantes.
-       Les param√®tres de la pile sont sauvegard√©s √† chaque ex√©cution.
+       Les param√®tres de la pile sont sauvegard√©s √  chaque ex√©cution.
                           */
 {
     QStack<Constante*> m_pStock;
@@ -110,33 +110,33 @@ bool Fact(); //!< Calcule le factoriel d'un entier et renvoie un booleen
 //Op√©rations sur la pile
 bool MajPileS(QString s);//!< Permet d'empiler les constantes entr√©es par l'utilisateur dans le type appropri√©
 bool Swap();
-/* ! Inversion de l'ÈlÈment numÈro x et l'ÈlÈment numÈro y de la pile (o˘
+/*! Inversion de l'ÈlÈment numÈro x et l'ÈlÈment numÈro y de la pile (o˘
 x et y sont les arguments de l'opÈrateur) (entier)
 */
 
 bool Sum();
-/* ! Somme des x premiers ÈlÈments de la pile (o˘ x est l'argument)
+/*! Somme des x premiers ÈlÈments de la pile (o˘ x est l'argument)
 (entier)
 */
 
 bool Mean();
-/* ! Moyenne des x premiers ÈlÈments de la pile (o˘ x est l'argument)
+/*! Moyenne des x premiers ÈlÈments de la pile (o˘ x est l'argument)
 (entier)
  */
 
 void Clear(); // !< Vide la pile
-bool Dup(); // !<Duplique le premier element de la pile
-bool Drop(); // !<Supprime le premier element de la pile
+bool Dup(); //!< Duplique le premier element de la pile
+bool Drop(); //!< Supprime le premier element de la pile
 bool DropTete();
 
 //Parametrage
     void EnregistrerParametres();//!< sauvegarde les param√®tres pour la prochaine ex√©cution
-    void SauvegarderPile();
-    bool Annuler();
-    bool Retablir();
+    void SauvegarderPile();//!< Sauvegarde la pile dans un fichier .dat
+    bool Annuler();//!< DÈpile une pile de l'historique pour revenir ‡ l'Ètat prÈcÈdent et empile dans la pile de Retablir()
+    bool Retablir();//!< Permet de restaurer la pile dans son Ètat avant annulation
 private:
-    void ChargerOptions();
-    void ChargerPile();
+    void ChargerOptions();//!< Lit le fichier de settings
+    void ChargerPile();//! Lit le fichier .dat
 };
 
 QDataStream & operator << (QDataStream & out, Constante* & Valeur);

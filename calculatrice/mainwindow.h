@@ -103,7 +103,7 @@ private slots:
 
 protected:
     //Fenetre
-    void closeEvent(QCloseEvent *);
+    void closeEvent(QCloseEvent *);//! Lors de la fermeture, les parametres sont sauvegardés
 
 
 public:
@@ -113,9 +113,9 @@ public:
     void ClavierOperateurUnaire();
     void ClavierOperateurBinaire();
     void Parametres();
-    void Erreur(QString raison);
-    void Attention(QString warning);
-    void MajVuePile();
+    void Erreur(QString raison);//! Avertit l'utilisateur d'une erreur d'exécution
+    void Attention(QString warning);//! Informe l'utilisateur d'un problème n'empéchant pas l'exécution
+    void MajVuePile();//! Met à jour la pile affichée en parcourant la pile de la calculatrice
 };
 
 

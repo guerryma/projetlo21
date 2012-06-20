@@ -3,6 +3,7 @@
 #include <QString>
 #include <QDataStream>
 
+//! Classe abstraite dont héritent les Complexes, les Expressions et les Rationnels
 class Constante
 {
 protected:
@@ -12,7 +13,7 @@ public:
     Constante(){}
     Constante(QString type): m_type(type){}
     Constante(const Constante* & constante){ m_type=constante->m_type;}
-    virtual QString Afficher() const=0;
+    virtual QString Afficher() const=0;//! Affichage de la constante adapté en fonction de son type
     virtual ~Constante(){};
 
     QString GetType() const {return m_type;}
@@ -21,7 +22,7 @@ public:
 
     //Opérations
 
-    virtual void Signe()=0;
+    virtual void Signe()=0;//! Patron de fonction: on surchargera ces fonctions pour qu'elles appellent la méthode associée sans avoir besoin de caster la constante
     virtual void Inverse()=0;
     virtual bool IsNul()=0;
 
@@ -29,7 +30,6 @@ public:
 
 };
 
-//Entrees sorties fichier
 
 #endif // CONSTANTE_H
 

@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    //delete m_calc;
+    delete m_calc;
 }
 
 //Gestion des erreurs
@@ -721,7 +721,6 @@ void MainWindow::MajVuePile(){
 void MainWindow::closeEvent(QCloseEvent * event){
     m_calc->EnregistrerParametres();
     m_calc->SauvegarderPile();
-    delete m_calc;
 
     event->accept();
 }

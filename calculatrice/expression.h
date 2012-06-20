@@ -8,7 +8,7 @@
 #include <QRegExp>
 
 
-
+//! Constante expression: chaine de constantes et d'opérateurs pouvant être évaluée
 class Expression: public Constante
 {
     /*!
@@ -36,18 +36,19 @@ public:
     void Signe(){};
     void Inverse(){ConcatenerDevant("INV");};
     bool IsNul(){return false;}
-
+    //! Dans le cas d'une operation binaire, si l'expression est la 1ere opérande (càd dernier elem empilé)
     Expression* ConcatenerDevant(const QString& operateur,const Constante* constante=0);
-    //!< Dans le cas d'une operation binaire, si l'expression est la 1ere opérande (càd dernier elem empilé)
+    //! Dans le cas d'une operation binaire, si l'expression est la 2e opérande (càd avant dernier elem empilé)
     Expression* ConcatenerDerriere( const QString& operateur, const Constante* constante);
-    //!< Dans le cas d'une operation binaire, si l'expression est la 2e opérande (càd avant dernier elem empilé)
 
     friend QDataStream & operator >> (QDataStream & , Expression*&);
 
 
 
 };
+//! Renvoie true si la chaine est un nombre, entier ou décimal
 bool EstUnNombre(QString s);
+//! Renvoie true si la chaine est un entier, positif ou négatif
 bool EstUnEntier(QString s);
 
 QDataStream & operator << (QDataStream & out, const Expression& Valeur);

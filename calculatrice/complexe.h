@@ -8,15 +8,8 @@
 
 
 
-
+//! Un complexe est composé de 2 attributs floats:  la partie réelle et la partie imaginaire. Un réel est un complexe par défaut
 class Complexe: public Constante
-        /*!
-                          Les objets complexe sont composÃ©s d'une partie rÃ©elle et d'une partie imaginaire de type float.
-                          Tous les calculs peuvent Ãªtre rÃ©alisÃ©s en float.
-                          Cependant on pourra autoriser grÃ¢ce au design pattern factory la fabrication de complexe Ã  partir de
-                          Rationnels. (Ã  confirmer)
-
-                        //  */
 
 {
 
@@ -27,7 +20,6 @@ protected:
 public:
 
     Complexe():Constante("complexe"), m_reelle(0), m_imaginaire(0){}
-    // Complexe(Rationnel r); //MÃ©thode Ã  partir d'un Rationnel
     Complexe(float r, float i=0): Constante("complexe"), m_reelle(r),m_imaginaire(i){}
 
 
@@ -66,7 +58,7 @@ public:
     Complexe* LnC()const;
     Complexe* LogC()const;
 
-    Complexe* RacineC()const;//!< Calcule la racine carrÃ©e de l'objet. ce nombre peut Ãªtre nÃ©gatif
+    Complexe* RacineC()const;//!< Calcule la racine carrÃ©e de l'objet.
 
     Complexe* Carre()const;
     Complexe* CubeC()const;
@@ -75,17 +67,13 @@ public:
     friend QDataStream & operator >> (QDataStream &, Complexe*&);
 
 private:
-    Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);}
-    //!< Renvoie le conjuguÃ© d'un nombre complexe. Fonction utile pour les racines et les quotients
+    Complexe* Conjugue() const{ return  new Complexe(m_reelle, -m_imaginaire);} //!< Renvoie le conjuguÃ© d'un nombre complexe. Fonction utile pour les racines et les quotients
     Complexe* InversePrive();
 
-    //les operateurs de flux sont des fonctions amies
 
 };
 
-
 //Entrees et sorties fichier
-Q_DECLARE_METATYPE(Complexe);
 QDataStream & operator << (QDataStream & out, const Complexe& Valeur);
 QDataStream & operator >> (QDataStream & in,  Complexe& Valeur);
 

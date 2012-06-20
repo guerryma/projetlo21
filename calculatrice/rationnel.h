@@ -16,7 +16,7 @@ public:
     const QString& what() const {return info;}
 };
 
-
+//! Fraction d'entiers. Un entier est un rationnel dont le dénominateur vaut 1
 class Rationnel: public Constante
 {
     /*! Classe Rationnel:
@@ -43,7 +43,6 @@ public:
         VerifSigne();
 
     }
-    //virtual ~Rationnel();
 
 
 
@@ -82,8 +81,8 @@ public:
 
 
     //Conversion
-    Complexe* to_complexe()const {return new Complexe(m_float);}
-    static Rationnel* to_rationnel(Complexe* c);
+    Complexe* to_complexe()const {return new Complexe(m_float);}//! Convertit en complexe réel
+    static Rationnel* to_rationnel(Complexe* c);//! Convertit un complexe en rationnel entier
 
     friend QDataStream & operator >> (QDataStream &, Rationnel*&);
 

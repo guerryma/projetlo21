@@ -6,6 +6,7 @@
 #include "calculatrice.h"
 #include <QMessageBox>
 #include <QSettings>
+#include "logsystem.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +19,8 @@ class MainWindow : public QMainWindow
 private:
     Ui::MainWindow *ui;
     Calculatrice* m_calc;
+    LogSystem* m_log;
+    LogMessage* m_msg;
 
 
 public:

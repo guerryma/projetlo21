@@ -37,7 +37,6 @@ public:
     }
 
 
-
    //Accesseurs
 int GetTaille() const {return m_taille;}
 Angle GetAngle() const {return m_angle;}
@@ -69,6 +68,7 @@ bool Inverse();
 bool Mod();
 bool Pow();
 
+
 //Operations unaires
 bool Sin();
 bool Cos();
@@ -90,8 +90,8 @@ bool Sum();
 bool Mean();
 void Clear();
 bool Dup();
-bool DropTete();
 bool Drop();
+bool DropTete();
 
 //Parametrage
     void EnregistrerParametres();

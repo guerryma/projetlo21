@@ -72,7 +72,7 @@ Rationnel* Rationnel::to_rationnel(Complexe *c){
 Rationnel* Rationnel::Facto()const{
     int fact = 1;
 
-   for(int i = 1; i<= m_numerateur; i++){
+    for(int i = 1; i<= m_numerateur; i++){
         fact = fact* i;
     }
     return new Rationnel(fact);
@@ -84,17 +84,20 @@ Rationnel* Rationnel::Modulo(Rationnel* r)const{
     return new Rationnel(res);
 }
 
-QDataStream & operator << (QDataStream & out, const Rationnel* Valeur){
-    out<<QString(Valeur->GetType())
-       <<float(Valeur->GetNumerateur())
-       <<float(Valeur->GetDenominateur());
+QDataStream & operator << (QDataStream & out, const Rationnel& Valeur){
+
+    out<<int(Valeur.GetNumerateur())
+       <<int(Valeur.GetDenominateur());
     return out;
 }
 
-QDataStream & operator >> (QDataStream & in, Rationnel* & Valeur){
-in>>Valeur->m_type;
-in>>Valeur->m_numerateur;
-in>>Valeur->m_denominateur;
+QDataStream & operator >> (QDataStream & in, Rationnel& Valeur){
+    int n;
+    int d;
+    in>>n;
+    in>>d;
+    Valeur.SetNumerateur(n);
+    Valeur.SetDenominateur(d);
     return in;
 
 }

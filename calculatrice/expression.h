@@ -16,6 +16,7 @@ class Expression: public Constante
   Il s'agit d'une expression en polonaise inversée qui pourra être évaluée.
 
   //*/
+
     QString m_expression;
 
 public:
@@ -23,6 +24,7 @@ public:
     Expression(QString expr): Constante("expression"),m_expression(expr){}
 
     QString GetExpression() const {return m_expression;}
+    void SetExpression(QString s){ m_expression=s;}
 
 
     QQueue<QString> TransformerExpression();
@@ -40,8 +42,7 @@ public:
     Expression* ConcatenerDerriere( const QString& operateur, const Constante* constante);
     //!< Dans le cas d'une operation binaire, si l'expression est la 2e opérande (càd avant dernier elem empilé)
 
-    friend QDataStream & operator << (QDataStream &, const Expression* &);
-    friend QDataStream & operator >> (QDataStream &, Expression*&);
+    friend QDataStream & operator >> (QDataStream & , Expression*&);
 
 
 
@@ -49,8 +50,8 @@ public:
 bool EstUnNombre(QString s);
 bool EstUnEntier(QString s);
 
-QDataStream & operator << (QDataStream & out, const Expression*& Valeur);
-QDataStream & operator >> (QDataStream & in,  Expression* & Valeur);
+QDataStream & operator << (QDataStream & out, const Expression& Valeur);
+QDataStream & operator >> (QDataStream & in,  Expression& Valeur);
 
 
 

@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete m_calc;
+    //delete m_calc;
 }
 
 //Gestion des erreurs
@@ -62,9 +62,9 @@ void MainWindow::Attention(QString warning){
     QMessageBox::warning(this, "Attention",warning);
 
 
-     m_msg->SetMessage(warning);
-     m_msg->SetPriorite(HAUTE);
-     m_log->Logger(m_msg);
+    m_msg->SetMessage(warning);
+    m_msg->SetPriorite(HAUTE);
+    m_log->Logger(m_msg);
 }
 
 void MainWindow::ClavierNumerique(){
@@ -233,8 +233,8 @@ void MainWindow::BSwapPressed(){
             Erreur("Erreur swap");
             MajVuePile();
         }
+
     }
-    else Erreur("Erreur swap");
 }
 
 void MainWindow::BSumPressed(){
@@ -329,20 +329,20 @@ void MainWindow::BCosPressed(){
             MajVuePile();
         }
 
-       if(m_calc->Cos()){
-           MajVuePile();
-           m_msg->SetMessage("Calcul du cos");
-           m_msg->SetPriorite(BASSE);
-           m_log->Logger(m_msg);
-       }
+        if(m_calc->Cos()){
+            MajVuePile();
+            m_msg->SetMessage("Calcul du cos");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+        }
 
-       else{
-           Erreur("Erreur cos");
-           MajVuePile();
-           m_msg->SetMessage("Erreur calcul du cos");
-           m_msg->SetPriorite(HAUTE);
-           m_log->Logger(m_msg);
-       }
+        else{
+            Erreur("Erreur cos");
+            MajVuePile();
+            m_msg->SetMessage("Erreur calcul du cos");
+            m_msg->SetPriorite(HAUTE);
+            m_log->Logger(m_msg);
+        }
     }
 }
 
@@ -352,12 +352,12 @@ void MainWindow::BCosHPressed(){
         if(m_calc->CosH())
             MajVuePile();
 
-       if(m_calc->CosH()){
-           MajVuePile();
-           m_msg->SetMessage("Calcul du cosH");
-           m_msg->SetPriorite(BASSE);
-           m_log->Logger(m_msg);
-       }
+        if(m_calc->CosH()){
+            MajVuePile();
+            m_msg->SetMessage("Calcul du cosH");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+        }
 
         else{
             Erreur("Erreur cosh");
@@ -390,12 +390,12 @@ void MainWindow::BSinHPressed(){
         if(m_calc->SinH())
             MajVuePile();
 
-       if(m_calc->SinH()){
-           MajVuePile();
-           m_msg->SetMessage("Calcul du sinH");
-           m_msg->SetPriorite(BASSE);
-           m_log->Logger(m_msg);
-       }
+        if(m_calc->SinH()){
+            MajVuePile();
+            m_msg->SetMessage("Calcul du sinH");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+        }
 
 
         else{
@@ -411,12 +411,12 @@ void MainWindow::BTanPressed(){
         if(m_calc->Tan())
             MajVuePile();
 
-       if(m_calc->Tan()){
-           MajVuePile();
-           m_msg->SetMessage("Calcul de tan");
-           m_msg->SetPriorite(BASSE);
-           m_log->Logger(m_msg);
-       }
+        if(m_calc->Tan()){
+            MajVuePile();
+            m_msg->SetMessage("Calcul de tan");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+        }
 
 
         else{
@@ -433,12 +433,12 @@ void MainWindow::BTanHPressed(){
         if(m_calc->TanH())
             MajVuePile();
 
-       if(m_calc->TanH()){
-           MajVuePile();
-           m_msg->SetMessage("Calcul de tanH");
-           m_msg->SetPriorite(BASSE);
-           m_log->Logger(m_msg);
-       }
+        if(m_calc->TanH()){
+            MajVuePile();
+            m_msg->SetMessage("Calcul de tanH");
+            m_msg->SetPriorite(BASSE);
+            m_log->Logger(m_msg);
+        }
 
         else{
             Erreur("Erreur tanh");
@@ -721,6 +721,7 @@ void MainWindow::MajVuePile(){
 void MainWindow::closeEvent(QCloseEvent * event){
     m_calc->EnregistrerParametres();
     m_calc->SauvegarderPile();
+    delete m_calc;
 
     event->accept();
 }

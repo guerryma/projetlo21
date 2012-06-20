@@ -1304,5 +1304,41 @@ bool Calculatrice::Pow(){
 }
 
 
+QDataStream & operator << (QDataStream & out, Constante* & Valeur){
+    out<<Valeur->GetType();
+
+    if(Valeur->GetType()=="complexe"){
+        Complexe *c= dynamic_cast<Complexe*>(Valeur);
+        out<<*c;
+    }
+    else if(Valeur->GetType()=="rationnel"){
+        Rationnel *c= dynamic_cast<Rationnel*>(Valeur);
+        out<<*c;
+    }
+    else if(Valeur->GetType()=="expression"){
+        Expression *c= dynamic_cast<Expression*>(Valeur);
+        out<<*c;
+    }
+    return out;
+}
+
+QDataStream & operator >> (QDataStream & in, Constante* & Valeur){
+    in>>Valeur->m_type;
+
+    if(Valeur->GetType()=="complexe"){
+        Complexe *c= dynamic_cast<Complexe*>(Valeur);
+        in>>*c;
+    }
+    else if(Valeur->GetType()=="rationnel"){
+        Rationnel *c= dynamic_cast<Rationnel*>(Valeur);
+        in>>*c;
+    }
+    else if(Valeur->GetType()=="expression"){
+        Expression *c= dynamic_cast<Expression*>(Valeur);
+        in>>*c;
+    }
 
 
+    return in;
+
+}

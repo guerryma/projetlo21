@@ -174,15 +174,15 @@ bool EstUnEntier(QString s){
 
 }
 
-QDataStream & operator << (QDataStream & out, const Expression* Valeur){
-    out<<QString(Valeur->GetType())
-       <<QString(Valeur->GetExpression());
+QDataStream & operator << (QDataStream & out, const Expression& Valeur){
+    out<<QString(Valeur.GetExpression());
     return out;
 }
 
-QDataStream & operator >> (QDataStream & in, Expression* & Valeur){
-in>>Valeur->m_type;
-in>>Valeur->m_expression;
+QDataStream & operator >> (QDataStream & in, Expression& Valeur){
+    QString s;
+    in>>s;
+    Valeur.SetExpression(s);
     return in;
 
 }

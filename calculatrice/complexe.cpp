@@ -49,7 +49,7 @@ Complexe* Complexe::Quotient(Complexe* c) const{
 
 QString Complexe::Afficher()const{
 
-     if(!m_imaginaire) return QString(QString::number(m_reelle));
+    if(!m_imaginaire) return QString(QString::number(m_reelle));
     return QString(QString::number(m_reelle)+"$"+QString::number(m_imaginaire));
 }
 
@@ -139,17 +139,19 @@ Complexe* Complexe::PowC(Complexe* c)const{
 }
 
 
-QDataStream & operator << (QDataStream & out, const Complexe* Valeur){
-    out<<QString(Valeur->GetType())
-       <<float(Valeur->GetPartieReelle())
-       <<float(Valeur->GetPartieImaginaire());
+QDataStream & operator << (QDataStream & out, const Complexe& Valeur){
+    out<<float(Valeur.GetPartieReelle())
+       <<float(Valeur.GetPartieImaginaire());
     return out;
 }
 
-QDataStream & operator >> (QDataStream & in, Complexe* & Valeur){
-in>>Valeur->m_type;
-in>>Valeur->m_reelle;
-in>>Valeur->m_imaginaire;
+QDataStream & operator >> (QDataStream & in, Complexe& Valeur){
+    float r;
+    float i;
+    in>>r;
+    in>>i;
+    Valeur.SetPartieReelle(r);
+    Valeur.SetPartieImaginaire(i);
     return in;
 
 }

@@ -24,14 +24,12 @@ public:
     virtual void Signe()=0;
     virtual void Inverse()=0;
     virtual bool IsNul()=0;
-    friend QDataStream & operator << (QDataStream &, const Constante* &);
+
     friend QDataStream & operator >> (QDataStream &, Constante*&);
 
 };
 
 //Entrees sorties fichier
-QDataStream & operator << (QDataStream & out, const Constante* & Valeur);
-QDataStream & operator >> (QDataStream & in,  Constante* & Valeur);
 
 #endif // CONSTANTE_H
 

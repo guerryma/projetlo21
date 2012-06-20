@@ -72,7 +72,6 @@ public:
     Complexe* CubeC()const;
 
     Complexe* to_degre()const {return new Complexe((3.14/float(180)*m_reelle), 0);}
-    friend QDataStream & operator << (QDataStream &, const Complexe* &);
     friend QDataStream & operator >> (QDataStream &, Complexe*&);
 
 private:
@@ -87,8 +86,8 @@ private:
 
 //Entrees et sorties fichier
 Q_DECLARE_METATYPE(Complexe);
-QDataStream & operator << (QDataStream & out, const Complexe*& Valeur);
-QDataStream & operator >> (QDataStream & in,  Complexe* & Valeur);
+QDataStream & operator << (QDataStream & out, const Complexe& Valeur);
+QDataStream & operator >> (QDataStream & in,  Complexe& Valeur);
 
 
 

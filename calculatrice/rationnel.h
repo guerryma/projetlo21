@@ -85,13 +85,12 @@ public:
     Complexe* to_complexe()const {return new Complexe(m_float);}
     static Rationnel* to_rationnel(Complexe* c);
 
-    friend QDataStream & operator << (QDataStream &, const Rationnel* &);
     friend QDataStream & operator >> (QDataStream &, Rationnel*&);
 
 };
 
-QDataStream & operator << (QDataStream & out, const Rationnel*& Valeur);
-QDataStream & operator >> (QDataStream & in,  Rationnel* & Valeur);
+QDataStream & operator << (QDataStream & out, const Rationnel& Valeur);
+QDataStream & operator >> (QDataStream & in,  Rationnel& Valeur);
 
 
 

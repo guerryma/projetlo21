@@ -57,7 +57,7 @@ public:
        m_MAX(20), m_param("../parametres.ini", QSettings::IniFormat, parent)
     {
         ChargerOptions();
-        //ChargerPile();
+       // ChargerPile();
 
         m_memoAnnul.push(m_pStock);
 
@@ -124,6 +124,9 @@ private:
     void ChargerOptions();
     void ChargerPile();
 };
+
+QDataStream & operator << (QDataStream & out, Constante* & Valeur);
+QDataStream & operator >> (QDataStream & in,  Constante* & Valeur);
 
 
 #endif // CALCULATRICE_H

@@ -8,10 +8,21 @@
 #include <QQueue>
 #include <iostream>
 #include <QSettings>
+#include<QFile>
+#include <QDataStream>
+#include<QVector>
 
 
 enum Angle{RADIAN, DEGRE};
 enum Type{RATIONNEL, REEL, ENTIER};
+
+class CalculatriceException /*: public exception*/ {
+    QString info;
+public:
+    CalculatriceException(const QString& s):info(s){}
+    const QString& what() const {return info;}
+};
+
 
 class Calculatrice
         /*!
@@ -27,6 +38,19 @@ class Calculatrice
 
     QSettings m_param;
 
+    /*!
+      Attributs permettant d'à annuler ou rétablir:
+      A chaque modification, on empile la pile courante dans m_memoAnnul.
+      A chaque Annulation, on empile la pile annulée dans m_memoRetab
+      A chaque Retablissement, on considère que l'on a modifié la table et donc
+      on empile la pile courante avant de charger la nouvelle.
+
+      */
+    QStack<QStack<Constante*> > m_memoAnnul;
+    QStack<QStack<Constante*> > m_memoRetab;
+
+
+
 
 public:
     Calculatrice(){}
@@ -34,6 +58,10 @@ public:
        m_MAX(20), m_param("../parametres.ini", QSettings::IniFormat, parent)
     {
         ChargerOptions();
+        //ChargerPile();
+
+        m_memoAnnul.push(m_pStock);
+
     }
 
 
@@ -49,16 +77,11 @@ void SetAngle(Angle a){m_angle=a;}
 void SetType(Type t){m_type=t;}
 void SetModeComplexe(bool b){m_modeComplexe=b;}
 
-//Operations sur les piles (accesseurs de pile)
-void EmpilerPileA(QString s){m_pAff.push(s);}
-QString DepilerPileA(){return m_pAff.pop();}
-bool EstVidePileA(){return m_pAff.isEmpty();}
+//Operations sur les piles
 
 QStack<Constante*> GetPileS()const {return m_pStock;}
-void EmpilerPileS(Constante* c); //!< Permet d'empiler tout en vérifiant la taille.
-void push(Constante* c);
-Constante* DepilerPileS(){return m_pStock.pop();}
-bool EstVidePileS(){return m_pStock.isEmpty();}
+void EmpilerPileS(Constante* c); //!< Permet d'empiler tout en vérifiant la taille et en sauvegardant la pile courante.
+Constante* DepilerPileS();
 
 //Gestion de la pile (calculs)
 
@@ -95,8 +118,13 @@ bool Drop();
 
 //Parametrage
     void EnregistrerParametres();
+    void SauvegarderPile();
+    bool Annuler();
+    bool Retablir();
 private:
     void ChargerOptions();
+    void ChargerPile();
 };
+
 
 #endif // CALCULATRICE_H

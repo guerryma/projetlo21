@@ -44,6 +44,7 @@ public:
 
     //Autres méthodes
     QString Afficher() const;
+    bool IsNul(){if(!m_reelle && !m_imaginaire) return true; return false;}
 
 
     //Fonctions de calcul

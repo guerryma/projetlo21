@@ -33,6 +33,7 @@ public:
     //Opérations
     void Signe(){};
     void Inverse(){ConcatenerDevant("INV");};
+    bool IsNul(){return false;}
 
     Expression* ConcatenerDevant(const QString& operateur,const Constante* constante=0);
     //!< Dans le cas d'une operation binaire, si l'expression est la 1ere opérande (càd dernier elem empilé)

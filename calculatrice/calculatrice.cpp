@@ -2,10 +2,17 @@
 
 
 void Calculatrice::EmpilerPileS(Constante *c){
+    m_memoAnnul.push(m_pStock);
     m_pStock.push(c);
     if(m_pStock.size()==m_taille){
-        DropTete();
+        DropTete(); //!< Si la pile dépasse la taille parametree, on efface le dernier élément
     }
+
+}
+
+Constante*::Calculatrice::DepilerPileS(){
+    if(!m_pStock.isEmpty()) m_memoAnnul.push(m_pStock);
+    return m_pStock.pop();
 }
 
 void Calculatrice::EnregistrerParametres(){
@@ -24,13 +31,55 @@ void Calculatrice::ChargerOptions(){
     m_modeComplexe=m_param.value("complexe",true).toBool();
 }
 
+void Calculatrice::ChargerPile(){
+    QFile pile("../pile.dat");
+    pile.open(QIODevice::ReadOnly);
+    QDataStream in(&pile);
+
+    in>>m_pStock;
+    pile.close();
+
+}
+
+void Calculatrice::SauvegarderPile(){
+    QFile pile("../pile.dat");
+    pile.open(QIODevice::WriteOnly);
+    QDataStream out(&pile);
+
+
+    out<<m_pStock;
+    pile.close();
+
+}
+
+bool Calculatrice::Annuler(){
+   if(!m_memoAnnul.isEmpty()){
+       m_memoRetab.push(m_pStock);
+       m_pStock=m_memoAnnul.pop();
+       return true;
+   }
+
+   return false;
+}
+
+bool Calculatrice::Retablir(){
+    if(!m_memoRetab.isEmpty()){
+        m_memoAnnul.push(m_pStock);
+        m_pStock=m_memoRetab.pop();
+
+        return true;
+    }
+    return false;
+
+}
+
 bool Calculatrice::OperationBinaire(char operation){
     /*! Traitement d'un opÃ©rateur binaire: les opÃ©randes sont dÃ©pilÃ©es puis l'opÃ©ration est calculÃ©e
       En fonction du type d'opÃ©ration envoyÃ© en paramÃ¨tre.
       */
     if(m_pStock.size()>1){
-        Constante* op1 = m_pStock.pop();
-        Constante* op2 =m_pStock.pop();
+        Constante* op1 = DepilerPileS();
+        Constante* op2 =DepilerPileS();
 
 
         QString type;
@@ -45,7 +94,7 @@ bool Calculatrice::OperationBinaire(char operation){
         /*! type Permettra de stocker le type de constante:
           cc pour 2 complexes
           rr pour 2 rationnels
-          rc ou cr pour cpx et rationnel
+          Si on a un complexe et un rationnel, le rationnel est toujours transformé en complexe
           pour une expression => Il faudra gÃ©rer concatÃ©nation en fonction du type
           */
 
@@ -66,19 +115,18 @@ bool Calculatrice::OperationBinaire(char operation){
         }
         else if(op1->GetType()=="rationnel"&& op2->GetType()=="complexe"){
             c2=dynamic_cast<Complexe*>(op2);
-            r2=Rationnel::to_rationnel(c2);
+            r2=Rationnel::to_rationnel(c2); //!< On vérifie si l'on a un complexe entier.
 
             r1=dynamic_cast<Rationnel*>(op1);
 
             if(r2) type="rr";
             else{
                 c1=r1->to_complexe();
-
                 type="cc";}
         }
         else if(op1->GetType()=="complexe"&& op2->GetType()=="rationnel"){
             c1=dynamic_cast<Complexe*>(op1);
-            r1=Rationnel::to_rationnel(c1);
+            r1=Rationnel::to_rationnel(c1); //!< On vérifie si l'on a un complexe entier.
             r2=dynamic_cast<Rationnel*>(op2);
 
             if(r1) type="rr";
@@ -150,80 +198,83 @@ bool Calculatrice::OperationBinaire(char operation){
             break;
             //! Division:
         case '/':
-            //! Dans le cas de la division rÃ©elle sur des complexes, on rÃ©alise la division et on retourne un complexe
-            if (m_type==REEL){
-                if (type=="cc") //! Division cpx cpx
-                {
-                    EmpilerPileS(c1->Quotient(c2));
-                    return true;
-                }
-                if(type=="rr"){
-                    EmpilerPileS(r1->to_complexe()->Quotient(r2->to_complexe()));
-                    return true;
-                }
-
-            }
-
-
-            else if(m_type==RATIONNEL){
-                if(type=="rr"){ //! Division rat rat
-                    EmpilerPileS(r1->Quotient(r2));
-                    return true;
-                }
-                else if(EstUnEntier(c1->Afficher())&& EstUnEntier(c2->Afficher())){
-                    r1=new Rationnel((int)c1->GetPartieReelle());
-                    r2=new Rationnel((int)c2->GetPartieReelle());
-                    EmpilerPileS(r1->Quotient(r2));
-                    return true;
-                }
-
-                else{
-                    EmpilerPileS(op2);
-                    EmpilerPileS(op1);
-                    std::cout<<"Une des operandes n'est pas un rationnel\n";//remplacer par une erreur
-                    return true;
-
-                }
-            }
-
-            else if(m_type==ENTIER){
-                if(type=="cc"){
-                    if(!c1->GetPartieImaginaire() &&!c2->GetPartieImaginaire()){
-                        // Alors division tronquée
-                        Rationnel* res = new Rationnel((int)c1->GetPartieReelle()/(int)c2->GetPartieImaginaire());
-                        EmpilerPileS(res);
+            //! Dans le cas de la division rÃ©elle sur des rationnels, on rÃ©alise la division et on retourne un complexe
+            if(op2->IsNul() )throw RationnelException("Division par zero non autorisee");
+            else{
+                if (m_type==REEL){
+                    if (type=="cc") //! Division cpx cpx
+                    {
+                        EmpilerPileS(c1->Quotient(c2));
                         return true;
-
                     }
-                    else{
+                    if(type=="rr"){
+                        EmpilerPileS(r1->to_complexe()->Quotient(r2->to_complexe()));
+                        return true;
+                    }
 
+                }
+
+
+                else if(m_type==RATIONNEL){
+                    if(type=="rr"){ //! Division rat rat
+                        EmpilerPileS(r1->Quotient(r2));
+                        return true;
+                    }
+                    else if(EstUnEntier(c1->Afficher())&& EstUnEntier(c2->Afficher())){
+                        r1=new Rationnel((int)c1->GetPartieReelle());
+                        r2=new Rationnel((int)c2->GetPartieReelle());
+                        EmpilerPileS(r1->Quotient(r2));
+                        return true;
+                    }
+
+                    else{
                         EmpilerPileS(op2);
                         EmpilerPileS(op1);
-                        std::cout<<"Division entiere impossible entre 2 complexes\n";//remplacer par une erreur
+                        throw(CalculatriceException("Une des operandes n'est pas un rationnel"));
                         return true;
+
                     }
                 }
-                else{
-                    Rationnel* res= r1->Quotient(r2);
-                    Rationnel* res1= new Rationnel((int)res->GetFloat());
-                    EmpilerPileS(res1);
-                    return true;
+
+                else if(m_type==ENTIER){
+                    if(type=="cc"){
+                        if(!c1->GetPartieImaginaire() &&!c2->GetPartieImaginaire()){
+                            // Alors division tronquée
+                            Rationnel* res = new Rationnel((int)c1->GetPartieReelle()/(int)c2->GetPartieImaginaire());
+                            EmpilerPileS(res);
+                            return true;
+
+                        }
+                        else{
+
+                            EmpilerPileS(op2);
+                            EmpilerPileS(op1);
+                            throw(CalculatriceException("Division entiere impossible entre 2 complexes"));
+                            return true;
+                        }
+                    }
+                    else{
+                        Rationnel* res= r1->Quotient(r2);
+                        Rationnel* res1= new Rationnel((int)res->GetFloat());
+                        EmpilerPileS(res1);
+                        return true;
+                    }
+
                 }
 
+                break;
             }
-
-            break;
 
             EmpilerPileS(op2);
             EmpilerPileS(op1);
-            std::cout<<"Une des opérandes n'est pas un rationnel\n";//remplacer par une erreur
+            throw(CalculatriceException("Une des operandes n'est pas un rationnel"));
             return true;
         default:
             break;
         }
     }
-    else std::cout<<"La pile ne contient pas assez d'Ã©lÃ©ments";
-    return false;//envoyer une exception
+    else throw(RationnelException("La calculatrice ne contient pas assez d'elements"));
+    return false;
 
 
 }
@@ -234,7 +285,7 @@ bool Calculatrice::Signe(){
         Constante *c= m_pStock.top();
         if(c->GetType()=="expression") return false;
 
-        c=m_pStock.pop();
+        c=DepilerPileS();
         c->Signe();
         EmpilerPileS(c);
         return true;
@@ -248,7 +299,7 @@ bool Calculatrice::Inverse(){
         Constante *c= m_pStock.top();
         //if(c->GetType()=="expression") return false;
 
-        c=m_pStock.pop();
+        c=DepilerPileS();
         c->Inverse();
         EmpilerPileS(c);
         return true;
@@ -279,7 +330,7 @@ Si c'est une expression entrée en ligne de commande,
   Sinon, eval dépile une constante expression*/
 bool Calculatrice::EvalExpression(QQueue<QString> pileExpr, Expression* expr){
     if(expr==0 && pileExpr.isEmpty()){ // Si on cherche à évaluer une expression qui est dans la pile
-        Constante* tmp= m_pStock.pop();
+        Constante* tmp= DepilerPileS();
         if(tmp->GetType()=="expression") expr= dynamic_cast<Expression*>(tmp);
         else{
             EmpilerPileS(tmp); // Si la constante n'est pas une expression on la remet dans la pile
@@ -368,7 +419,7 @@ bool Calculatrice::Swap(){
     Rationnel * c1, *c2;
 
     if(m_taille >= 2){
-        Constante * yInt = m_pStock.pop(); //y intermediaire
+        Constante * yInt = DepilerPileS(); //y intermediaire
         if(yInt->GetType() == "rationnel"){
             c1 = dynamic_cast<Rationnel*>(yInt);
             if(c1->GetDenominateur() == 1){
@@ -384,7 +435,7 @@ bool Calculatrice::Swap(){
             return false;// faire une exception ou afficher une erreur, ce n'est pas un entier
         }
 
-        Constante * xInt = m_pStock.pop(); //x intermediaire
+        Constante * xInt = DepilerPileS(); //x intermediaire
         if(xInt->GetType() == "rationnel"){
             c2 = dynamic_cast<Rationnel*>(xInt);
             if(c2->GetDenominateur() == 1){
@@ -485,7 +536,7 @@ bool Calculatrice::Drop(){
         return false;
 
     else{
-        m_pStock.pop();
+        DepilerPileS();
         return true;
     }
 }
@@ -499,7 +550,7 @@ bool Calculatrice::Sum(){
     }
 
     else{ 
-        Constante * xInt = m_pStock.pop(); //x intermediaire
+        Constante * xInt = DepilerPileS(); //x intermediaire
         if(xInt->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(xInt);
             if(r->GetDenominateur() == 1){
@@ -553,7 +604,7 @@ bool Calculatrice::Mean(){
     }
 
     else{
-        Constante * xInt = m_pStock.pop(); //x intermediaire
+        Constante * xInt = DepilerPileS(); //x intermediaire
         if(xInt->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(xInt);
             if(r->GetDenominateur() == 1){
@@ -580,7 +631,7 @@ bool Calculatrice::Mean(){
                         OperationBinaire('+');
                     }
                     Complexe* c1 = r->to_complexe();
-                    Constante* c2 = m_pStock.pop();
+                    Constante* c2 = DepilerPileS();
                     if(c2->GetType() == "rationnel"){
                         r2 = dynamic_cast<Rationnel*>(c2);
                         c3 = r2->to_complexe();
@@ -618,23 +669,23 @@ bool Calculatrice::Sin(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(x);
+                EmpilerPileS(x);
                 return false;
             }
             else{
                 if(m_angle == DEGRE){
                     c2 = c->to_degre();
-                    m_pStock.push(c2->Sinus());
+                    EmpilerPileS(c2->Sinus());
                     return true;
                 }
 
                 c2 = c->Sinus();
-                m_pStock.push(c2);
+                EmpilerPileS(c2);
                 return true;
             }
 
@@ -645,16 +696,16 @@ bool Calculatrice::Sin(){
             c2 = r->to_complexe();
             if(m_angle == DEGRE){
                 c3 = c2->to_degre();
-                m_pStock.push(c3->Sinus());
+                EmpilerPileS(c3->Sinus());
                 return true;
             }
 
-            m_pStock.push(c2->Sinus());
+            EmpilerPileS(c2->Sinus());
             return true;
         }
 
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
 
@@ -671,23 +722,23 @@ bool Calculatrice::Cos(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(x);
+                EmpilerPileS(x);
                 return false;
             }
             else{
                 if(m_angle == DEGRE){
                     c2 = c->to_degre();
-                    m_pStock.push(c2->Cosinus());
+                    EmpilerPileS(c2->Cosinus());
                     return true;
                 }
 
                 c2 = c->Cosinus();
-                m_pStock.push(c2);
+                EmpilerPileS(c2);
                 return true;
             }
 
@@ -698,16 +749,16 @@ bool Calculatrice::Cos(){
             c2 = r->to_complexe();
             if(m_angle == DEGRE){
                 c3 = c2->to_degre();
-                m_pStock.push(c3->Cosinus());
+                EmpilerPileS(c3->Cosinus());
                 return true;
             }
 
-            m_pStock.push(c2->Cosinus());
+            EmpilerPileS(c2->Cosinus());
             return true;
         }
 
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
 
@@ -724,23 +775,23 @@ bool Calculatrice::Tan(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(x);
+                EmpilerPileS(x);
                 return false;
             }
             else{
                 if(m_angle == DEGRE){
                     c2 = c->to_degre();
-                    m_pStock.push(c2->Tang());
+                    EmpilerPileS(c2->Tang());
                     return true;
                 }
 
                 c2 = c->Tang();
-                m_pStock.push(c2);
+                EmpilerPileS(c2);
                 return true;
             }
 
@@ -750,17 +801,17 @@ bool Calculatrice::Tan(){
             r = dynamic_cast<Rationnel*>(x);
             c2 = r->to_complexe();
             if(m_angle == DEGRE){
-               c3 = c2->to_degre();
-                m_pStock.push(c3->Tang());
+                c3 = c2->to_degre();
+                EmpilerPileS(c3->Tang());
                 return true;
             }
 
-            m_pStock.push(c2->Tang());
+            EmpilerPileS(c2->Tang());
             return true;
         }
 
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
 
@@ -777,18 +828,18 @@ bool Calculatrice::SinH(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(x);
+                EmpilerPileS(x);
                 return false;
             }
             else{
 
                 c2 = c->SinusH();
-                m_pStock.push(c2);
+                EmpilerPileS(c2);
                 return true;
             }
 
@@ -797,12 +848,12 @@ bool Calculatrice::SinH(){
         else if(x->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(x);
             c2 = r->to_complexe();
-            m_pStock.push(c2->SinusH());
+            EmpilerPileS(c2->SinusH());
             return true;
         }
 
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
 
@@ -818,18 +869,18 @@ bool Calculatrice::CosH(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(x);
+                EmpilerPileS(x);
                 return false;
             }
             else{
 
                 c2 = c->CosinusH();
-                m_pStock.push(c2);
+                EmpilerPileS(c2);
                 return true;
             }
 
@@ -838,12 +889,12 @@ bool Calculatrice::CosH(){
         else if(x->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(x);
             c2 = r->to_complexe();
-            m_pStock.push(c2->CosinusH());
+            EmpilerPileS(c2->CosinusH());
             return true;
         }
 
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
 
@@ -859,18 +910,18 @@ bool Calculatrice::TanH(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(x);
+                EmpilerPileS(x);
                 return false;
             }
             else{
 
                 c2 = c->TangH();
-                m_pStock.push(c2);
+                EmpilerPileS(c2);
                 return true;
             }
 
@@ -879,12 +930,12 @@ bool Calculatrice::TanH(){
         else if(x->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(x);
             c2 = r->to_complexe();
-            m_pStock.push(c2->TangH());
+            EmpilerPileS(c2->TangH());
             return true;
         }
 
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
 
@@ -900,23 +951,23 @@ bool Calculatrice::Ln(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(c);
+                EmpilerPileS(c);
                 return false;
 
             }
 
             else{
                 if(c->GetPartieReelle() > 0){
-                    m_pStock.push(c->LnC());
+                    EmpilerPileS(c->LnC());
                     return true;
                 }
                 else{
-                    m_pStock.push(c);
+                    EmpilerPileS(c);
                     return false;
                 }
             }
@@ -928,22 +979,22 @@ bool Calculatrice::Ln(){
             c2 = r->to_complexe();
 
             if(c2->GetPartieImaginaire() != 0){
-                m_pStock.push(c2);
+                EmpilerPileS(c2);
                 return false;
 
             }
 
             else{
                 if(c2->GetPartieReelle() > 0){
-                    m_pStock.push(c2->LnC());
+                    EmpilerPileS(c2->LnC());
                     return true;
                 }
                 else{
-                    m_pStock.push(c2);
+                    EmpilerPileS(c2);
                     return false;
                 }
             }
-         }
+        }
     }
     return false;
 }
@@ -957,23 +1008,23 @@ bool Calculatrice::Log(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(c);
+                EmpilerPileS(c);
                 return false;
 
             }
 
             else{
                 if(c->GetPartieReelle() > 0){
-                    m_pStock.push(c->LogC());
+                    EmpilerPileS(c->LogC());
                     return true;
                 }
                 else{
-                    m_pStock.push(c);
+                    EmpilerPileS(c);
                     return false;
                 }
             }
@@ -985,22 +1036,22 @@ bool Calculatrice::Log(){
             c2 = r->to_complexe();
 
             if(c2->GetPartieImaginaire() != 0){
-                m_pStock.push(c2);
+                EmpilerPileS(c2);
                 return false;
 
             }
 
             else{
                 if(c2->GetPartieReelle() > 0){
-                    m_pStock.push(c2->LogC());
+                    EmpilerPileS(c2->LogC());
                     return true;
                 }
                 else{
-                    m_pStock.push(c2);
+                    EmpilerPileS(c2);
                     return false;
                 }
             }
-         }
+        }
     }
     return false;
 }
@@ -1014,22 +1065,22 @@ bool Calculatrice::Sqrt(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(x);
+                EmpilerPileS(x);
                 return false;
             }
             else{
                 if(c->GetPartieReelle()< 0){
-                    m_pStock.push(c);
+                    EmpilerPileS(c);
                     return false;
                 }
                 else{
                     c2 = c->RacineC();
-                    m_pStock.push(c2);
+                    EmpilerPileS(c2);
                     return true;
                 }
             }
@@ -1041,17 +1092,17 @@ bool Calculatrice::Sqrt(){
             c2 = r->to_complexe();
 
             if(c2->GetPartieReelle()< 0){
-                m_pStock.push(c2);
+                EmpilerPileS(c2);
                 return false;
             }
             else{
-                m_pStock.push(c2->RacineC());
+                EmpilerPileS(c2->RacineC());
                 return true;
             }
         }
 
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
 
@@ -1067,23 +1118,23 @@ bool Calculatrice::Sqr(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
-            m_pStock.push(c->Carre());
+            EmpilerPileS(c->Carre());
             return true;
         }
 
         else if(x->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(x);
             c = r->to_complexe();
-            m_pStock.push(c->Carre());
+            EmpilerPileS(c->Carre());
             return true;
         }
 
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
 
@@ -1099,23 +1150,23 @@ bool Calculatrice::Cube(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(x);
-            m_pStock.push(c->CubeC());
+            EmpilerPileS(c->CubeC());
             return true;
         }
 
         else if(x->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(x);
             c = r->to_complexe();
-            m_pStock.push(c->CubeC());
+            EmpilerPileS(c->CubeC());
             return true;
         }
 
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
 
@@ -1130,21 +1181,21 @@ bool Calculatrice::Fact(){
         return false;
 
     else{
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "rationnel"){
             r = dynamic_cast<Rationnel*>(x);
             if(r->GetNumerateur() >= 0 && r->GetDenominateur() == 1){
-                m_pStock.push(r->Facto());
+                EmpilerPileS(r->Facto());
                 return true;
             }
             else{
-                m_pStock.push(r);
+                EmpilerPileS(r);
                 return false;
             }
         }
         else{
-            m_pStock.push(x);
+            EmpilerPileS(x);
             return false;
         }
     }
@@ -1155,36 +1206,36 @@ bool Calculatrice::Mod(){
     Rationnel* r1, *r2;
 
     if(m_pStock.size() >= 2){
-        y = m_pStock.pop();
+        y = DepilerPileS();
         if(y->GetType() == "rationnel"){
             r1 = dynamic_cast<Rationnel*>(y);
             if(r1->GetNumerateur() == 0 || r1->GetDenominateur() != 1){
-                m_pStock.push(r1);
+                EmpilerPileS(r1);
                 return false;
             }
             else{
-                x = m_pStock.pop();
+                x = DepilerPileS();
                 if(x->GetType() == "rationnel"){
                     r2 = dynamic_cast<Rationnel*>(x);
                     if(r2->GetDenominateur() != 1){
-                        m_pStock.push(r2);
-                        m_pStock.push(r1);
+                        EmpilerPileS(r2);
+                        EmpilerPileS(r1);
                         return false;
                     }
                     else{
-                       m_pStock.push(r2->Modulo(r1));
-                       return true;
+                        EmpilerPileS(r2->Modulo(r1));
+                        return true;
                     }
                 }
                 else{
-                     m_pStock.push(r1);
-                     m_pStock.push(x);
-                     return false;
+                    EmpilerPileS(r1);
+                    EmpilerPileS(x);
+                    return false;
                 }
             }
         }
         else{
-            m_pStock.push(y);
+            EmpilerPileS(y);
             return false;
         }
     }
@@ -1199,12 +1250,12 @@ bool Calculatrice::Pow(){
     Rationnel* r, *r2;
 
     if(m_pStock.size() >= 2){
-        y = m_pStock.pop();
+        y = DepilerPileS();
 
         if(y->GetType() == "complexe"){
             c = dynamic_cast<Complexe*>(y);
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(c);
+                EmpilerPileS(c);
                 return false;
             }
         }
@@ -1213,23 +1264,23 @@ bool Calculatrice::Pow(){
             r = dynamic_cast<Rationnel*>(y);
             c = r->to_complexe();
             if(c->GetPartieImaginaire() != 0){
-                m_pStock.push(r);
+                EmpilerPileS(r);
                 return false;
             }
         }
 
         else{
-            m_pStock.push(y);
+            EmpilerPileS(y);
             return false;
         }
 
-        x = m_pStock.pop();
+        x = DepilerPileS();
 
         if(x->GetType() == "complexe"){
             c2 = dynamic_cast<Complexe*>(x);
             if(c2->GetPartieImaginaire() != 0){
-                m_pStock.push(c2);
-                m_pStock.push(c);
+                EmpilerPileS(c2);
+                EmpilerPileS(c);
                 return false;
             }
         }
@@ -1238,19 +1289,19 @@ bool Calculatrice::Pow(){
             r = dynamic_cast<Rationnel*>(x);
             c2 = r->to_complexe();
             if(c2->GetPartieImaginaire() != 0){
-                m_pStock.push(r);
-                m_pStock.push(c);
+                EmpilerPileS(r);
+                EmpilerPileS(c);
                 return false;
             }
         }
 
         else{
-            m_pStock.push(x);
-            m_pStock.push(y);
+            EmpilerPileS(x);
+            EmpilerPileS(y);
             return false;
         }
 
-        m_pStock.push(c2->PowC(c));
+        EmpilerPileS(c2->PowC(c));
         return true;
 
     }

@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow), m_calc(new Calculatrice(this))
 {
     ui->setupUi(this);
+    MajVuePile();
     ClavierNumerique();
     ClavierVueExecution();
     ClavierPile();
@@ -16,11 +17,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //fenetre
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
+    QObject::connect(ui->actionAnnuler, SIGNAL(triggered()),this,SLOT(Annuler()));
+    QObject::connect(ui->actionRetablir, SIGNAL(triggered()),this,SLOT(Retablir()));
 
 
 
     //paramètrage
+    if(m_calc->GetType()==REEL)ui->bReel->setChecked(true);
+    else if(m_calc->GetType()==RATIONNEL)ui->bRationnel->setChecked(true);
+    else if(m_calc->GetType()==ENTIER)ui->bEntier->setChecked(true);
 
+    if(m_calc->GetAngle()==RADIAN)ui->bRadian->setChecked(true);
+    else if(m_calc->GetAngle()==DEGRE)ui->bDegre->setChecked(true);
+
+
+    ui->Complexe->setChecked(m_calc->GetModeComplexe());
     ui->nbOpPile->setText(QString::number(m_calc->GetTaille()));
     ui->pile->setMaximumBlockCount(m_calc->GetTaille());
     QObject::connect(ui->Complexe, SIGNAL(toggled(bool)),this,SLOT(BComplexeChecked(bool)));
@@ -37,7 +48,9 @@ MainWindow::~MainWindow()
 //Gestion des erreurs
 void MainWindow::Erreur(QString raison){
     QMessageBox::critical(this, "Erreur", raison);
-//    ui->lineEdit->setText(raison);
+}
+void MainWindow::Attention(QString warning){
+    QMessageBox::warning(this, "Attention",warning);
 }
 
 void MainWindow::ClavierNumerique(){
@@ -278,26 +291,26 @@ void MainWindow::ClavierOperateurUnaire(){
 void MainWindow::BCosPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Cos())
-           MajVuePile();
+        if(m_calc->Cos())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur cos");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur cos");
+            MajVuePile();
+        }
     }
 }
 
 void MainWindow::BCosHPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->CosH())
-           MajVuePile();
+        if(m_calc->CosH())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur cosh");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur cosh");
+            MajVuePile();
+        }
     }
 }
 
@@ -317,65 +330,65 @@ void MainWindow::BSinPressed(){
 void MainWindow::BSinHPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->SinH())
-           MajVuePile();
+        if(m_calc->SinH())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur sinh");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur sinh");
+            MajVuePile();
+        }
     }
 }
 
 void MainWindow::BTanPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Tan())
-           MajVuePile();
+        if(m_calc->Tan())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur tan");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur tan");
+            MajVuePile();
+        }
     }
 }
 
 void MainWindow::BTanHPressed(){
-   if (ui->lineEdit->text().isEmpty()){
+    if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->TanH())
-           MajVuePile();
+        if(m_calc->TanH())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur tanh");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur tanh");
+            MajVuePile();
+        }
     }
 }
 
 void MainWindow::BLnPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Ln())
-           MajVuePile();
+        if(m_calc->Ln())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur ln");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur ln");
+            MajVuePile();
+        }
     }
 }
 
 void MainWindow::BLogPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Log())
-           MajVuePile();
+        if(m_calc->Log())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur log");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur log");
+            MajVuePile();
+        }
     }
 }
 
@@ -385,41 +398,41 @@ void MainWindow::BInvPressed(){
 }
 
 void MainWindow::BCubePressed(){
-   if (ui->lineEdit->text().isEmpty()){
+    if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Cube())
-           MajVuePile();
+        if(m_calc->Cube())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur cube");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur cube");
+            MajVuePile();
+        }
     }
 }
 
 void MainWindow::BSqrtPressed(){
-   if (ui->lineEdit->text().isEmpty()){
+    if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Sqrt())
-           MajVuePile();
+        if(m_calc->Sqrt())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur sqrt");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur sqrt");
+            MajVuePile();
+        }
     }
 }
 
 void MainWindow::BSqrPressed(){
-   if (ui->lineEdit->text().isEmpty()){
+    if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Sqr())
-           MajVuePile();
+        if(m_calc->Sqr())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur sqr");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur sqr");
+            MajVuePile();
+        }
     }
 }
 
@@ -428,15 +441,15 @@ void MainWindow::BSignPressed(){
 }
 
 void MainWindow::BFactPressed(){
-   if (ui->lineEdit->text().isEmpty()){
+    if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Fact())
-           MajVuePile();
+        if(m_calc->Fact())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur fact");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur fact");
+            MajVuePile();
+        }
     }
 }
 
@@ -451,15 +464,15 @@ void MainWindow::ClavierOperateurBinaire(){
 }
 //Boutons Opérateurs Binaire
 void MainWindow::BModPressed(){
-       if (ui->lineEdit->text().isEmpty()){
+    if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Mod())
-           MajVuePile();
+        if(m_calc->Mod())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur mod");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur mod");
+            MajVuePile();
+        }
     }
 }
 
@@ -507,25 +520,32 @@ void MainWindow::BPlusPressed(){
 
 void MainWindow::BDivisionPressed(){
     if (ui->lineEdit->text().isEmpty()){
+        try{
+            if(m_calc->OperationBinaire('/'))
+                MajVuePile();
+            else ui->lineEdit->setText(ui->lineEdit->text()+"/");
 
-        if(m_calc->OperationBinaire('/'))
-            MajVuePile();
-        else ui->lineEdit->setText(ui->lineEdit->text()+"/");
-
-
+        }
+        catch(RationnelException e){
+            Erreur(e.what());
+        }
+        catch(CalculatriceException e){
+            Attention(e.what());
+        }
     }
+
     else ui->lineEdit->setText(ui->lineEdit->text()+"/");
 }
 void MainWindow::BPowPressed(){
     if (ui->lineEdit->text().isEmpty()){
 
-       if(m_calc->Pow())
-           MajVuePile();
+        if(m_calc->Pow())
+            MajVuePile();
 
-       else{
-           Erreur("Erreur pow");
-           MajVuePile();
-       }
+        else{
+            Erreur("Erreur pow");
+            MajVuePile();
+        }
     }
 }
 
@@ -546,7 +566,7 @@ void MainWindow::ClavierVueExecution(){
 void MainWindow::BSupPressed(){
     if(ui->lineEdit->text().isEmpty()){
         m_calc->Drop();
-         MajVuePile();
+        MajVuePile();
 
     }
     else if(QString::compare(ui->lineEdit->text(), "Erreur", Qt::CaseInsensitive) == 0)
@@ -615,5 +635,13 @@ void MainWindow::MajVuePile(){
 //Sauvegarde du contexte et des paramètres
 void MainWindow::closeEvent(QCloseEvent * event){
     m_calc->EnregistrerParametres();
+   // m_calc->SauvegarderPile();
+
     event->accept();
+}
+void MainWindow::Annuler(){
+    if(m_calc->Annuler()) MajVuePile();
+}
+void MainWindow::Retablir(){
+    if(m_calc->Retablir()) MajVuePile();
 }

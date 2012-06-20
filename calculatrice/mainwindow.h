@@ -94,9 +94,14 @@ private slots:
     void BRationnelChecked(bool b);
     void BEntierChecked(bool b);
 
+    //Undo Redo
+    void Annuler();
+    void Retablir();
+
 protected:
     //Fenetre
     void closeEvent(QCloseEvent *);
+
 
 public:
     void ClavierNumerique();
@@ -106,8 +111,8 @@ public:
     void ClavierOperateurBinaire();
     void Parametres();
     void Erreur(QString raison);
+    void Attention(QString warning);
     void MajVuePile();
-    //void AfficherStack();
 };
 
 
